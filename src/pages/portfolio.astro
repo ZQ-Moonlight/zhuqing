@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getReferenceGroups } from "../lib/contentArchive";
 import { withBase } from "../lib/paths";
+
+const reelDocs = (await getReferenceGroups()).find((group) => group.label === "reel")?.items ?? [];
 ---
 
 <BaseLayout
@@ -68,6 +71,33 @@ import { withBase } from "../lib/paths";
                 </article>
             </div>
         </section>
+
+        {reelDocs.length > 0 && (
+            <section class="work-section reel-section" aria-labelledby="reel-title">
+                <div class="section-heading" data-reveal>
+                    <h2 id="reel-title">Reel 文档</h2>
+                </div>
+
+                <div class="reel-list">
+                    {reelDocs.map((item) => (
+                        <a class="reel-item" href={item.href} target="_blank" rel="noreferrer" data-reveal>
+                            <span class="file-chip">{item.kind}</span>
+                            <span class="reel-item__main">
+                                <strong>{item.title}</strong>
+                                {item.description && <small>{item.description}</small>}
+                                <span class="reel-meta">
+                                    <time>上传 {item.uploadedLabel}</time>
+                                    <span>{item.sizeLabel}</span>
+                                </span>
+                                <span class="reel-tags">
+                                    {item.tags.map((tag) => <em>{tag}</em>)}
+                                </span>
+                            </span>
+                        </a>
+                    ))}
+                </div>
+            </section>
+        )}
     </main>
 
     <footer class="site-footer">© 2026 祝庆 Zhu Qing | 北京电影学院影视技术方向</footer>
@@ -101,6 +131,10 @@ import { withBase } from "../lib/paths";
 
     .work-section {
         margin-bottom: 96px;
+    }
+
+    .reel-section {
+        margin-top: 22px;
     }
 
     .work-grid {
@@ -179,8 +213,82 @@ import { withBase } from "../lib/paths";
         line-height: 1.7;
     }
 
+    .reel-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(18px, 3vw, 28px);
+    }
+
+    .reel-item {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg-panel);
+        color: inherit;
+        padding: 20px;
+        text-decoration: none;
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .reel-item:hover {
+        border-color: rgba(255, 94, 0, 0.42);
+        background: var(--bg-panel-strong);
+        transform: translateY(-2px);
+    }
+
+    .reel-item__main {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .reel-item strong {
+        color: #fff;
+        font-size: 1.04rem;
+        line-height: 1.35;
+    }
+
+    .reel-item small,
+    .reel-meta {
+        color: var(--text-muted);
+        font-size: 0.84rem;
+        line-height: 1.58;
+    }
+
+    .reel-meta,
+    .reel-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .reel-tags em {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        font-style: normal;
+        line-height: 1;
+        padding: 4px 8px;
+    }
+
+    .file-chip {
+        border-radius: 4px;
+        background: var(--accent);
+        color: #fff;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        padding: 5px 9px;
+    }
+
     @media (max-width: 900px) {
-        .work-grid {
+        .work-grid,
+        .reel-list {
             grid-template-columns: 1fr;
         }
     }

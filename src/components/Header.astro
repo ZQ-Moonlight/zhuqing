@@ -28,7 +28,14 @@ const isActive = (href: string) => {
             </a>
         ))}
     </nav>
-    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换黑白阅读模式" title="切换黑白阅读模式">
-        <span data-theme-toggle-label>白色</span>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换为明亮风格" title="切换风格">
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.55 1.55M17.52 17.52l1.55 1.55M2 12h2.2M19.8 12H22M4.93 19.07l1.55-1.55M17.52 6.48l1.55-1.55"></path>
+        </svg>
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.4 14.7A8.2 8.2 0 0 1 9.3 3.6a8.5 8.5 0 1 0 11.1 11.1Z"></path>
+        </svg>
+        <span class="sr-only" data-theme-toggle-label>切换为明亮风格</span>
     </button>
 </header>

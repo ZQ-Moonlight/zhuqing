@@ -50,8 +50,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
             document.documentElement.classList.add("js");
             try {
                 const savedTheme = localStorage.getItem("zq-theme");
-                const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-                document.documentElement.dataset.theme = savedTheme || (prefersLight ? "light" : "dark");
+                document.documentElement.dataset.theme = savedTheme || "dark";
             } catch {
                 document.documentElement.dataset.theme = "dark";
             }
@@ -74,7 +73,10 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 
             const syncThemeLabel = () => {
                 const isLight = document.documentElement.dataset.theme === "light";
-                if (themeToggleLabel) themeToggleLabel.textContent = isLight ? "黑色" : "白色";
+                const label = isLight ? "切换为黑暗风格" : "切换为明亮风格";
+                if (themeToggleLabel) themeToggleLabel.textContent = label;
+                themeToggle?.setAttribute("aria-label", label);
+                themeToggle?.setAttribute("title", label);
                 themeToggle?.setAttribute("aria-pressed", String(isLight));
             };
 
@@ -190,6 +192,15 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 
     a {
         color: inherit;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
     }
 
     img,
@@ -363,16 +374,46 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     }
 
     .theme-toggle {
+        position: relative;
+        display: inline-grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
         border: 1px solid var(--border);
-        border-radius: 999px;
+        border-radius: 50%;
         background: var(--bg-panel);
         color: var(--text-muted);
         cursor: pointer;
         font: inherit;
-        font-size: 0.74rem;
-        letter-spacing: 0.04em;
-        padding: 6px 11px;
+        padding: 0;
         transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .theme-icon {
+        position: absolute;
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.9;
+        transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .theme-icon--moon {
+        opacity: 0;
+        transform: scale(0.82) rotate(-18deg);
+    }
+
+    :root[data-theme="light"] .theme-icon--sun {
+        opacity: 0;
+        transform: scale(0.82) rotate(18deg);
+    }
+
+    :root[data-theme="light"] .theme-icon--moon {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
     }
 
     .theme-toggle:hover {

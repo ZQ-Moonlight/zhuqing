@@ -104,7 +104,13 @@ const groupedPosts = posts.reduce((groups, post) => {
                                             <span class="file-chip">{item.kind}</span>
                                             <span>
                                                 <strong>{item.title}</strong>
-                                                <small>{item.path} · {item.sizeLabel}</small>
+                                                {item.description && <small>{item.description}</small>}
+                                                <small>{item.path} · {item.sizeLabel} · 上传 {item.uploadedLabel}</small>
+                                                {item.tags.length > 0 && (
+                                                    <span class="reference-tags">
+                                                        {item.tags.map((tag) => <em>{tag}</em>)}
+                                                    </span>
+                                                )}
                                             </span>
                                         </a>
                                     ) : (
@@ -112,7 +118,13 @@ const groupedPosts = posts.reduce((groups, post) => {
                                             <span class="file-chip file-chip--local">本地参考</span>
                                             <span>
                                                 <strong>{item.title}</strong>
-                                                <small>{item.path} · {item.sizeLabel}</small>
+                                                {item.description && <small>{item.description}</small>}
+                                                <small>{item.path} · {item.sizeLabel} · 上传 {item.uploadedLabel}</small>
+                                                {item.tags.length > 0 && (
+                                                    <span class="reference-tags">
+                                                        {item.tags.map((tag) => <em>{tag}</em>)}
+                                                    </span>
+                                                )}
                                             </span>
                                         </div>
                                     )
@@ -310,6 +322,23 @@ const groupedPosts = posts.reduce((groups, post) => {
         border: 1px solid var(--border);
         border-radius: 999px;
         padding: 3px 8px;
+    }
+
+    .reference-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .reference-tags em {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        font-style: normal;
+        line-height: 1;
+        padding: 4px 8px;
     }
 
     .file-chip {
