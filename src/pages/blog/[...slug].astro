@@ -1,0 +1,301 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GiscusComments from "../../components/GiscusComments.astro";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog", ({ data }) => !data.draft);
+    return posts.map((post) => ({
+        params: { slug: post.id },
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const postTitle = post.data.title ?? post.id.split("/").at(-1);
+const postDescription = post.data.description ?? "";
+const heroImage = post.data.heroImage;
+const heroImageSrc = typeof heroImage === "string" ? heroImage : heroImage?.src;
+
+const formatDate = (date: Date) =>
+    new Intl.DateTimeFormat("zh-CN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    }).format(date);
+---
+
+<BaseLayout
+    title={`${postTitle} | Archive | 祝庆 Zhu Qing`}
+    description={postDescription}
+    activePath="/blog"
+    backgroundVariant="article"
+    image={heroImageSrc ?? "/favicon.svg"}
+>
+    <main class="article-page">
+        <article>
+            <header class:list={["article-hero", !heroImageSrc && "article-hero--no-cover"]} data-reveal>
+                {heroImageSrc && <div class="article-cover">
+                    {typeof heroImage === "object" && heroImage ? (
+                        <Image src={heroImage} alt="" loading="eager" fetchpriority="high" widths={[720, 1080, 1440]} sizes="100vw" />
+                    ) : (
+                        <img src={heroImageSrc} alt="" loading="eager" fetchpriority="high" />
+                    )}
+                </div>}
+                <div class="article-heading">
+                    {post.data.pubDate && <span class="eyebrow">Archive / {formatDate(post.data.pubDate)}</span>}
+                    <h1>{postTitle}</h1>
+                    {postDescription && <p>{postDescription}</p>}
+                    {post.data.tags.length > 0 && (
+                        <div class="tag-row">
+                            {post.data.tags.map((tag) => <span>{tag}</span>)}
+                        </div>
+                    )}
+                </div>
+            </header>
+
+            <div class="article-grid">
+                <aside class="toc" aria-label="Article table of contents" data-reveal>
+                    <strong>目录</strong>
+                    <nav>
+                        {headings.filter((heading) => heading.depth > 1 && heading.depth < 4).map((heading) => (
+                            <a href={`#${heading.slug}`} class={`depth-${heading.depth}`}>{heading.text}</a>
+                        ))}
+                    </nav>
+                </aside>
+
+                <div class="prose">
+                    <Content />
+                    {post.data.pdfUrl && (
+                        <p class="pdf-download">
+                            <a href={post.data.pdfUrl} download>下载 PDF 版本</a>
+                        </p>
+                    )}
+                </div>
+            </div>
+            <GiscusComments />
+        </article>
+    </main>
+
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing | Archive</footer>
+</BaseLayout>
+
+<style>
+    .article-page {
+        position: relative;
+        z-index: 10;
+        padding: calc(var(--header-height) + 44px) var(--page-x) 96px;
+    }
+
+    .article-hero {
+        width: min(100%, 1180px);
+        margin: 0 auto 64px;
+    }
+
+    .article-hero--no-cover {
+        width: min(100%, 1040px);
+        margin-bottom: 56px;
+        padding-top: 28px;
+    }
+
+    .article-cover {
+        width: 100%;
+        aspect-ratio: 21 / 9;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #111;
+    }
+
+    .article-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.66) contrast(1.08) saturate(0.82);
+    }
+
+    .article-heading {
+        width: min(860px, 100%);
+        margin-top: -74px;
+        padding: 0 0 0 clamp(0px, 4vw, 42px);
+        position: relative;
+    }
+
+    .article-hero--no-cover .article-heading {
+        margin-top: 0;
+        padding-left: 0;
+    }
+
+    .article-heading h1 {
+        margin: 12px 0 16px;
+        color: #fff;
+        font-size: clamp(2.3rem, 6vw, 4.7rem);
+        line-height: 1.08;
+        letter-spacing: 0;
+        text-wrap: balance;
+    }
+
+    .article-heading p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: clamp(1rem, 1.7vw, 1.2rem);
+        line-height: 1.78;
+    }
+
+    .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 22px;
+    }
+
+    .tag-row span {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgba(5, 5, 5, 0.54);
+        color: var(--text-muted);
+        font-size: 0.76rem;
+        padding: 4px 10px;
+    }
+
+    .article-grid {
+        width: min(100%, 1040px);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr);
+        gap: 54px;
+        align-items: start;
+    }
+
+    .toc {
+        position: sticky;
+        top: calc(var(--header-height) + 28px);
+        display: grid;
+        gap: 14px;
+        color: var(--text-dim);
+        font-size: 0.84rem;
+    }
+
+    .toc strong {
+        color: #fff;
+        font-size: 0.9rem;
+    }
+
+    .toc nav {
+        display: grid;
+        gap: 9px;
+    }
+
+    .toc a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 180ms ease;
+    }
+
+    .toc a:hover {
+        color: #fff;
+    }
+
+    .toc .depth-3 {
+        padding-left: 14px;
+    }
+
+    .prose {
+        min-width: 0;
+        color: var(--text-muted);
+        font-size: 1.06rem;
+        line-height: 1.86;
+    }
+
+    .prose :global(h2),
+    .prose :global(h3) {
+        color: #fff;
+        line-height: 1.28;
+        scroll-margin-top: calc(var(--header-height) + 36px);
+    }
+
+    .prose :global(h2) {
+        margin: 2.6rem 0 1rem;
+        font-size: clamp(1.65rem, 3vw, 2.15rem);
+    }
+
+    .prose :global(h3) {
+        margin: 2rem 0 0.8rem;
+        font-size: 1.28rem;
+    }
+
+    .prose :global(p) {
+        margin: 0 0 1.45rem;
+    }
+
+    .prose :global(strong) {
+        color: #fff;
+    }
+
+    .prose :global(a) {
+        color: var(--ue-cyan);
+        text-decoration-color: rgba(0, 240, 255, 0.36);
+        text-underline-offset: 4px;
+    }
+
+    .prose :global(blockquote) {
+        margin: 2rem 0;
+        padding: 18px 22px;
+        border-left: 3px solid var(--accent);
+        border-radius: 0 8px 8px 0;
+        background: rgba(255, 255, 255, 0.035);
+        color: #d8d8dc;
+    }
+
+    .prose :global(code) {
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.055);
+        color: #fff;
+        font-size: 0.88em;
+        padding: 0.12em 0.36em;
+    }
+
+    .pdf-download a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        border: 1px solid var(--accent);
+        border-radius: 4px;
+        color: var(--accent);
+        font-weight: 700;
+        padding: 0.72rem 1rem;
+        text-decoration: none;
+        transition: background 180ms ease, color 180ms ease;
+    }
+
+    .pdf-download a:hover {
+        background: var(--accent);
+        color: #fff;
+    }
+
+    @media (max-width: 900px) {
+        .article-cover {
+            aspect-ratio: 16 / 9;
+        }
+
+        .article-heading {
+            margin-top: 24px;
+            padding-left: 0;
+        }
+
+        .article-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .toc {
+            position: static;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--border);
+        }
+    }
+</style>

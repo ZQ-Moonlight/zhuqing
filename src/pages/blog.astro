@@ -1,0 +1,346 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getReferenceGroups } from "../lib/contentArchive";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft && !data.privateArchive)).sort(
+    (a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0)
+);
+
+const references = await getReferenceGroups();
+const externalArticles = [
+    {
+        title: "Bilibili 教程文章 01",
+        description: "外部教程文章，发布于 Bilibili 专栏。",
+        href: "https://www.bilibili.com/opus/992926611281018880?spm_id_from=333.1387.0.0",
+    },
+    {
+        title: "Bilibili 教程文章 02",
+        description: "外部教程文章，发布于 Bilibili 专栏。",
+        href: "https://www.bilibili.com/opus/1148162552045240326?spm_id_from=333.1387.0.0",
+    },
+];
+
+const getTitle = (post) => post.data.title ?? post.id.split("/").at(-1);
+const getDescription = (post) => post.data.description ?? "";
+
+const formatDate = (date: Date) =>
+    new Intl.DateTimeFormat("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    }).format(date);
+
+const groupedPosts = posts.reduce((groups, post) => {
+    const label = post.data.pubDate?.getFullYear().toString() ?? "待整理";
+    const items = groups.get(label) ?? [];
+    items.push(post);
+    groups.set(label, items);
+    return groups;
+}, new Map<string, typeof posts>());
+---
+
+<BaseLayout
+    title="Archive | 祝庆 Zhu Qing"
+    description="祝庆关于 Unreal Engine、影视后期、虚拟制片、数字人和视觉设计的技术笔记。"
+    activePath="/blog"
+    backgroundVariant="article"
+>
+    <main class="page-shell archive-page">
+        <header class="archive-hero" data-reveal>
+            <span class="eyebrow">Notes / Pipeline / Research</span>
+            <h1>Archive</h1>
+        </header>
+
+        <section class="archive-section" aria-labelledby="articles-title">
+            <div class="archive-section__head" data-reveal>
+                <h2 id="articles-title">文章</h2>
+                <span>{posts.length}</span>
+            </div>
+
+            <div class="archive-list">
+                {[...groupedPosts.entries()].map(([year, items]) => (
+                    <section class="archive-year" data-reveal>
+                        <h3>{year}</h3>
+                        <div class="archive-items">
+                            {items.map((post) => (
+                                <a class="archive-item" href={`/blog/${post.id}/`}>
+                                    <time datetime={post.data.pubDate?.toISOString()}>
+                                        {post.data.pubDate ? formatDate(post.data.pubDate) : "未设置日期"}
+                                    </time>
+                                    <span class="archive-item__main">
+                                        <strong>{getTitle(post)}</strong>
+                                        {getDescription(post) && <small>{getDescription(post)}</small>}
+                                    </span>
+                                    {post.data.tags.length > 0 && (
+                                        <span class="archive-tags">
+                                            {post.data.tags.map((tag) => <em>{tag}</em>)}
+                                        </span>
+                                    )}
+                                </a>
+                            ))}
+                        </div>
+                    </section>
+                ))}
+            </div>
+        </section>
+
+        {references.length > 0 && (
+            <section class="archive-section" aria-labelledby="references-title">
+                <div class="archive-section__head" data-reveal>
+                    <h2 id="references-title">参考资料</h2>
+                    <span>{references.reduce((count, group) => count + group.items.length, 0)}</span>
+                </div>
+
+                <div class="reference-groups">
+                    {references.map((group) => (
+                        <section class="reference-group" data-reveal>
+                            <h3>{group.label}</h3>
+                            <div class="reference-items">
+                                {group.items.map((item) => (
+                                    item.href ? (
+                                        <a class="reference-item" href={item.href} target="_blank" rel="noreferrer" download>
+                                            <span class="file-chip">{item.kind}</span>
+                                            <span>
+                                                <strong>{item.title}</strong>
+                                                <small>{item.path} · {item.sizeLabel}</small>
+                                            </span>
+                                        </a>
+                                    ) : (
+                                        <div class="reference-item is-local">
+                                            <span class="file-chip file-chip--local">本地参考</span>
+                                            <span>
+                                                <strong>{item.title}</strong>
+                                                <small>{item.path} · {item.sizeLabel}</small>
+                                            </span>
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+                </div>
+            </section>
+        )}
+
+        <section class="archive-section" aria-labelledby="external-title">
+            <div class="archive-section__head" data-reveal>
+                <h2 id="external-title">外部文章</h2>
+                <span>{externalArticles.length}</span>
+            </div>
+
+            <div class="reference-items">
+                {externalArticles.map((item) => (
+                    <a class="reference-item" href={item.href} target="_blank" rel="noreferrer" data-reveal>
+                        <span class="file-chip file-chip--local">LINK</span>
+                        <span>
+                            <strong>{item.title}</strong>
+                            <small>{item.description}</small>
+                        </span>
+                    </a>
+                ))}
+            </div>
+        </section>
+
+        <section class="archive-section secondary-archive" aria-labelledby="secondary-archive-title">
+            <div class="archive-section__head" data-reveal>
+                <h2 id="secondary-archive-title">其他资料</h2>
+                <span>1</span>
+            </div>
+
+            <div class="reference-items">
+                <a class="reference-item" href="/blog/history/" data-reveal>
+                    <span class="file-chip file-chip--local">ARCHIVE</span>
+                    <span>
+                        <strong>深度历史档案</strong>
+                        <small>中国近现代史、文革资料与历史叙事的个人分析札记。</small>
+                    </span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing | Archive</footer>
+</BaseLayout>
+
+<style>
+    .archive-page {
+        max-width: 1120px;
+    }
+
+    .archive-hero {
+        margin-bottom: 52px;
+        max-width: 760px;
+    }
+
+    .archive-hero h1 {
+        margin: 12px 0 18px;
+        color: #fff;
+        font-size: clamp(3.6rem, 10vw, 7rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+    }
+
+    .archive-section {
+        margin-top: 56px;
+    }
+
+    .archive-section__head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .archive-section__head h2 {
+        margin: 0;
+        color: #fff;
+        font-size: clamp(1.45rem, 3vw, 2rem);
+    }
+
+    .archive-section__head span {
+        color: var(--text-dim);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .archive-list,
+    .reference-groups {
+        display: grid;
+        gap: 28px;
+    }
+
+    .archive-year,
+    .reference-group {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: clamp(20px, 4vw, 44px);
+    }
+
+    .archive-year h3,
+    .reference-group h3 {
+        margin: 0;
+        color: var(--accent);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.86rem;
+        letter-spacing: 0.08em;
+    }
+
+    .archive-items,
+    .reference-items {
+        display: grid;
+        gap: 10px;
+    }
+
+    .archive-item,
+    .reference-item {
+        display: grid;
+        align-items: baseline;
+        gap: 18px;
+        color: inherit;
+        text-decoration: none;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+        transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    .archive-item {
+        grid-template-columns: 116px minmax(0, 1fr) auto;
+    }
+
+    .reference-item {
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+    }
+
+    .archive-item:hover,
+    .reference-item:hover {
+        border-color: rgba(255, 94, 0, 0.38);
+        transform: translateX(3px);
+    }
+
+    .reference-item.is-local {
+        opacity: 0.72;
+    }
+
+    .reference-item.is-local:hover {
+        transform: none;
+    }
+
+    .archive-item time {
+        color: var(--text-dim);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+    }
+
+    .archive-item__main {
+        display: grid;
+        gap: 5px;
+        min-width: 0;
+    }
+
+    .archive-item strong,
+    .reference-item strong {
+        color: #fff;
+        font-size: 1.06rem;
+        line-height: 1.35;
+    }
+
+    .archive-item small,
+    .reference-item small {
+        color: var(--text-dim);
+        font-size: 0.82rem;
+        line-height: 1.55;
+    }
+
+    .archive-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+
+    .archive-tags em {
+        color: var(--text-muted);
+        font-style: normal;
+        font-size: 0.74rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 3px 8px;
+    }
+
+    .file-chip {
+        border-radius: 4px;
+        background: var(--accent);
+        color: #fff;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        padding: 5px 9px;
+    }
+
+    .file-chip--local {
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--text-muted);
+    }
+
+    @media (max-width: 760px) {
+        .archive-year,
+        .reference-group {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .archive-item {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .archive-tags {
+            justify-content: flex-start;
+        }
+    }
+</style>

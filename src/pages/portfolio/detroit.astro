@@ -1,0 +1,410 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
+---
+
+<BaseLayout
+    title="《底特律：化身为人》UE5 复刻 | 祝庆"
+    description="基于 Unreal Engine 5 的交互叙事片段复刻：角色控制、QTE、环境扫描、镜头与后期流程复盘。"
+    activePath="/portfolio"
+    backgroundVariant="article"
+    image="/images/portfolio/detroit/1.jpg"
+>
+    <section class="case-hero">
+        <img src="/images/portfolio/detroit/1.jpg" alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
+        <div class="case-hero__overlay" data-reveal>
+            <span class="eyebrow">UE5 Interactive Case Study</span>
+            <h1>《底特律：化身为人》场景与交互复刻</h1>
+            <p>基于 Unreal Engine 5 的章节级交互叙事练习，聚焦蓝图逻辑、镜头调度、环境扫描与沉浸式反馈。</p>
+            <div class="case-meta">
+                <span>北京电影学院</span>
+                <span>影视技术方向</span>
+                <span>2025.01</span>
+            </div>
+        </div>
+    </section>
+
+    <nav class="chapter-nav" aria-label="Case study chapters">
+        <a href="#intro">项目背景</a>
+        <a href="#video">演示视频</a>
+        <a href="#gallery">场景截图</a>
+        <a href="#tech">技术实现</a>
+        <a href="#lessons">复盘</a>
+    </nav>
+
+    <main class="case-content">
+        <section id="intro" class="case-section" data-reveal>
+            <h2>项目背景<span>01</span></h2>
+            <div class="text-block">
+                <p class="lead">这个项目试图还原《底特律：化身为人》中废弃场景内寻找零件、修复自身并重获行动能力的叙事体验。</p>
+                <p>核心目标不是单纯做一个可走动场景，而是把镜头、交互提示、环境观察、QTE 和关卡序列连成一段可被观看也可被操作的短流程。</p>
+                <p>我负责场景搭建、蓝图逻辑、交互 UI、摄像机状态、视频演示与后期整理，并把项目中遇到的失败点作为技术文档的一部分记录下来。</p>
+            </div>
+        </section>
+
+        <section id="video" class="case-section" data-reveal>
+            <h2>演示视频<span>02</span></h2>
+            <div class="video-wrapper">
+                <ClickToPlayBilibili
+                    bvid="BV18XApe2Efy"
+                    title="Detroit UE5 recreation video"
+                    poster="/images/portfolio/detroit/1.jpg"
+                    eyebrow="Demo Video"
+                    heading="点击播放"
+                    description="《底特律：化身为人》UE5 场景与交互复刻演示"
+                />
+            </div>
+        </section>
+
+        <section id="gallery" class="case-section" data-reveal>
+            <h2>场景截图<span>03</span></h2>
+            <div class="masonry-grid">
+                {[2, 3, 4, 5, 6, 8, 7, 9].map((item) => (
+                    <img src={`/images/portfolio/detroit/${item}.jpg`} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
+                ))}
+            </div>
+        </section>
+
+        <section id="tech" class="case-section" data-reveal>
+            <h2>技术实现<span>04</span></h2>
+            <div class="tech-grid">
+                <article>
+                    <h3>场景与天气</h3>
+                    <p>使用 Blender 自主建模与地编，结合动态天气、雾效和后处理，塑造潮湿、低照度、废弃垃圾场的氛围。</p>
+                </article>
+                <article>
+                    <h3>交互与 UI</h3>
+                    <p>通过蓝图和关卡序列管理观察、拾取、安装、QTE 等状态，使用 Widget 动画承担提示与反馈。</p>
+                </article>
+                <article>
+                    <h3>扫描视觉</h3>
+                    <p>结合后处理材质、Niagara 粒子和深度信息，模拟仿生人的环境扫描与可交互目标识别。</p>
+                </article>
+                <article>
+                    <h3>动画与镜头</h3>
+                    <p>尝试 Motion Matching、手 K 动作与摄像机状态切换，让角色修复过程和观看节奏更接近原作质感。</p>
+                </article>
+                <article>
+                    <h3>声音状态</h3>
+                    <p>用音频总线和状态切换区分角色受损、视觉恢复与行动恢复后的声音层次。</p>
+                </article>
+                <article>
+                    <h3>虚拟制片适配</h3>
+                    <p>整理了 nDisplay 背景墙播放与素材格式的注意事项，为后续实时影像拍摄流程做准备。</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="lessons" class="case-section" data-reveal>
+            <h2>复盘记录<span>05</span></h2>
+            <div class="lesson-list">
+                <article>
+                    <h3>面部绑定与自定义角色</h3>
+                    <p>自定义模型在 Maya 与 UE 之间的骨骼、面部蒙皮和资产标准并不稳定，最后使用 MetaHuman 与原片段替代，保留流程完整性。</p>
+                </article>
+                <article>
+                    <h3>动作捕捉的取舍</h3>
+                    <p>手部动作捕捉工具精度不足，BVH 处理链路也不顺畅。最终对关键动作手动调整，反而获得了更可控的表演节奏。</p>
+                </article>
+                <article>
+                    <h3>性能与备份</h3>
+                    <p>项目经历过蓝屏、资源丢失和外部视频播放掉帧。后续流程会优先做版本备份、素材序列化和性能预算。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="return-panel" data-reveal>
+            <div>
+                <span class="eyebrow">More Works</span>
+                <h2>继续查看作品集</h2>
+                <p>回到作品集大厅，查看更多影视后期、数字人与虚幻引擎相关项目。</p>
+            </div>
+            <a href="/portfolio">返回作品集</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing | 北京电影学院影视技术方向</footer>
+</BaseLayout>
+
+<style>
+    .case-hero {
+        position: relative;
+        z-index: 10;
+        min-height: 86vh;
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .case-hero img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.43) contrast(1.13) saturate(0.82);
+    }
+
+    .case-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(0deg, rgba(5, 5, 5, 0.94), rgba(5, 5, 5, 0.2) 46%, rgba(5, 5, 5, 0.68)),
+            linear-gradient(90deg, rgba(5, 5, 5, 0.78), transparent 66%);
+    }
+
+    .case-hero__overlay {
+        position: relative;
+        z-index: 2;
+        width: min(880px, 100%);
+        padding: calc(var(--header-height) + 80px) var(--page-x) 12vh;
+    }
+
+    .case-hero h1 {
+        margin: 14px 0 18px;
+        color: #fff;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 1.06;
+        letter-spacing: 0;
+    }
+
+    .case-hero p {
+        margin: 0;
+        color: #d2d2d4;
+        font-size: clamp(1rem, 1.7vw, 1.22rem);
+        line-height: 1.78;
+    }
+
+    .case-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 18px;
+        margin-top: 26px;
+        color: var(--text-muted);
+        font-size: 0.86rem;
+    }
+
+    .case-meta span:not(:last-child)::after {
+        content: "/";
+        margin-left: 18px;
+        color: var(--text-dim);
+    }
+
+    .chapter-nav {
+        position: sticky;
+        top: var(--header-height);
+        z-index: 70;
+        display: flex;
+        justify-content: center;
+        gap: clamp(14px, 3vw, 34px);
+        padding: 14px var(--page-x);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: rgba(5, 5, 5, 0.82);
+        backdrop-filter: blur(14px);
+    }
+
+    .chapter-nav a {
+        color: var(--text-muted);
+        font-size: 0.86rem;
+        text-decoration: none;
+        transition: color 180ms ease;
+    }
+
+    .chapter-nav a:hover {
+        color: #fff;
+    }
+
+    .case-content {
+        position: relative;
+        z-index: 10;
+        width: min(100%, 1040px);
+        margin: 0 auto;
+        padding: 74px var(--page-x) 100px;
+    }
+
+    .case-section {
+        margin-bottom: 98px;
+        scroll-margin-top: calc(var(--header-height) + 70px);
+    }
+
+    .case-section h2 {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+        margin: 0 0 34px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+        color: #fff;
+        font-size: clamp(1.7rem, 3vw, 2.3rem);
+    }
+
+    .case-section h2 span {
+        color: rgba(255, 255, 255, 0.16);
+        font-family: "Times New Roman", serif;
+        font-size: clamp(2.5rem, 5vw, 4.2rem);
+        font-style: italic;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .text-block p {
+        margin: 0 0 1.55rem;
+        color: var(--text-muted);
+        font-size: 1.08rem;
+        line-height: 1.88;
+    }
+
+    .text-block .lead {
+        padding: 18px 22px;
+        border-left: 3px solid var(--accent);
+        border-radius: 0 8px 8px 0;
+        background: rgba(255, 255, 255, 0.035);
+        color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .video-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #111;
+    }
+
+    .video-wrapper iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .masonry-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .masonry-grid img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        filter: brightness(0.78) saturate(0.86);
+        transition: transform 260ms ease, filter 260ms ease;
+    }
+
+    .masonry-grid img:hover {
+        transform: scale(1.018);
+        filter: brightness(0.94) saturate(0.92);
+    }
+
+    .tech-grid,
+    .lesson-list {
+        display: grid;
+        gap: 18px;
+    }
+
+    .tech-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tech-grid article,
+    .lesson-list article {
+        padding: 26px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-panel);
+    }
+
+    .tech-grid h3,
+    .lesson-list h3 {
+        margin: 0 0 10px;
+        color: var(--accent);
+        font-size: 1.08rem;
+    }
+
+    .tech-grid p,
+    .lesson-list p,
+    .return-panel p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.96rem;
+        line-height: 1.74;
+    }
+
+    .lesson-list article {
+        border-left: 4px solid rgba(255, 102, 102, 0.72);
+        background: rgba(28, 8, 8, 0.38);
+    }
+
+    .lesson-list h3 {
+        color: var(--danger);
+    }
+
+    .return-panel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        padding: 34px;
+        border: 1px solid rgba(255, 94, 0, 0.22);
+        border-radius: 8px;
+        background: rgba(255, 94, 0, 0.045);
+    }
+
+    .return-panel h2 {
+        margin: 8px 0 10px;
+        color: #fff;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .return-panel a {
+        flex: 0 0 auto;
+        border: 1px solid var(--accent);
+        border-radius: 4px;
+        color: var(--accent);
+        padding: 12px 22px;
+        text-decoration: none;
+        font-weight: 760;
+        transition: background 180ms ease, color 180ms ease;
+    }
+
+    .return-panel a:hover {
+        background: var(--accent);
+        color: #fff;
+    }
+
+    @media (max-width: 760px) {
+        .chapter-nav {
+            justify-content: flex-start;
+            overflow-x: auto;
+        }
+
+        .chapter-nav a {
+            white-space: nowrap;
+        }
+
+        .masonry-grid,
+        .tech-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .return-panel {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .case-meta span:not(:last-child)::after {
+            content: "";
+            margin-left: 0;
+        }
+    }
+</style>

@@ -1,0 +1,186 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="作品集 | 祝庆 Zhu Qing"
+    description="祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流精选作品。"
+    activePath="/portfolio"
+    backgroundVariant="portfolio"
+>
+    <main class="page-shell portfolio-layout">
+        <header class="portfolio-hero" data-reveal>
+            <span class="eyebrow">Works / Pipeline / Post</span>
+            <h1>Selected Works</h1>
+            <p>虚幻引擎交互、数字人技术研究、影视后期调色与电影节放映流程。</p>
+        </header>
+
+        <section class="work-section" aria-labelledby="works-title">
+            <div class="section-heading" data-reveal>
+                <h2 id="works-title">重点项目</h2>
+            </div>
+
+            <div class="work-grid">
+                <a href="/portfolio/detroit" class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src="/images/portfolio/detroit/1.jpg" alt="Detroit Become Human UE5 recreation" loading="lazy" />
+                        <span class="card-hover">查看技术复盘</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="category">UE5 / Interactive Narrative</span>
+                        <h3>《底特律：化身为人》场景与交互复刻</h3>
+                        <p>章节级交互还原，包含蓝图 QTE、关卡序列、环境扫描、虚拟制片适配与镜头流程复盘。</p>
+                    </div>
+                </a>
+
+                <article class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src="/images/portfolio/lightstage/lightstage-workflow-preview.jpg" alt="MetaHuman and Light Stage workflow" loading="lazy" />
+                    </div>
+                    <div class="card-info">
+                        <span class="category">Digital Human / Pipeline</span>
+                        <h3>MetaHuman 与数字人光场流程</h3>
+                        <p>研究数字人资产规范、表情/材质流程与高精度光照采集，探索实时数字人的视觉可信度边界。</p>
+                    </div>
+                </article>
+
+                <article class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src="/images/portfolio/post/dcp-screening.jpg" alt="DCP screening on Barco projector" loading="lazy" />
+                    </div>
+                    <div class="card-info">
+                        <span class="category">DCP / Festival Subtitle</span>
+                        <h3>电影节 DCP 与外挂字幕放映</h3>
+                        <p>使用系里的 Barco 投影机完成 DCP 放映测试，并制作日语竖排加 ruby 注音的外挂字幕，字幕以外挂形式展示，不烧入画面。</p>
+                    </div>
+                </article>
+
+                <article class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src="/images/portfolio/ndisplay/ndisplay-wall-01-preview.jpg" alt="Post-production and color grading work" loading="lazy" />
+                    </div>
+                    <div class="card-info">
+                        <span class="category">Post / Editing / Color</span>
+                        <h3>商业与品牌后期合作</h3>
+                        <p>参与短片剪辑、调色和影像包装，熟练使用 DaVinci Resolve。合作对象包括小红书、Disney、国家地理等品牌内容。</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing | 北京电影学院影视技术方向</footer>
+</BaseLayout>
+
+<style>
+    .portfolio-layout {
+        max-width: 1420px;
+    }
+
+    .portfolio-hero {
+        width: min(820px, 100%);
+        margin-bottom: 72px;
+    }
+
+    .portfolio-hero h1 {
+        margin: 12px 0 18px;
+        color: #fff;
+        font-size: clamp(3rem, 8vw, 6.2rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+        text-transform: uppercase;
+    }
+
+    .portfolio-hero p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: clamp(1rem, 1.7vw, 1.18rem);
+        line-height: 1.78;
+    }
+
+    .work-section {
+        margin-bottom: 96px;
+    }
+
+    .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(28px, 4vw, 44px);
+    }
+
+    .project-card {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .card-image {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        margin-bottom: 20px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: #111;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.72) saturate(0.82);
+        transition: transform 640ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 260ms ease;
+    }
+
+    .project-card:hover img {
+        transform: scale(1.045);
+        filter: brightness(0.92) saturate(0.92);
+    }
+
+    .card-hover {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 700;
+        background: rgba(0, 0, 0, 0.64);
+        opacity: 0;
+        transition: opacity 220ms ease;
+    }
+
+    .project-card:hover .card-hover {
+        opacity: 1;
+    }
+
+    .category {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .card-info h3 {
+        margin: 0 0 10px;
+        color: #fff;
+        font-size: clamp(1.12rem, 1.7vw, 1.38rem);
+        line-height: 1.32;
+    }
+
+    .card-info p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.94rem;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+        .work-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

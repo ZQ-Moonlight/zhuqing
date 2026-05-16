@@ -1,0 +1,276 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="祝庆 Zhu Qing | 影视后期与 Unreal Engine 开发"
+    description="祝庆的个人作品集首页，聚焦影视后期、UE5、虚拟制片、MetaHuman 与视觉设计。"
+    activePath="/"
+>
+    <main class="home-hero">
+        <div class="home-grid">
+            <section class="profile-col" data-reveal>
+                <div class="cinematic-frame">
+                    <img src="/images/home/zq.jpg" alt="祝庆 Zhu Qing cinematic portfolio still" loading="eager" fetchpriority="high" />
+                </div>
+
+                <p class="eyebrow">Film Technology / UE Development</p>
+                <h1>祝庆 Zhu Qing</h1>
+                <div class="role-tags" aria-label="Profile tags">
+                    <span>BFA Student</span>
+                    <span class="divider"></span>
+                    <span>MetaHuman</span>
+                    <span class="divider"></span>
+                    <span>Post-Production</span>
+                </div>
+            </section>
+
+            <section class="bio-col" data-reveal>
+                <div class="language-tabs" role="tablist" aria-label="Language">
+                    <button class="active" type="button" data-lang-button="cn" aria-controls="content-cn">中文</button>
+                    <button type="button" data-lang-button="en" aria-controls="content-en">EN</button>
+                </div>
+
+                <div id="content-cn" class="lang-content active" data-lang-panel="cn">
+                    <p class="lead">
+                        我是北京电影学院影视技术方向学生，关注<strong>影视后期</strong>、<strong>虚幻引擎开发</strong>与<strong>视觉设计</strong>之间的交叉表达。
+                    </p>
+                    <p>
+                        我使用 UE5 复刻过《底特律：化身为人》的章节级交互，熟悉 nDisplay 虚拟制片背景墙流程，也持续研究 MetaHuman 与数字人光场采集工作流。
+                    </p>
+                    <p>
+                        在剪辑与调色方向，我参与过短片和商业项目后期，并与小红书、Disney、国家地理等品牌有过合作。目前正在探索 3D 立体拍摄、实时影像与调色流程的结合。
+                    </p>
+                    <div class="contact-box">
+                        <span>如果你对研究项目、电影制作、技术开发，或者只是单纯想聊聊历史与影像如何结合，欢迎通过邮件与我联系。</span>
+                        <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+                    </div>
+                </div>
+
+                <div id="content-en" class="lang-content" data-lang-panel="en" hidden>
+                    <p class="lead">
+                        I am a Film & TV Technology student at Beijing Film Academy, working across <strong>post-production</strong>, <strong>Unreal Engine</strong>, and <strong>visual design</strong>.
+                    </p>
+                    <p>
+                        I have recreated interactive chapters from <em>Detroit: Become Human</em> in UE5, with hands-on experience in nDisplay virtual production workflows and MetaHuman research.
+                    </p>
+                    <p>
+                        As an editor and color-focused maker, I have worked on short films and commercial projects for brands including Xiaohongshu, Disney, and National Geographic.
+                    </p>
+                    <div class="contact-box">
+                        <span>Technical dev, filmmaking, or visual collaboration</span>
+                        <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const buttons = document.querySelectorAll("[data-lang-button]");
+        const panels = document.querySelectorAll("[data-lang-panel]");
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const lang = button.getAttribute("data-lang-button");
+
+                buttons.forEach((item) => item.classList.toggle("active", item === button));
+                panels.forEach((panel) => {
+                    const active = panel.getAttribute("data-lang-panel") === lang;
+                    panel.classList.toggle("active", active);
+                    panel.toggleAttribute("hidden", !active);
+                });
+            });
+        });
+    </script>
+</BaseLayout>
+
+<style>
+    .home-hero {
+        position: relative;
+        z-index: 10;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: calc(var(--header-height) + 56px) var(--page-x) 64px;
+    }
+
+    .home-grid {
+        width: min(100%, 1280px);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 1.12fr);
+        gap: clamp(42px, 8vw, 104px);
+        align-items: center;
+    }
+
+    .profile-col h1 {
+        margin: 10px 0 18px;
+        color: #fff;
+        font-size: clamp(2.35rem, 13cqw, 5.4rem);
+        line-height: 0.92;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+
+    .profile-col {
+        container-type: inline-size;
+    }
+
+    @supports not (font-size: 1cqw) {
+        .profile-col h1 {
+            font-size: clamp(2.35rem, 5.2vw, 5.4rem);
+        }
+    }
+
+    .cinematic-frame {
+        width: 100%;
+        aspect-ratio: 2.35 / 1;
+        margin-bottom: 34px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: #111;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+    }
+
+    .cinematic-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(0.82) contrast(1.12) brightness(0.78);
+        transition: transform 8s ease, filter 600ms ease;
+    }
+
+    .cinematic-frame:hover img {
+        transform: scale(1.045);
+        filter: saturate(0.9) contrast(1.16) brightness(0.9);
+    }
+
+    .role-tags {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.83rem;
+        letter-spacing: 0.04em;
+    }
+
+    .divider {
+        width: 4px;
+        height: 4px;
+        border-radius: 999px;
+        background: currentColor;
+        opacity: 0.5;
+    }
+
+    .bio-col {
+        min-height: 420px;
+    }
+
+    .language-tabs {
+        display: inline-flex;
+        gap: 4px;
+        margin-bottom: 30px;
+        padding: 4px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.035);
+    }
+
+    .language-tabs button {
+        min-width: 58px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.82rem;
+        padding: 7px 14px;
+        transition: background 180ms ease, color 180ms ease;
+    }
+
+    .language-tabs button:hover,
+    .language-tabs button.active {
+        background: rgba(255, 255, 255, 0.11);
+        color: #fff;
+    }
+
+    .lang-content {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 260ms ease, transform 260ms ease;
+    }
+
+    .lang-content.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .lang-content p {
+        margin: 0 0 1.35rem;
+        color: var(--text-muted);
+        font-size: clamp(1rem, 1.45vw, 1.12rem);
+        line-height: 1.86;
+    }
+
+    .lang-content .lead {
+        color: var(--text-main);
+        font-size: clamp(1.14rem, 2vw, 1.42rem);
+        font-weight: 520;
+    }
+
+    .lang-content strong {
+        color: #fff;
+        font-weight: 650;
+    }
+
+    .contact-box {
+        display: grid;
+        gap: 8px;
+        margin-top: 44px;
+        padding-top: 28px;
+        border-top: 1px solid var(--border);
+    }
+
+    .contact-box span {
+        color: var(--text-dim);
+        font-size: 0.86rem;
+    }
+
+    .contact-box a {
+        width: fit-content;
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 180ms ease;
+    }
+
+    .contact-box a:hover {
+        color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+        .home-hero {
+            align-items: flex-start;
+            padding-top: calc(var(--header-height) + 44px);
+        }
+
+        .home-grid {
+            grid-template-columns: 1fr;
+            gap: 42px;
+        }
+
+        .cinematic-frame {
+            aspect-ratio: 16 / 9;
+        }
+
+        .bio-col {
+            min-height: 0;
+        }
+    }
+</style>

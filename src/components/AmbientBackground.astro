@@ -1,0 +1,16 @@
+---
+interface Props {
+    variant?: "default" | "portfolio" | "article";
+}
+
+const { variant = "default" } = Astro.props;
+---
+
+<div class:list={["ambient-background", `ambient-background--${variant}`]} aria-hidden="true">
+    <div class="ambient-orb ambient-orb--ue"></div>
+    <div class="ambient-orb ambient-orb--film"></div>
+    <div class="ambient-orb ambient-orb--core"></div>
+    <div class="light-leak light-leak--top"></div>
+    <div class="light-leak light-leak--bottom"></div>
+</div>
+

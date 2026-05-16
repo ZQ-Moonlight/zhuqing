@@ -1,0 +1,449 @@
+---
+import AmbientBackground from "../components/AmbientBackground.astro";
+import FilmGrain from "../components/FilmGrain.astro";
+import Header from "../components/Header.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+    activePath?: string;
+    backgroundVariant?: "default" | "portfolio" | "article";
+    noindex?: boolean;
+}
+
+const {
+    title = "祝庆 Zhu Qing | 影视后期与 Unreal Engine 开发",
+    description = "祝庆的个人作品集与博客，聚焦影视后期、Unreal Engine、虚拟制片、MetaHuman 与视觉设计。",
+    image = "/images/home/zq.jpg",
+    activePath = Astro.url.pathname,
+    backgroundVariant = "default",
+    noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const absoluteImage = new URL(image, Astro.url.origin).toString();
+---
+
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        {noindex && <meta name="robots" content="noindex, nofollow" />}
+        <meta name="theme-color" content="#050505" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={absoluteImage} />
+        <meta property="og:url" content={canonical} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <script is:inline>document.documentElement.classList.add("js");</script>
+    </head>
+    <body>
+        <div class="read-progress" data-read-progress aria-hidden="true"></div>
+        <FilmGrain />
+        <AmbientBackground variant={backgroundVariant} />
+        <Header activePath={activePath} />
+        <slot />
+
+        <script is:inline>
+            const header = document.querySelector("[data-site-header]");
+            const progress = document.querySelector("[data-read-progress]");
+            const revealItems = document.querySelectorAll("[data-reveal]");
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            const updateChrome = () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                header?.classList.toggle("is-scrolled", scrollTop > 12);
+
+                if (progress) {
+                    const doc = document.documentElement;
+                    const maxScroll = Math.max(1, doc.scrollHeight - doc.clientHeight);
+                    progress.style.transform = `scaleX(${Math.min(1, scrollTop / maxScroll)})`;
+                }
+            };
+
+            updateChrome();
+            window.addEventListener("scroll", updateChrome, { passive: true });
+
+            if (reducedMotion) {
+                revealItems.forEach((item) => item.classList.add("is-visible"));
+            } else {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("is-visible");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
+                );
+
+                revealItems.forEach((item) => observer.observe(item));
+
+                if (window.matchMedia("(pointer: fine)").matches) {
+                    let pointerFrame = 0;
+                    let pointerX = window.innerWidth / 2;
+                    let pointerY = window.innerHeight / 2;
+
+                    window.addEventListener(
+                        "pointermove",
+                        (event) => {
+                            pointerX = event.clientX;
+                            pointerY = event.clientY;
+
+                            if (pointerFrame) return;
+                            pointerFrame = window.requestAnimationFrame(() => {
+                                document.documentElement.style.setProperty("--cursor-x", `${pointerX}px`);
+                                document.documentElement.style.setProperty("--cursor-y", `${pointerY}px`);
+                                pointerFrame = 0;
+                            });
+                        },
+                        { passive: true }
+                    );
+                }
+            }
+        </script>
+    </body>
+</html>
+
+<style is:global>
+    :root {
+        --bg-base: #050505;
+        --bg-panel: rgba(255, 255, 255, 0.035);
+        --bg-panel-strong: rgba(255, 255, 255, 0.065);
+        --text-main: #f5f5f7;
+        --text-muted: #a1a1a6;
+        --text-dim: #6f6f76;
+        --border: rgba(255, 255, 255, 0.09);
+        --accent: #ff5e00;
+        --ue-cyan: #00f0ff;
+        --deep-purple: #7000ff;
+        --danger: #ff6666;
+        --page-x: clamp(20px, 6vw, 72px);
+        --header-height: 72px;
+        --cursor-x: 50vw;
+        --cursor-y: 50vh;
+        color-scheme: dark;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        min-height: 100%;
+        background: var(--bg-base);
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100%;
+        margin: 0;
+        background:
+            radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255, 94, 0, 0.075), transparent 22rem),
+            var(--bg-base);
+        color: var(--text-main);
+        font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    img,
+    iframe,
+    video {
+        max-width: 100%;
+    }
+
+    img {
+        display: block;
+        height: auto;
+    }
+
+    .read-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 120;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--ue-cyan));
+        transform: scaleX(0);
+        transform-origin: left center;
+        will-change: transform;
+    }
+
+    .film-grain {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.65'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+        opacity: 0.055;
+    }
+
+    .ambient-background {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 34%),
+            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.045), transparent 42%);
+    }
+
+    .ambient-orb {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(88px);
+        mix-blend-mode: screen;
+        opacity: 0.2;
+        animation: ambientFloat 28s ease-in-out infinite alternate;
+    }
+
+    .ambient-orb--ue {
+        top: -12%;
+        left: -10%;
+        width: min(46vw, 620px);
+        height: min(46vw, 620px);
+        background: var(--ue-cyan);
+    }
+
+    .ambient-orb--film {
+        right: -10%;
+        bottom: -16%;
+        width: min(42vw, 560px);
+        height: min(42vw, 560px);
+        background: var(--accent);
+        animation-delay: -5s;
+    }
+
+    .ambient-orb--core {
+        top: 24%;
+        left: 36%;
+        width: min(34vw, 460px);
+        height: min(34vw, 460px);
+        background: var(--deep-purple);
+        opacity: 0.12;
+        animation-delay: -10s;
+    }
+
+    .ambient-background--portfolio .ambient-orb--film,
+    .ambient-background--article .ambient-orb--ue {
+        opacity: 0.14;
+    }
+
+    .light-leak {
+        position: absolute;
+        width: 56vw;
+        height: 18vh;
+        background: linear-gradient(90deg, transparent, rgba(255, 94, 0, 0.16), transparent);
+        filter: blur(34px);
+        opacity: 0.35;
+        transform: rotate(-8deg);
+    }
+
+    .light-leak--top {
+        top: 4vh;
+        right: -12vw;
+    }
+
+    .light-leak--bottom {
+        left: -16vw;
+        bottom: 8vh;
+        opacity: 0.18;
+        transform: rotate(10deg);
+    }
+
+    @keyframes ambientFloat {
+        from {
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+        to {
+            transform: translate3d(5%, 4%, 0) scale(1.08);
+        }
+    }
+
+    .glass-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        min-height: var(--header-height);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px var(--page-x);
+        background: rgba(5, 5, 5, 0.44);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+        backdrop-filter: blur(18px) saturate(170%);
+        transition: background 220ms ease, border-color 220ms ease;
+    }
+
+    .glass-header.is-scrolled {
+        background: rgba(5, 5, 5, 0.76);
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+        color: var(--text-main);
+        font-size: 1.05rem;
+        font-weight: 760;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .logo .dot {
+        color: var(--accent);
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: clamp(14px, 3vw, 34px);
+    }
+
+    .nav-links a {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: color 180ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--text-main);
+    }
+
+    .page-shell {
+        position: relative;
+        z-index: 10;
+        width: min(100%, 1440px);
+        margin: 0 auto;
+        padding: calc(var(--header-height) + 48px) var(--page-x) 96px;
+    }
+
+    html.js [data-reveal] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 720ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 720ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    html.js [data-reveal].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .eyebrow {
+        display: block;
+        color: var(--accent);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin: 0 0 32px;
+    }
+
+    .section-heading h2 {
+        margin: 0;
+        color: #fff;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        line-height: 1.15;
+    }
+
+    .section-heading::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+    }
+
+    .site-footer {
+        position: relative;
+        z-index: 10;
+        padding: 48px var(--page-x);
+        border-top: 1px solid var(--border);
+        color: var(--text-dim);
+        font-size: 0.82rem;
+        text-align: center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            scroll-behavior: auto !important;
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+
+        body {
+            background: var(--bg-base);
+        }
+    }
+
+    @media (max-width: 760px) {
+        :root {
+            --header-height: 82px;
+        }
+
+        .ambient-orb {
+            animation: none;
+            filter: blur(72px);
+            opacity: 0.14;
+        }
+
+        .glass-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+
+        .nav-links {
+            width: 100%;
+            justify-content: flex-start;
+            gap: 18px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .nav-links a {
+            white-space: nowrap;
+        }
+
+        .page-shell {
+            padding-top: calc(var(--header-height) + 38px);
+            padding-bottom: 72px;
+        }
+    }
+</style>
