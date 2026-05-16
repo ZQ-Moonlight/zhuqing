@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/paths";
+
 interface Props {
     bvid: string;
     title: string;
@@ -29,7 +31,7 @@ const playerSrc = `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&h
     data-title={title}
 >
     <button class="bilibili-click-player__poster" type="button" aria-label={`播放 ${title}`}>
-        <img src={poster} alt="" loading="lazy" />
+        <img src={withBase(poster)} alt="" loading="lazy" />
         <span class="bilibili-click-player__shade"></span>
         <span class="bilibili-click-player__content">
             {eyebrow && <span class="eyebrow">{eyebrow}</span>}

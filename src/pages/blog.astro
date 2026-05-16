@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getReferenceGroups } from "../lib/contentArchive";
+import { withBase } from "../lib/paths";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft && !data.privateArchive)).sort(
     (a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0)
@@ -64,7 +65,7 @@ const groupedPosts = posts.reduce((groups, post) => {
                         <h3>{year}</h3>
                         <div class="archive-items">
                             {items.map((post) => (
-                                <a class="archive-item" href={`/blog/${post.id}/`}>
+                                <a class="archive-item" href={withBase(`/blog/${post.id}/`)}>
                                     <time datetime={post.data.pubDate?.toISOString()}>
                                         {post.data.pubDate ? formatDate(post.data.pubDate) : "未设置日期"}
                                     </time>
@@ -149,7 +150,7 @@ const groupedPosts = posts.reduce((groups, post) => {
             </div>
 
             <div class="reference-items">
-                <a class="reference-item" href="/blog/history/" data-reveal>
+                <a class="reference-item" href={withBase("/blog/history/")} data-reveal>
                     <span class="file-chip file-chip--local">ARCHIVE</span>
                     <span>
                         <strong>深度历史档案</strong>

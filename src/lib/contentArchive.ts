@@ -1,5 +1,6 @@
 import { readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { withBase } from "./paths";
 
 export interface ReferenceItem {
     title: string;
@@ -38,7 +39,7 @@ const formatBytes = (bytes: number) => {
 export const getContentRoot = () => contentRoot;
 
 export const encodeContentFileHref = (relativePath: string) =>
-    `/blog/files/${relativePath.split("/").map(encodeURIComponent).join("/")}`;
+    withBase(`/blog/files/${relativePath.split("/").map(encodeURIComponent).join("/")}`);
 
 const groupLabelFromPath = (relativePath: string) => {
     const parts = relativePath.split("/");

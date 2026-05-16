@@ -2,6 +2,7 @@
 import AmbientBackground from "../components/AmbientBackground.astro";
 import FilmGrain from "../components/FilmGrain.astro";
 import Header from "../components/Header.astro";
+import { withBase } from "../lib/paths";
 
 interface Props {
     title?: string;
@@ -22,7 +23,8 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
-const absoluteImage = new URL(image, Astro.url.origin).toString();
+const imagePath = withBase(image);
+const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 ---
 
 <!doctype html>
@@ -42,8 +44,8 @@ const absoluteImage = new URL(image, Astro.url.origin).toString();
         <meta property="og:image" content={absoluteImage} />
         <meta property="og:url" content={canonical} />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+        <link rel="icon" href={withBase("/favicon.ico")} />
         <script is:inline>document.documentElement.classList.add("js");</script>
     </head>
     <body>

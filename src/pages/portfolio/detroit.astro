@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
+import { withBase } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -8,10 +9,10 @@ import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
     description="基于 Unreal Engine 5 的交互叙事片段复刻：角色控制、QTE、环境扫描、镜头与后期流程复盘。"
     activePath="/portfolio"
     backgroundVariant="article"
-    image="/images/portfolio/detroit/1.jpg"
+    image={withBase("/images/portfolio/detroit/1.jpg")}
 >
     <section class="case-hero">
-        <img src="/images/portfolio/detroit/1.jpg" alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
+        <img src={withBase("/images/portfolio/detroit/1.jpg")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
         <div class="case-hero__overlay" data-reveal>
             <span class="eyebrow">UE5 Interactive Case Study</span>
             <h1>《底特律：化身为人》场景与交互复刻</h1>
@@ -48,7 +49,7 @@ import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
                 <ClickToPlayBilibili
                     bvid="BV18XApe2Efy"
                     title="Detroit UE5 recreation video"
-                    poster="/images/portfolio/detroit/1.jpg"
+                    poster={withBase("/images/portfolio/detroit/1.jpg")}
                     eyebrow="Demo Video"
                     heading="点击播放"
                     description="《底特律：化身为人》UE5 场景与交互复刻演示"
@@ -60,7 +61,7 @@ import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
             <h2>场景截图<span>03</span></h2>
             <div class="masonry-grid">
                 {[2, 3, 4, 5, 6, 8, 7, 9].map((item) => (
-                    <img src={`/images/portfolio/detroit/${item}.jpg`} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
+                    <img src={withBase(`/images/portfolio/detroit/${item}.jpg`)} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
                 ))}
             </div>
         </section>
@@ -119,7 +120,7 @@ import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
                 <h2>继续查看作品集</h2>
                 <p>回到作品集大厅，查看更多影视后期、数字人与虚幻引擎相关项目。</p>
             </div>
-            <a href="/portfolio">返回作品集</a>
+            <a href={withBase("/portfolio")}>返回作品集</a>
         </section>
     </main>
 

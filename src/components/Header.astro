@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/paths";
+
 interface Props {
     activePath?: string;
 }
@@ -18,10 +20,10 @@ const isActive = (href: string) => {
 ---
 
 <header class="glass-header" data-site-header>
-    <a class="logo" href="/" aria-label="祝庆 Zhu Qing home">祝庆 Zhu Qing<span class="dot">.</span></a>
+    <a class="logo" href={withBase("/")} aria-label="祝庆 Zhu Qing home">祝庆 Zhu Qing<span class="dot">.</span></a>
     <nav class="nav-links" aria-label="Primary navigation">
         {links.map((link) => (
-            <a href={link.href} class:list={{ active: isActive(link.href) }}>
+            <a href={withBase(link.href)} class:list={{ active: isActive(link.href) }}>
                 {link.label}
             </a>
         ))}

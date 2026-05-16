@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/paths";
 ---
 
 <BaseLayout
@@ -11,7 +12,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="home-grid">
             <section class="profile-col" data-reveal>
                 <div class="cinematic-frame">
-                    <img src="/images/home/zq.jpg" alt="祝庆 Zhu Qing cinematic portfolio still" loading="eager" fetchpriority="high" />
+                    <img src={withBase("/images/home/zq.jpg")} alt="祝庆 Zhu Qing cinematic portfolio still" loading="eager" fetchpriority="high" />
                 </div>
 
                 <p class="eyebrow">Film Technology / UE Development</p>

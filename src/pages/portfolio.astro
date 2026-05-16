@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/paths";
 ---
 
 <BaseLayout
@@ -21,9 +22,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             </div>
 
             <div class="work-grid">
-                <a href="/portfolio/detroit" class="project-card" data-reveal>
+                <a href={withBase("/portfolio/detroit")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src="/images/portfolio/detroit/1.jpg" alt="Detroit Become Human UE5 recreation" loading="lazy" />
+                        <img src={withBase("/images/portfolio/detroit/1.jpg")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
                         <span class="card-hover">查看技术复盘</span>
                     </div>
                     <div class="card-info">
@@ -35,7 +36,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
                 <article class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src="/images/portfolio/lightstage/lightstage-workflow-preview.jpg" alt="MetaHuman and Light Stage workflow" loading="lazy" />
+                        <img src={withBase("/images/portfolio/lightstage/lightstage-workflow-preview.jpg")} alt="MetaHuman and Light Stage workflow" loading="lazy" />
                     </div>
                     <div class="card-info">
                         <span class="category">Digital Human / Pipeline</span>
@@ -46,7 +47,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
                 <article class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src="/images/portfolio/post/dcp-screening.jpg" alt="DCP screening on Barco projector" loading="lazy" />
+                        <img src={withBase("/images/portfolio/post/dcp-screening.jpg")} alt="DCP screening on Barco projector" loading="lazy" />
                     </div>
                     <div class="card-info">
                         <span class="category">DCP / Festival Subtitle</span>
@@ -57,7 +58,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
                 <article class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src="/images/portfolio/ndisplay/ndisplay-wall-01-preview.jpg" alt="Post-production and color grading work" loading="lazy" />
+                        <img src={withBase("/images/portfolio/ndisplay/ndisplay-wall-01-preview.jpg")} alt="Post-production and color grading work" loading="lazy" />
                     </div>
                     <div class="card-info">
                         <span class="category">Post / Editing / Color</span>

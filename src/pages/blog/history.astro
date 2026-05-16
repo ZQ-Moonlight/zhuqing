@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/paths";
 
 const documents = [
     {
         title: "文革资料时间线与解构说明",
         description: "以 1958-1981 为时间轴整理文革前后关键节点，配合个人解读与资料备注。",
-        href: "/blog/history/cultural-revolution-notes/",
+        href: withBase("/blog/history/cultural-revolution-notes/"),
         type: "MD",
     },
 ];
@@ -14,19 +15,19 @@ const references = [
     {
         title: "解构时间表",
         description: "用于快速索引事件顺序和叙事结构的视觉化资料。",
-        href: "/images/archive/history/deconstruction-timeline.jpg",
+        href: withBase("/images/archive/history/deconstruction-timeline.jpg"),
         type: "IMAGE",
     },
     {
         title: "文攻武卫资料图",
         description: "文革口号、群众动员与武斗语境相关的图像材料。",
-        href: "/images/archive/history/cultural-revolution-defense.jpg",
+        href: withBase("/images/archive/history/cultural-revolution-defense.jpg"),
         type: "IMAGE",
     },
     {
         title: "稻上飞图像资料",
         description: "大跃进时期影像叙事与宣传视觉的参考图。",
-        href: "/images/archive/history/rice-overplanting.jpg",
+        href: withBase("/images/archive/history/rice-overplanting.jpg"),
         type: "IMAGE",
     },
 ];
@@ -87,7 +88,7 @@ const references = [
 
     <div class="history-gate" data-history-gate role="dialog" aria-modal="true" aria-labelledby="history-gate-title">
         <div class="history-gate__panel">
-            <a class="history-gate__exit" href="/blog" aria-label="退出深度历史档案">退出</a>
+            <a class="history-gate__exit" href={withBase("/blog")} aria-label="退出深度历史档案">退出</a>
             <span class="history-gate__signal" aria-hidden="true"><span></span></span>
             <span class="eyebrow">Private Archive</span>
             <h2 id="history-gate-title">
