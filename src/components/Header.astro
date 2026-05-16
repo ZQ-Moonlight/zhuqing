@@ -8,9 +8,9 @@ interface Props {
 const { activePath = Astro.url.pathname } = Astro.props;
 
 const links = [
-    { href: "/", label: "Home" },
-    { href: "/portfolio", label: "Reel / Works" },
-    { href: "/blog", label: "Archive" },
+    { href: "/", label: "首页 / Home" },
+    { href: "/portfolio", label: "作品 / Works" },
+    { href: "/blog", label: "档案 / Archive" },
 ];
 
 const isActive = (href: string) => {
@@ -28,4 +28,7 @@ const isActive = (href: string) => {
             </a>
         ))}
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换黑白阅读模式" title="切换黑白阅读模式">
+        <span data-theme-toggle-label>白色</span>
+    </button>
 </header>

@@ -46,7 +46,16 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
         <link rel="icon" href={withBase("/favicon.ico")} />
-        <script is:inline>document.documentElement.classList.add("js");</script>
+        <script is:inline>
+            document.documentElement.classList.add("js");
+            try {
+                const savedTheme = localStorage.getItem("zq-theme");
+                const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+                document.documentElement.dataset.theme = savedTheme || (prefersLight ? "light" : "dark");
+            } catch {
+                document.documentElement.dataset.theme = "dark";
+            }
+        </script>
     </head>
     <body>
         <div class="read-progress" data-read-progress aria-hidden="true"></div>
@@ -59,7 +68,25 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
             const header = document.querySelector("[data-site-header]");
             const progress = document.querySelector("[data-read-progress]");
             const revealItems = document.querySelectorAll("[data-reveal]");
+            const themeToggle = document.querySelector("[data-theme-toggle]");
+            const themeToggleLabel = document.querySelector("[data-theme-toggle-label]");
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            const syncThemeLabel = () => {
+                const isLight = document.documentElement.dataset.theme === "light";
+                if (themeToggleLabel) themeToggleLabel.textContent = isLight ? "黑色" : "白色";
+                themeToggle?.setAttribute("aria-pressed", String(isLight));
+            };
+
+            syncThemeLabel();
+            themeToggle?.addEventListener("click", () => {
+                const nextTheme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+                document.documentElement.dataset.theme = nextTheme;
+                try {
+                    localStorage.setItem("zq-theme", nextTheme);
+                } catch {}
+                syncThemeLabel();
+            });
 
             const updateChrome = () => {
                 const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -91,28 +118,6 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
                 );
 
                 revealItems.forEach((item) => observer.observe(item));
-
-                if (window.matchMedia("(pointer: fine)").matches) {
-                    let pointerFrame = 0;
-                    let pointerX = window.innerWidth / 2;
-                    let pointerY = window.innerHeight / 2;
-
-                    window.addEventListener(
-                        "pointermove",
-                        (event) => {
-                            pointerX = event.clientX;
-                            pointerY = event.clientY;
-
-                            if (pointerFrame) return;
-                            pointerFrame = window.requestAnimationFrame(() => {
-                                document.documentElement.style.setProperty("--cursor-x", `${pointerX}px`);
-                                document.documentElement.style.setProperty("--cursor-y", `${pointerY}px`);
-                                pointerFrame = 0;
-                            });
-                        },
-                        { passive: true }
-                    );
-                }
             }
         </script>
     </body>
@@ -133,9 +138,22 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         --danger: #ff6666;
         --page-x: clamp(20px, 6vw, 72px);
         --header-height: 72px;
-        --cursor-x: 50vw;
-        --cursor-y: 50vh;
         color-scheme: dark;
+    }
+
+    :root[data-theme="light"] {
+        --bg-base: #f4f1ea;
+        --bg-panel: rgba(255, 255, 255, 0.68);
+        --bg-panel-strong: rgba(255, 255, 255, 0.86);
+        --text-main: #171717;
+        --text-muted: #4d4d52;
+        --text-dim: #77716c;
+        --border: rgba(20, 20, 20, 0.12);
+        --accent: #c84f12;
+        --ue-cyan: #006b76;
+        --deep-purple: #6b4ab0;
+        --danger: #b43a34;
+        color-scheme: light;
     }
 
     * {
@@ -152,7 +170,8 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         min-height: 100%;
         margin: 0;
         background:
-            radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255, 94, 0, 0.075), transparent 22rem),
+            radial-gradient(circle at 18% 8%, rgba(0, 240, 255, 0.06), transparent 24rem),
+            radial-gradient(circle at 92% 82%, rgba(255, 94, 0, 0.08), transparent 26rem),
             var(--bg-base);
         color: var(--text-main);
         font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
@@ -160,6 +179,13 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+    }
+
+    :root[data-theme="light"] body {
+        background:
+            radial-gradient(circle at 18% 8%, rgba(0, 107, 118, 0.08), transparent 24rem),
+            radial-gradient(circle at 92% 82%, rgba(200, 79, 18, 0.08), transparent 26rem),
+            var(--bg-base);
     }
 
     a {
@@ -195,9 +221,9 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         inset: 0;
         z-index: 80;
         pointer-events: none;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.65'/%3E%3C/svg%3E");
-        mix-blend-mode: overlay;
-        opacity: 0.055;
+        background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 3px);
+        mix-blend-mode: soft-light;
+        opacity: 0.018;
     }
 
     .ambient-background {
@@ -207,17 +233,16 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         overflow: hidden;
         pointer-events: none;
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 34%),
-            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.045), transparent 42%);
+            linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 34%),
+            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.032), transparent 42%);
     }
 
     .ambient-orb {
         position: absolute;
         border-radius: 999px;
-        filter: blur(88px);
+        filter: blur(48px);
         mix-blend-mode: screen;
-        opacity: 0.2;
-        animation: ambientFloat 28s ease-in-out infinite alternate;
+        opacity: 0.11;
     }
 
     .ambient-orb--ue {
@@ -234,7 +259,6 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         width: min(42vw, 560px);
         height: min(42vw, 560px);
         background: var(--accent);
-        animation-delay: -5s;
     }
 
     .ambient-orb--core {
@@ -243,8 +267,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         width: min(34vw, 460px);
         height: min(34vw, 460px);
         background: var(--deep-purple);
-        opacity: 0.12;
-        animation-delay: -10s;
+        opacity: 0.08;
     }
 
     .ambient-background--portfolio .ambient-orb--film,
@@ -257,8 +280,8 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         width: 56vw;
         height: 18vh;
         background: linear-gradient(90deg, transparent, rgba(255, 94, 0, 0.16), transparent);
-        filter: blur(34px);
-        opacity: 0.35;
+        filter: blur(18px);
+        opacity: 0.24;
         transform: rotate(-8deg);
     }
 
@@ -274,15 +297,6 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         transform: rotate(10deg);
     }
 
-    @keyframes ambientFloat {
-        from {
-            transform: translate3d(0, 0, 0) scale(1);
-        }
-        to {
-            transform: translate3d(5%, 4%, 0) scale(1.08);
-        }
-    }
-
     .glass-header {
         position: fixed;
         top: 0;
@@ -295,15 +309,25 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         justify-content: space-between;
         gap: 24px;
         padding: 18px var(--page-x);
-        background: rgba(5, 5, 5, 0.44);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.055);
-        backdrop-filter: blur(18px) saturate(170%);
+        background: rgba(5, 5, 5, 0.72);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+        backdrop-filter: none;
         transition: background 220ms ease, border-color 220ms ease;
     }
 
     .glass-header.is-scrolled {
-        background: rgba(5, 5, 5, 0.76);
+        background: rgba(5, 5, 5, 0.88);
         border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    :root[data-theme="light"] .glass-header {
+        background: rgba(244, 241, 234, 0.82);
+        border-bottom-color: rgba(20, 20, 20, 0.1);
+    }
+
+    :root[data-theme="light"] .glass-header.is-scrolled {
+        background: rgba(244, 241, 234, 0.94);
+        border-bottom-color: rgba(20, 20, 20, 0.14);
     }
 
     .logo {
@@ -338,6 +362,25 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         color: var(--text-main);
     }
 
+    .theme-toggle {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--bg-panel);
+        color: var(--text-muted);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.74rem;
+        letter-spacing: 0.04em;
+        padding: 6px 11px;
+        transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .theme-toggle:hover {
+        border-color: rgba(255, 94, 0, 0.42);
+        color: var(--text-main);
+        background: var(--bg-panel-strong);
+    }
+
     .page-shell {
         position: relative;
         z-index: 10;
@@ -348,8 +391,8 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 
     html.js [data-reveal] {
         opacity: 0;
-        transform: translateY(24px);
-        transition: opacity 720ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 720ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        transform: translateY(14px);
+        transition: opacity 360ms ease, transform 360ms ease;
     }
 
     html.js [data-reveal].is-visible {
@@ -378,6 +421,58 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         color: #fff;
         font-size: clamp(1.5rem, 3vw, 2.2rem);
         line-height: 1.15;
+    }
+
+    :root[data-theme="light"] .section-heading h2,
+    :root[data-theme="light"] .profile-col h1,
+    :root[data-theme="light"] .lang-content strong,
+    :root[data-theme="light"] .contact-box a,
+    :root[data-theme="light"] .archive-hero h1,
+    :root[data-theme="light"] .portfolio-hero h1,
+    :root[data-theme="light"] .article-heading h1,
+    :root[data-theme="light"] .case-hero__overlay h1,
+    :root[data-theme="light"] .case-meta span,
+    :root[data-theme="light"] .case-section h2,
+    :root[data-theme="light"] .case-section h3,
+    :root[data-theme="light"] .card-info h3,
+    :root[data-theme="light"] .archive-item strong,
+    :root[data-theme="light"] .reference-item strong,
+    :root[data-theme="light"] .prose strong,
+    :root[data-theme="light"] .logo {
+        color: var(--text-main);
+    }
+
+    :root[data-theme="light"] .prose,
+    :root[data-theme="light"] .toc,
+    :root[data-theme="light"] .lang-content p,
+    :root[data-theme="light"] .card-info p,
+    :root[data-theme="light"] .portfolio-hero p,
+    :root[data-theme="light"] .article-heading p,
+    :root[data-theme="light"] .archive-item small,
+    :root[data-theme="light"] .reference-item small,
+    :root[data-theme="light"] .case-section p {
+        color: var(--text-muted);
+    }
+
+    :root[data-theme="light"] .cinematic-frame,
+    :root[data-theme="light"] .card-image,
+    :root[data-theme="light"] .article-cover,
+    :root[data-theme="light"] .video-wrapper,
+    :root[data-theme="light"] .tech-grid article,
+    :root[data-theme="light"] .lesson-list article {
+        background: rgba(255, 255, 255, 0.72);
+        border-color: var(--border);
+        box-shadow: 0 18px 48px rgba(32, 28, 22, 0.08);
+    }
+
+    :root[data-theme="light"] .ambient-background {
+        opacity: 0.58;
+        mix-blend-mode: multiply;
+    }
+
+    :root[data-theme="light"] .film-grain {
+        opacity: 0.012;
+        mix-blend-mode: multiply;
     }
 
     .section-heading::after {
@@ -419,8 +514,8 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 
         .ambient-orb {
             animation: none;
-            filter: blur(72px);
-            opacity: 0.14;
+            filter: blur(40px);
+            opacity: 0.1;
         }
 
         .glass-header {
@@ -432,7 +527,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         }
 
         .nav-links {
-            width: 100%;
+            flex: 1;
             justify-content: flex-start;
             gap: 18px;
             overflow-x: auto;
