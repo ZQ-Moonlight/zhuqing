@@ -4,8 +4,9 @@ subtitle: "Light Stage / Digital Human Workflow"
 description: "围绕真人采集、光场资产、MetaHuman 重建与表情材质流程，整理一套面向实时数字人的角色资产实验。"
 category: "数字人 / 工作流"
 pubDate: 2025-06-01
-heroImage: "/images/portfolio/lightstage/lightstage-workflow-preview.jpg"
+heroImage: "/images/portfolio/lightstage/lightstage-article-cover.jpg"
 videoBvid: "BV1SnbCzfEpL"
+videoPoster: "/images/portfolio/lightstage/lightstage-video-cover.jpg"
 videoTitle: "MetaHuman 与数字人光场流程"
 tags: ["MetaHuman", "Light Stage", "Digital Human", "UE5"]
 ---
@@ -27,4 +28,3 @@ tags: ["MetaHuman", "Light Stage", "Digital Human", "UE5"]
 数字人制作中最困难的部分，是技术准确性和角色生命感之间的平衡。过度追求扫描还原会让角色停留在技术样本层面；但如果忽略面部结构和材质细节，虚拟角色又会很快失去可信度。
 
 这次实验让我更明确地意识到，数字人不是一个孤立资产，而是影像系统里的一名演员。它需要被灯光、镜头、动作、声音和剪辑共同塑造。
-

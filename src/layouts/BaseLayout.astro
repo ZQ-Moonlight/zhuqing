@@ -489,9 +489,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     :root[data-theme="light"] .contact-box a,
     :root[data-theme="light"] .archive-hero h1,
     :root[data-theme="light"] .portfolio-hero h1,
-    :root[data-theme="light"] .article-heading h1,
-    :root[data-theme="light"] .case-hero__overlay h1,
-    :root[data-theme="light"] .case-meta span,
+    :root[data-theme="light"] .article-hero--no-cover .article-heading h1,
     :root[data-theme="light"] .case-section h2,
     :root[data-theme="light"] .case-section h3,
     :root[data-theme="light"] .card-info h3,
@@ -507,7 +505,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     :root[data-theme="light"] .lang-content p,
     :root[data-theme="light"] .card-info p,
     :root[data-theme="light"] .portfolio-hero p,
-    :root[data-theme="light"] .article-heading p,
+    :root[data-theme="light"] .article-hero--no-cover .article-heading p,
     :root[data-theme="light"] .archive-item small,
     :root[data-theme="light"] .reference-item small,
     :root[data-theme="light"] .case-section p {
@@ -517,12 +515,24 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     :root[data-theme="light"] .cinematic-frame,
     :root[data-theme="light"] .card-image,
     :root[data-theme="light"] .article-cover,
-    :root[data-theme="light"] .video-wrapper,
     :root[data-theme="light"] .tech-grid article,
     :root[data-theme="light"] .lesson-list article {
         background: rgba(255, 255, 255, 0.72);
         border-color: var(--border);
         box-shadow: 0 18px 48px rgba(32, 28, 22, 0.08);
+    }
+
+    :root[data-theme="light"] .article-hero:not(.article-hero--no-cover) .article-heading h1,
+    :root[data-theme="light"] .case-hero__overlay h1,
+    :root[data-theme="light"] .case-detail-hero h1 {
+        color: #fff;
+    }
+
+    :root[data-theme="light"] .article-hero:not(.article-hero--no-cover) .article-heading p,
+    :root[data-theme="light"] .case-hero p,
+    :root[data-theme="light"] .case-detail-hero p,
+    :root[data-theme="light"] .case-meta span {
+        color: #d4d4d8;
     }
 
     :root[data-theme="light"] .ambient-background {

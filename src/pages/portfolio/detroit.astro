@@ -166,23 +166,33 @@ import { withBase } from "../../lib/paths";
 
     .case-back-link {
         display: inline-flex;
+        align-items: center;
+        gap: 8px;
         width: fit-content;
         margin-bottom: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.34);
         border-radius: 999px;
-        color: var(--text-muted);
+        background: rgba(5, 5, 5, 0.54);
+        color: #fff;
         font-family: var(--font-mono);
         font-size: 0.76rem;
         letter-spacing: 0.04em;
-        padding: 7px 12px;
+        padding: 8px 13px;
         text-decoration: none;
         transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
     }
 
+    .case-back-link::before {
+        content: "\2190";
+        color: var(--accent);
+        font-size: 0.92rem;
+        line-height: 1;
+    }
+
     .case-back-link:hover {
         border-color: rgba(255, 94, 0, 0.58);
-        background: rgba(255, 94, 0, 0.08);
-        color: var(--text-main);
+        background: rgba(255, 94, 0, 0.2);
+        color: #fff;
     }
 
     .case-hero h1 {
@@ -207,7 +217,7 @@ import { withBase } from "../../lib/paths";
         flex-wrap: wrap;
         gap: 12px 18px;
         margin-top: 26px;
-        color: var(--text-muted);
+        color: #d4d4d8;
         font-size: 0.86rem;
         font-family: var(--font-mono);
         letter-spacing: 0.04em;

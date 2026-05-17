@@ -23,6 +23,12 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Windows-specific files
+desktop.ini
+
+# local asset staging folder
+test/
+
 # jetbrains setting folder
 .idea/
 
