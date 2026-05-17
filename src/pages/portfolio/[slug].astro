@@ -1,5 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
+import { stat } from "node:fs/promises";
+import path from "node:path";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
 import { withBase } from "../../lib/paths";
@@ -17,6 +19,40 @@ const { Content } = await render(item);
 const heroImage = withBase(item.data.heroImage);
 const coverImage = item.data.coverImage ? withBase(item.data.coverImage) : undefined;
 const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : undefined;
+const primaryVideoUrl = item.data.videoUrl ? withBase(item.data.videoUrl) : undefined;
+const secondaryVideoUrl = item.data.secondaryVideoUrl ? withBase(item.data.secondaryVideoUrl) : undefined;
+const hasVideo = Boolean(item.data.videoBvid || primaryVideoUrl);
+const stepFor = (index: number) => String(index).padStart(2, "0");
+const formatBytes = (bytes: number) => {
+    if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+};
+const formatDateLabel = (date?: Date) =>
+    date
+        ? new Intl.DateTimeFormat("zh-CN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          }).format(date)
+        : undefined;
+const getPublicFileStat = async (url: string) => {
+    try {
+        const cleanPath = url.replace(/^\/+/, "").split(/[?#]/)[0];
+        return await stat(path.join(process.cwd(), "public", ...cleanPath.split("/")));
+    } catch {
+        return undefined;
+    }
+};
+const videoTypeFor = (url: string) => {
+    const lower = url.toLowerCase();
+    if (lower.endsWith(".mp4")) return "video/mp4";
+    if (lower.endsWith(".mov")) return "video/quicktime";
+    if (lower.endsWith(".webm")) return "video/webm";
+    return undefined;
+};
+const documentFileStat = item.data.documentUrl ? await getPublicFileStat(item.data.documentUrl) : undefined;
+const documentSizeLabel = documentFileStat ? formatBytes(documentFileStat.size) : undefined;
+const documentUploadedLabel = formatDateLabel(item.data.documentUploadedDate ?? documentFileStat?.mtime ?? item.data.pubDate);
 ---
 
 <BaseLayout
@@ -30,6 +66,7 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
         <img src={heroImage} alt="" loading="eager" fetchpriority="high" />
         <div class="case-detail-hero__shade"></div>
         <div class="case-detail-hero__content" data-reveal>
+            <a class="case-back-link" href={withBase("/portfolio")}>返回作品集 / Works</a>
             <span class="eyebrow">{item.data.category}</span>
             <h1>{item.data.title}</h1>
             {item.data.subtitle && <p class="subtitle">{item.data.subtitle}</p>}
@@ -43,28 +80,44 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
     </section>
 
     <main class="case-detail">
-        {item.data.videoBvid && (
+        {hasVideo && (
             <section class="case-block" data-reveal>
                 <div class="case-block__head">
                     <span>01</span>
                     <h2>演示视频</h2>
                 </div>
                 <div class="video-wrapper">
-                    <ClickToPlayBilibili
-                        bvid={item.data.videoBvid}
-                        title={item.data.videoTitle ?? item.data.title}
-                        poster={item.data.heroImage}
-                        eyebrow="Bilibili Video"
-                        heading="点击播放"
-                        description={item.data.description}
-                    />
+                    {item.data.videoBvid ? (
+                        <ClickToPlayBilibili
+                            bvid={item.data.videoBvid}
+                            title={item.data.videoTitle ?? item.data.title}
+                            poster={item.data.heroImage}
+                            eyebrow="Bilibili Video"
+                            heading="点击播放"
+                            description={item.data.description}
+                        />
+                    ) : (
+                        <video controls preload="metadata" poster={heroImage}>
+                            <source src={primaryVideoUrl} type={primaryVideoUrl ? videoTypeFor(primaryVideoUrl) : undefined} />
+                            你的浏览器不支持 HTML5 视频播放。
+                        </video>
+                    )}
                 </div>
+                {secondaryVideoUrl && (
+                    <div class="secondary-video">
+                        <span class="category">{item.data.secondaryVideoTitle ?? "Behind the Scenes"}</span>
+                        <video controls preload="metadata" poster={heroImage}>
+                            <source src={secondaryVideoUrl} type={videoTypeFor(secondaryVideoUrl)} />
+                            你的浏览器不支持此视频格式。
+                        </video>
+                    </div>
+                )}
             </section>
         )}
 
         <section class="case-block" data-reveal>
             <div class="case-block__head">
-                <span>{item.data.videoBvid ? "02" : "01"}</span>
+                <span>{hasVideo ? "02" : "01"}</span>
                 <h2>项目记录</h2>
             </div>
             <article class="case-prose">
@@ -75,7 +128,7 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
         {(coverImage || documentUrl) && (
             <section class="case-block case-assets" data-reveal>
                 <div class="case-block__head">
-                    <span>{item.data.videoBvid ? "03" : "02"}</span>
+                    <span>{stepFor(hasVideo ? 3 : 2)}</span>
                     <h2>项目资料</h2>
                 </div>
                 <div class="asset-grid">
@@ -90,6 +143,12 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
                             <span class="file-chip">PDF</span>
                             <strong>{item.data.documentLabel ?? "查看项目文档"}</strong>
                             <small>技术流程、制作记录与项目复盘</small>
+                            {(documentSizeLabel || documentUploadedLabel) && (
+                                <span class="document-meta">
+                                    {documentSizeLabel && <span>{documentSizeLabel}</span>}
+                                    {documentUploadedLabel && <span>{documentUploadedLabel}</span>}
+                                </span>
+                            )}
                         </a>
                     )}
                 </div>
@@ -133,6 +192,27 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
         z-index: 2;
         width: min(900px, 100%);
         padding: calc(var(--header-height) + 74px) var(--page-x) 10vh;
+    }
+
+    .case-back-link {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        letter-spacing: 0.04em;
+        padding: 7px 12px;
+        text-decoration: none;
+        transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    .case-back-link:hover {
+        border-color: rgba(255, 94, 0, 0.58);
+        background: rgba(255, 94, 0, 0.08);
+        color: var(--text-main);
     }
 
     .case-detail-hero h1 {
@@ -224,6 +304,31 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
         background: #111;
     }
 
+    .video-wrapper video,
+    .secondary-video video {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #050505;
+    }
+
+    .video-wrapper video {
+        object-fit: contain;
+    }
+
+    .secondary-video {
+        display: grid;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .secondary-video video {
+        aspect-ratio: 16 / 9;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        object-fit: contain;
+    }
+
     .case-prose {
         color: var(--text-muted);
         font-size: var(--text-body);
@@ -272,9 +377,10 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
 
     .document-card {
         display: grid;
-        align-content: center;
+        align-content: start;
         gap: 12px;
         color: inherit;
+        min-height: 100%;
         padding: 24px;
         text-decoration: none;
         transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
@@ -295,6 +401,24 @@ const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : un
     .document-card small {
         color: var(--text-muted);
         line-height: 1.6;
+    }
+
+    .document-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-self: end;
+        margin-top: auto;
+    }
+
+    .document-meta span {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        line-height: 1;
+        padding: 5px 9px;
     }
 
     .file-chip {

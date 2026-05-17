@@ -75,7 +75,7 @@ const formatDateLabel = (date: Date) =>
 const metadataForFile = (relativePath: string, fallbackDate: Date, kind: ReferenceItem["kind"]) => {
     const metadata = referenceMetadata[relativePath] ?? {};
     const folder = path.posix.dirname(relativePath);
-    const fallbackTags = [folder === "." ? "Archive" : folder.split("/").at(-1) ?? "Archive", kind];
+    const fallbackTags = [folder === "." ? "Archive" : folder.split("/").at(-1) ?? "Archive"];
 
     return {
         description: metadata.description,

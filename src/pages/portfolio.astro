@@ -27,7 +27,7 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
             <div class="work-grid">
                 <a href={withBase("/portfolio/detroit")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/detroit/1.jpg")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
+                        <img src={withBase("/images/portfolio/detroit/cover.jpg")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
                         <span class="card-hover">查看技术复盘</span>
                     </div>
                     <div class="card-info">
@@ -61,6 +61,18 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
                     </div>
                 </a>
 
+                <a href={withBase("/portfolio/ndisplay")} class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src={withBase("/images/portfolio/ndisplay/cover.jpg")} alt="nDisplay ICVFX LED volume workflow" loading="lazy" />
+                        <span class="card-hover">查看虚拟拍摄流程</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="category">nDisplay / ICVFX / 虚拟拍摄</span>
+                        <h3>nDisplay 虚拟拍摄主摄影系统构建</h3>
+                        <p>围绕 LED 背景墙、nDisplay 配置、实时内容播放与主摄影机视角管理，整理 ICVFX 现场拍摄流程。</p>
+                    </div>
+                </a>
+
                 <article class="project-card" data-reveal>
                     <div class="card-image">
                         <img src={withBase("/images/portfolio/post/dcp-screening.jpg")} alt="DCP screening on Barco projector" loading="lazy" />
@@ -74,7 +86,7 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
 
                 <article class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/ndisplay/ndisplay-wall-01-preview.jpg")} alt="Post-production and color grading work" loading="lazy" />
+                        <img src={withBase("/images/portfolio/post/brand-post-cover.jpg")} alt="Post-production and color grading work" loading="lazy" />
                     </div>
                     <div class="card-info">
                         <span class="category">后期 / 剪辑 / 调色</span>
@@ -111,7 +123,7 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
                                 <strong>{item.title}</strong>
                                 {item.description && <small>{item.description}</small>}
                                 <span class="reel-meta">
-                                    <time>上传 {item.uploadedLabel}</time>
+                                    <time>{item.uploadedLabel}</time>
                                     <span>{item.sizeLabel}</span>
                                 </span>
                                 <span class="reel-tags">
@@ -313,6 +325,22 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
+    }
+
+    .reel-meta {
+        order: 10;
+        margin-top: 6px;
+    }
+
+    .reel-meta time,
+    .reel-meta span {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        line-height: 1;
+        padding: 5px 9px;
     }
 
     .reel-tags em {

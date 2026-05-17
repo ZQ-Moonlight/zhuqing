@@ -9,11 +9,12 @@ import { withBase } from "../../lib/paths";
     description="基于 Unreal Engine 5 的交互叙事片段复刻：角色控制、QTE、环境扫描、镜头与后期流程复盘。"
     activePath="/portfolio"
     backgroundVariant="article"
-    image={withBase("/images/portfolio/detroit/1.jpg")}
+    image={withBase("/images/portfolio/detroit/cover.jpg")}
 >
     <section class="case-hero">
-        <img src={withBase("/images/portfolio/detroit/1.jpg")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
+        <img src={withBase("/images/portfolio/detroit/cover.jpg")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
         <div class="case-hero__overlay" data-reveal>
+            <a class="case-back-link" href={withBase("/portfolio")}>返回作品集 / Works</a>
             <span class="eyebrow">UE5 交互复盘 / Case Study</span>
             <h1>《底特律：化身为人》场景与交互复刻</h1>
             <p>基于 Unreal Engine 5 的章节级交互叙事练习，聚焦蓝图逻辑、镜头调度、环境扫描与沉浸式反馈。</p>
@@ -49,7 +50,7 @@ import { withBase } from "../../lib/paths";
                 <ClickToPlayBilibili
                     bvid="BV18XApe2Efy"
                     title="Detroit UE5 recreation video"
-                    poster={withBase("/images/portfolio/detroit/1.jpg")}
+                    poster={withBase("/images/portfolio/detroit/cover.jpg")}
                     eyebrow="Demo Video"
                     heading="点击播放"
                     description="《底特律：化身为人》UE5 场景与交互复刻演示"
@@ -60,7 +61,7 @@ import { withBase } from "../../lib/paths";
         <section id="gallery" class="case-section" data-reveal>
             <h2>场景截图<span>03</span></h2>
             <div class="masonry-grid">
-                {[2, 3, 4, 5, 6, 8, 7, 9].map((item) => (
+                {[1, 2, 3, 4, 5, 6, 8, 7, 9].map((item) => (
                     <img src={withBase(`/images/portfolio/detroit/${item}.jpg`)} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
                 ))}
             </div>
@@ -161,6 +162,27 @@ import { withBase } from "../../lib/paths";
         z-index: 2;
         width: min(880px, 100%);
         padding: calc(var(--header-height) + 80px) var(--page-x) 12vh;
+    }
+
+    .case-back-link {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        letter-spacing: 0.04em;
+        padding: 7px 12px;
+        text-decoration: none;
+        transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    .case-back-link:hover {
+        border-color: rgba(255, 94, 0, 0.58);
+        background: rgba(255, 94, 0, 0.08);
+        color: var(--text-main);
     }
 
     .case-hero h1 {

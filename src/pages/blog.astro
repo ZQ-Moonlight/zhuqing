@@ -106,9 +106,8 @@ const groupedPosts = posts.reduce((groups, post) => {
                                                 <strong>{item.title}</strong>
                                                 {item.description && <small>{item.description}</small>}
                                                 <small class="reference-meta">
-                                                    <span>{item.kind}</span>
                                                     <span>{item.sizeLabel}</span>
-                                                    <span>上传 {item.uploadedLabel}</span>
+                                                    <span>{item.uploadedLabel}</span>
                                                 </small>
                                                 {item.tags.length > 0 && (
                                                     <span class="reference-tags">
@@ -124,9 +123,8 @@ const groupedPosts = posts.reduce((groups, post) => {
                                                 <strong>{item.title}</strong>
                                                 {item.description && <small>{item.description}</small>}
                                                 <small class="reference-meta">
-                                                    <span>{item.kind}</span>
                                                     <span>{item.sizeLabel}</span>
-                                                    <span>上传 {item.uploadedLabel}</span>
+                                                    <span>{item.uploadedLabel}</span>
                                                 </small>
                                                 {item.tags.length > 0 && (
                                                     <span class="reference-tags">
@@ -333,25 +331,24 @@ const groupedPosts = posts.reduce((groups, post) => {
     .reference-meta {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px 12px;
+        gap: 8px;
         align-items: center;
+        order: 10;
+        margin-top: 8px;
     }
 
     .reference-meta span {
-        position: relative;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        line-height: 1;
+        padding: 5px 9px;
     }
 
     .reference-meta span:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: -7px;
-        width: 3px;
-        height: 3px;
-        border-radius: 50%;
-        background: currentColor;
-        opacity: 0.42;
-        transform: translateY(-50%);
+        content: none;
     }
 
     .archive-tags {
