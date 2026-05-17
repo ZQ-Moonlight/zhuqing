@@ -8,20 +8,20 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
 
 <BaseLayout
     title="作品集 | 祝庆 Zhu Qing"
-    description="祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流精选作品。"
+    description="祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。"
     activePath="/portfolio"
     backgroundVariant="portfolio"
 >
     <main class="page-shell portfolio-layout">
         <header class="portfolio-hero" data-reveal>
             <span class="eyebrow">作品 / 流程 / 后期</span>
-            <h1>精选作品 Selected Works</h1>
-            <p>虚幻引擎交互、数字人技术研究、影视后期调色与电影节放映流程。</p>
+            <h1>部分作品 Works</h1>
+            <p>虚幻引擎交互、数字人技术研究、影视后期调色与电影放映。</p>
         </header>
 
         <section class="work-section" aria-labelledby="works-title">
             <div class="section-heading" data-reveal>
-                <h2 id="works-title">重点项目</h2>
+                <h2 id="works-title">部分项目</h2>
             </div>
 
             <div class="work-grid">
@@ -37,16 +37,29 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
                     </div>
                 </a>
 
-                <article class="project-card" data-reveal>
+                <a href={withBase("/portfolio/metahuman")} class="project-card" data-reveal>
                     <div class="card-image">
                         <img src={withBase("/images/portfolio/lightstage/lightstage-workflow-preview.jpg")} alt="MetaHuman and Light Stage workflow" loading="lazy" />
+                        <span class="card-hover">查看数字人流程</span>
                     </div>
                     <div class="card-info">
                         <span class="category">数字人 / 工作流</span>
                         <h3>MetaHuman 与数字人光场流程</h3>
                         <p>研究数字人资产规范、表情/材质流程与高精度光照采集，探索实时数字人的视觉可信度边界。</p>
                     </div>
-                </article>
+                </a>
+
+                <a href={withBase("/portfolio/guangying-changqing")} class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src={withBase("/images/portfolio/changqing/still.png")} alt="Light and Shadow Changqing digital image work" loading="lazy" />
+                        <span class="card-hover">查看项目复盘</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="category">数字人 / 高斯泼溅 / 叙事短片</span>
+                        <h3>《光影长青》</h3>
+                        <p>结合 MetaHuman 数字人、高斯泼溅校园场景重建与人文叙事，完成一段跨越时空的影像对话。</p>
+                    </div>
+                </a>
 
                 <article class="project-card" data-reveal>
                     <div class="card-image">
@@ -55,7 +68,7 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
                     <div class="card-info">
                         <span class="category">DCP / 电影节字幕</span>
                         <h3>电影节 DCP 与外挂字幕放映</h3>
-                        <p>使用系里的 Barco 投影机完成 DCP 放映测试，并制作日语竖排加 ruby 注音的外挂字幕，字幕以外挂形式展示，不烧入画面。</p>
+                        <p>这张图拍自C329教室，使用系里的 Barco 投影机完成 DCP 放映测试，并制作日语竖排加 ruby 注音的外挂字幕，字幕以外挂形式展示，不烧入画面。</p>
                     </div>
                 </article>
 
@@ -66,16 +79,28 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
                     <div class="card-info">
                         <span class="category">后期 / 剪辑 / 调色</span>
                         <h3>商业与品牌后期合作</h3>
-                        <p>参与短片剪辑、调色和影像包装，熟练使用 DaVinci Resolve。合作对象包括小红书、Disney、国家地理等品牌内容。</p>
+                        <p>参与短片剪辑、调色和影像包装，熟练使用 DaVinci Resolve。合作对象包括小红书、国家地理等品牌内容。</p>
                     </div>
                 </article>
+            </div>
+        </section>
+
+        <section class="work-section reel-hub" aria-labelledby="reel-hub-title">
+            <div class="section-heading" data-reveal>
+                <h2 id="reel-hub-title">Reel</h2>
+            </div>
+
+            <div class="reel-placeholder" data-reveal>
+                <span class="category">Showreel / Coming Soon</span>
+                <strong>Reel 链接整理中</strong>
+                <p>这里会单独放置可播放的 showreel 与阶段性影像合集，后续补充链接后可以直接更新这个区块。</p>
             </div>
         </section>
 
         {reelDocs.length > 0 && (
             <section class="work-section reel-section" aria-labelledby="reel-title">
                 <div class="section-heading" data-reveal>
-                    <h2 id="reel-title">Reel 文档</h2>
+                    <h2 id="reel-title">资料下载</h2>
                 </div>
 
                 <div class="reel-list">
@@ -100,7 +125,7 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
         )}
     </main>
 
-    <footer class="site-footer">© 2026 祝庆 Zhu Qing | 北京电影学院影视技术方向</footer>
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
 </BaseLayout>
 
 <style>
@@ -116,16 +141,17 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
     .portfolio-hero h1 {
         margin: 12px 0 18px;
         color: var(--text-main);
-        font-size: clamp(3rem, 8vw, 6.2rem);
-        line-height: 0.95;
+        font-family: var(--font-display);
+        font-size: var(--title-page);
+        line-height: 1;
         letter-spacing: 0;
-        text-transform: uppercase;
+        text-wrap: balance;
     }
 
     .portfolio-hero p {
         margin: 0;
         color: var(--text-muted);
-        font-size: clamp(1rem, 1.7vw, 1.18rem);
+        font-size: var(--text-lead);
         line-height: 1.78;
     }
 
@@ -193,23 +219,25 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
         display: block;
         margin-bottom: 8px;
         color: var(--accent);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--font-mono);
         font-size: 0.72rem;
-        letter-spacing: 0.12em;
+        font-weight: 760;
+        letter-spacing: var(--tracking-kicker);
         text-transform: uppercase;
     }
 
     .card-info h3 {
         margin: 0 0 10px;
         color: var(--text-main);
-        font-size: clamp(1.12rem, 1.7vw, 1.38rem);
+        font-family: var(--font-display);
+        font-size: var(--title-card);
         line-height: 1.32;
     }
 
     .card-info p {
         margin: 0;
         color: var(--text-muted);
-        font-size: 0.94rem;
+        font-size: 0.95rem;
         line-height: 1.7;
     }
 
@@ -217,6 +245,28 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: clamp(18px, 3vw, 28px);
+    }
+
+    .reel-placeholder {
+        display: grid;
+        gap: 8px;
+        max-width: 680px;
+        border-left: 2px solid rgba(255, 94, 0, 0.58);
+        background: linear-gradient(90deg, rgba(255, 94, 0, 0.06), transparent);
+        padding: 18px 0 18px 22px;
+    }
+
+    .reel-placeholder strong {
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-card);
+    }
+
+    .reel-placeholder p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
 
     .reel-item {
@@ -279,7 +329,7 @@ const reelDocs = (await getReferenceGroups()).find((group) => group.label === "r
         border-radius: 4px;
         background: var(--accent);
         color: #fff;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--font-mono);
         font-size: 0.72rem;
         font-weight: 800;
         letter-spacing: 0.04em;

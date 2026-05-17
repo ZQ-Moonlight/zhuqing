@@ -11,13 +11,13 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft && !data.pr
 const references = await getReferenceGroups();
 const externalArticles = [
     {
-        title: "Bilibili 教程文章 01",
-        description: "外部教程文章，发布于 Bilibili 专栏。",
+        title: "UE5 修改材质颜色时出现的 float3 and float4 问题（已解决）",
+        description: "关于 UE5 材质参数类型报错的排查记录，发布于 Bilibili 专栏。",
         href: "https://www.bilibili.com/opus/992926611281018880?spm_id_from=333.1387.0.0",
     },
     {
-        title: "Bilibili 教程文章 02",
-        description: "外部教程文章，发布于 Bilibili 专栏。",
+        title: "解决 macOS 26 无法启动 Codex 'drserver' service",
+        description: "关于 Codex 后台服务完全磁盘访问权限的处理记录，发布于 Bilibili 专栏。",
         href: "https://www.bilibili.com/opus/1148162552045240326?spm_id_from=333.1387.0.0",
     },
 ];
@@ -102,10 +102,14 @@ const groupedPosts = posts.reduce((groups, post) => {
                                     item.href ? (
                                         <a class="reference-item" href={item.href} target="_blank" rel="noreferrer" download>
                                             <span class="file-chip">{item.kind}</span>
-                                            <span>
+                                            <span class="reference-item__main">
                                                 <strong>{item.title}</strong>
                                                 {item.description && <small>{item.description}</small>}
-                                                <small>{item.path} · {item.sizeLabel} · 上传 {item.uploadedLabel}</small>
+                                                <small class="reference-meta">
+                                                    <span>{item.kind}</span>
+                                                    <span>{item.sizeLabel}</span>
+                                                    <span>上传 {item.uploadedLabel}</span>
+                                                </small>
                                                 {item.tags.length > 0 && (
                                                     <span class="reference-tags">
                                                         {item.tags.map((tag) => <em>{tag}</em>)}
@@ -116,10 +120,14 @@ const groupedPosts = posts.reduce((groups, post) => {
                                     ) : (
                                         <div class="reference-item is-local">
                                             <span class="file-chip file-chip--local">本地参考</span>
-                                            <span>
+                                            <span class="reference-item__main">
                                                 <strong>{item.title}</strong>
                                                 {item.description && <small>{item.description}</small>}
-                                                <small>{item.path} · {item.sizeLabel} · 上传 {item.uploadedLabel}</small>
+                                                <small class="reference-meta">
+                                                    <span>{item.kind}</span>
+                                                    <span>{item.sizeLabel}</span>
+                                                    <span>上传 {item.uploadedLabel}</span>
+                                                </small>
                                                 {item.tags.length > 0 && (
                                                     <span class="reference-tags">
                                                         {item.tags.map((tag) => <em>{tag}</em>)}
@@ -165,15 +173,15 @@ const groupedPosts = posts.reduce((groups, post) => {
                 <a class="reference-item" href={withBase("/blog/history/")} data-reveal>
                     <span class="file-chip file-chip--local">ARCHIVE</span>
                     <span>
-                        <strong>深度历史档案</strong>
-                        <small>中国近现代史、文革资料与历史叙事的个人分析札记。</small>
+                        <strong>历史档案</strong>
+                        <small>中国近现代史、文革资料与历史叙事的个人分析。</small>
                     </span>
                 </a>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer">© 2026 祝庆 Zhu Qing | Archive</footer>
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
 </BaseLayout>
 
 <style>
@@ -189,8 +197,9 @@ const groupedPosts = posts.reduce((groups, post) => {
     .archive-hero h1 {
         margin: 12px 0 18px;
         color: var(--text-main);
-        font-size: clamp(3.6rem, 10vw, 7rem);
-        line-height: 0.95;
+        font-family: var(--font-display);
+        font-size: var(--title-page);
+        line-height: 1;
         letter-spacing: 0;
     }
 
@@ -211,12 +220,14 @@ const groupedPosts = posts.reduce((groups, post) => {
     .archive-section__head h2 {
         margin: 0;
         color: var(--text-main);
-        font-size: clamp(1.45rem, 3vw, 2rem);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+        letter-spacing: 0;
     }
 
     .archive-section__head span {
         color: var(--text-dim);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--font-mono);
     }
 
     .archive-list,
@@ -236,7 +247,7 @@ const groupedPosts = posts.reduce((groups, post) => {
     .reference-group h3 {
         margin: 0;
         color: var(--accent);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--font-mono);
         font-size: 0.86rem;
         letter-spacing: 0.08em;
     }
@@ -256,6 +267,7 @@ const groupedPosts = posts.reduce((groups, post) => {
         text-decoration: none;
         padding: 16px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+        border-left: 2px solid transparent;
         transition: border-color 180ms ease, transform 180ms ease;
     }
 
@@ -265,12 +277,13 @@ const groupedPosts = posts.reduce((groups, post) => {
 
     .reference-item {
         grid-template-columns: auto minmax(0, 1fr);
-        align-items: center;
+        align-items: start;
     }
 
     .archive-item:hover,
     .reference-item:hover {
         border-color: rgba(255, 94, 0, 0.38);
+        border-left-color: rgba(255, 94, 0, 0.58);
         transform: translateX(3px);
     }
 
@@ -284,7 +297,7 @@ const groupedPosts = posts.reduce((groups, post) => {
 
     .archive-item time {
         color: var(--text-dim);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--font-mono);
         font-size: 0.8rem;
     }
 
@@ -294,11 +307,19 @@ const groupedPosts = posts.reduce((groups, post) => {
         min-width: 0;
     }
 
+    .reference-item__main {
+        display: grid;
+        gap: 7px;
+        min-width: 0;
+    }
+
     .archive-item strong,
     .reference-item strong {
         color: var(--text-main);
-        font-size: 1.06rem;
+        font-family: var(--font-display);
+        font-size: var(--title-card);
         line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .archive-item small,
@@ -306,6 +327,31 @@ const groupedPosts = posts.reduce((groups, post) => {
         color: var(--text-dim);
         font-size: 0.82rem;
         line-height: 1.55;
+        overflow-wrap: anywhere;
+    }
+
+    .reference-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 12px;
+        align-items: center;
+    }
+
+    .reference-meta span {
+        position: relative;
+    }
+
+    .reference-meta span:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -7px;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.42;
+        transform: translateY(-50%);
     }
 
     .archive-tags {
@@ -345,7 +391,7 @@ const groupedPosts = posts.reduce((groups, post) => {
         border-radius: 4px;
         background: var(--accent);
         color: #fff;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--font-mono);
         font-size: 0.72rem;
         font-weight: 800;
         letter-spacing: 0.04em;

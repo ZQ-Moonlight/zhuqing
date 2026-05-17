@@ -1,0 +1,321 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
+import { withBase } from "../../lib/paths";
+
+export async function getStaticPaths() {
+    const cases = await getCollection("portfolio");
+    return cases.map((item) => ({
+        params: { slug: item.id },
+        props: { item },
+    }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const heroImage = withBase(item.data.heroImage);
+const coverImage = item.data.coverImage ? withBase(item.data.coverImage) : undefined;
+const documentUrl = item.data.documentUrl ? withBase(item.data.documentUrl) : undefined;
+---
+
+<BaseLayout
+    title={`${item.data.title} | 作品 | 祝庆 Zhu Qing`}
+    description={item.data.description}
+    activePath="/portfolio"
+    backgroundVariant="article"
+    image={item.data.heroImage}
+>
+    <section class="case-detail-hero">
+        <img src={heroImage} alt="" loading="eager" fetchpriority="high" />
+        <div class="case-detail-hero__shade"></div>
+        <div class="case-detail-hero__content" data-reveal>
+            <span class="eyebrow">{item.data.category}</span>
+            <h1>{item.data.title}</h1>
+            {item.data.subtitle && <p class="subtitle">{item.data.subtitle}</p>}
+            <p>{item.data.description}</p>
+            {item.data.tags.length > 0 && (
+                <div class="case-tags">
+                    {item.data.tags.map((tag) => <span>{tag}</span>)}
+                </div>
+            )}
+        </div>
+    </section>
+
+    <main class="case-detail">
+        {item.data.videoBvid && (
+            <section class="case-block" data-reveal>
+                <div class="case-block__head">
+                    <span>01</span>
+                    <h2>演示视频</h2>
+                </div>
+                <div class="video-wrapper">
+                    <ClickToPlayBilibili
+                        bvid={item.data.videoBvid}
+                        title={item.data.videoTitle ?? item.data.title}
+                        poster={item.data.heroImage}
+                        eyebrow="Bilibili Video"
+                        heading="点击播放"
+                        description={item.data.description}
+                    />
+                </div>
+            </section>
+        )}
+
+        <section class="case-block" data-reveal>
+            <div class="case-block__head">
+                <span>{item.data.videoBvid ? "02" : "01"}</span>
+                <h2>项目记录</h2>
+            </div>
+            <article class="case-prose">
+                <Content />
+            </article>
+        </section>
+
+        {(coverImage || documentUrl) && (
+            <section class="case-block case-assets" data-reveal>
+                <div class="case-block__head">
+                    <span>{item.data.videoBvid ? "03" : "02"}</span>
+                    <h2>项目资料</h2>
+                </div>
+                <div class="asset-grid">
+                    {coverImage && (
+                        <figure>
+                            <img src={coverImage} alt={`${item.data.title} poster`} loading="lazy" />
+                            <figcaption>项目海报</figcaption>
+                        </figure>
+                    )}
+                    {documentUrl && (
+                        <a class="document-card" href={documentUrl} target="_blank" rel="noreferrer">
+                            <span class="file-chip">PDF</span>
+                            <strong>{item.data.documentLabel ?? "查看项目文档"}</strong>
+                            <small>技术流程、制作记录与项目复盘</small>
+                        </a>
+                    )}
+                </div>
+            </section>
+        )}
+    </main>
+
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
+</BaseLayout>
+
+<style>
+    .case-detail-hero {
+        position: relative;
+        z-index: 10;
+        min-height: 78vh;
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .case-detail-hero > img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.48) contrast(1.08) saturate(0.86);
+    }
+
+    .case-detail-hero__shade {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(0deg, rgba(5, 5, 5, 0.96), rgba(5, 5, 5, 0.18) 48%, rgba(5, 5, 5, 0.62)),
+            linear-gradient(90deg, rgba(5, 5, 5, 0.78), transparent 68%);
+    }
+
+    .case-detail-hero__content {
+        position: relative;
+        z-index: 2;
+        width: min(900px, 100%);
+        padding: calc(var(--header-height) + 74px) var(--page-x) 10vh;
+    }
+
+    .case-detail-hero h1 {
+        margin: 14px 0 12px;
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: var(--title-article);
+        line-height: 1.06;
+        text-wrap: balance;
+    }
+
+    .case-detail-hero p {
+        max-width: 760px;
+        margin: 0;
+        color: #d4d4d8;
+        font-size: var(--text-lead);
+        line-height: 1.76;
+    }
+
+    .case-detail-hero .subtitle {
+        margin-bottom: 14px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.86rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .case-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+    }
+
+    .case-tags span {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-size: 0.76rem;
+        padding: 4px 10px;
+    }
+
+    .case-detail {
+        position: relative;
+        z-index: 10;
+        width: min(100%, 1040px);
+        margin: 0 auto;
+        padding: 74px var(--page-x) 100px;
+    }
+
+    .case-block {
+        margin-bottom: 92px;
+    }
+
+    .case-block__head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 30px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .case-block__head h2 {
+        margin: 0;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+    }
+
+    .case-block__head span {
+        order: 2;
+        color: rgba(255, 255, 255, 0.16);
+        font-family: var(--font-mono);
+        font-size: clamp(1.55rem, 3vw, 2.4rem);
+        font-weight: 760;
+        line-height: 1;
+    }
+
+    .video-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #111;
+    }
+
+    .case-prose {
+        color: var(--text-muted);
+        font-size: var(--text-body);
+        line-height: 1.9;
+    }
+
+    .case-prose :global(h2) {
+        margin: 2.4rem 0 1rem;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+    }
+
+    .case-prose :global(p) {
+        margin: 0 0 1.5rem;
+    }
+
+    .asset-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+        gap: clamp(20px, 4vw, 34px);
+        align-items: stretch;
+    }
+
+    .asset-grid figure,
+    .document-card {
+        margin: 0;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-panel);
+        overflow: hidden;
+    }
+
+    .asset-grid figure img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        filter: brightness(0.86) saturate(0.9);
+    }
+
+    .asset-grid figcaption {
+        color: var(--text-muted);
+        font-size: 0.84rem;
+        padding: 14px 16px;
+    }
+
+    .document-card {
+        display: grid;
+        align-content: center;
+        gap: 12px;
+        color: inherit;
+        padding: 24px;
+        text-decoration: none;
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .document-card:hover {
+        border-color: rgba(255, 94, 0, 0.42);
+        background: var(--bg-panel-strong);
+        transform: translateY(-2px);
+    }
+
+    .document-card strong {
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-card);
+    }
+
+    .document-card small {
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    .file-chip {
+        width: fit-content;
+        border-radius: 4px;
+        background: var(--accent);
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        padding: 5px 9px;
+    }
+
+    @media (max-width: 760px) {
+        .case-detail-hero {
+            min-height: 68vh;
+        }
+
+        .asset-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

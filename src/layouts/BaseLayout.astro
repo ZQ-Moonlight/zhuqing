@@ -126,6 +126,8 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 </html>
 
 <style is:global>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;520;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap");
+
     :root {
         --bg-base: #050505;
         --bg-panel: rgba(255, 255, 255, 0.035);
@@ -140,6 +142,17 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         --danger: #ff6666;
         --page-x: clamp(20px, 6vw, 72px);
         --header-height: 72px;
+        --font-sans: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+        --font-display: "Noto Serif SC", "Inter", "Songti SC", "STSong", serif;
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --title-hero: clamp(2.85rem, 6.8vw, 5.5rem);
+        --title-page: clamp(2.55rem, 5.8vw, 4.65rem);
+        --title-article: clamp(2.1rem, 4.8vw, 3.85rem);
+        --title-section: clamp(1.35rem, 2.4vw, 1.85rem);
+        --title-card: clamp(1.06rem, 1.45vw, 1.24rem);
+        --text-lead: clamp(1.08rem, 1.55vw, 1.28rem);
+        --text-body: clamp(1rem, 1.2vw, 1.06rem);
+        --tracking-kicker: 0.16em;
         color-scheme: dark;
     }
 
@@ -176,7 +189,8 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
             radial-gradient(circle at 92% 82%, rgba(255, 94, 0, 0.08), transparent 26rem),
             var(--bg-base);
         color: var(--text-main);
-        font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+        font-family: var(--font-sans);
+        font-weight: 400;
         line-height: 1.6;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
@@ -364,6 +378,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     .nav-links a {
         color: var(--text-muted);
         font-size: 0.85rem;
+        font-weight: 520;
         text-decoration: none;
         transition: color 180ms ease;
     }
@@ -444,9 +459,10 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     .eyebrow {
         display: block;
         color: var(--accent);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.75rem;
-        letter-spacing: 0.18em;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 760;
+        letter-spacing: var(--tracking-kicker);
         text-transform: uppercase;
     }
 
@@ -460,8 +476,11 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
     .section-heading h2 {
         margin: 0;
         color: var(--text-main);
-        font-size: clamp(1.5rem, 3vw, 2.2rem);
-        line-height: 1.15;
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+        font-weight: 650;
+        line-height: 1.18;
+        letter-spacing: 0;
     }
 
     :root[data-theme="light"] .section-heading h2,
@@ -550,7 +569,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
 
     @media (max-width: 760px) {
         :root {
-            --header-height: 82px;
+            --header-height: 96px;
         }
 
         .ambient-orb {
@@ -560,15 +579,30 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         }
 
         .glass-header {
-            align-items: flex-start;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-areas:
+                "logo toggle"
+                "nav nav";
+            align-items: center;
             gap: 10px;
             padding-top: 14px;
             padding-bottom: 14px;
         }
 
+        .logo {
+            grid-area: logo;
+        }
+
+        .theme-toggle {
+            grid-area: toggle;
+            justify-self: end;
+        }
+
         .nav-links {
-            flex: 1;
+            grid-area: nav;
+            width: 100%;
+            min-width: 0;
             justify-content: flex-start;
             gap: 18px;
             overflow-x: auto;

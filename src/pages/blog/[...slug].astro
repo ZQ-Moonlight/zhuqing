@@ -80,7 +80,7 @@ const formatDate = (date: Date) =>
         </article>
     </main>
 
-    <footer class="site-footer">© 2026 祝庆 Zhu Qing | Archive</footer>
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
 </BaseLayout>
 
 <style>
@@ -132,7 +132,8 @@ const formatDate = (date: Date) =>
     .article-heading h1 {
         margin: 12px 0 16px;
         color: var(--text-main);
-        font-size: clamp(2.3rem, 6vw, 4.7rem);
+        font-family: var(--font-display);
+        font-size: var(--title-article);
         line-height: 1.08;
         letter-spacing: 0;
         text-wrap: balance;
@@ -141,7 +142,7 @@ const formatDate = (date: Date) =>
     .article-heading p {
         margin: 0;
         color: var(--text-muted);
-        font-size: clamp(1rem, 1.7vw, 1.2rem);
+        font-size: var(--text-lead);
         line-height: 1.78;
     }
 
@@ -182,6 +183,9 @@ const formatDate = (date: Date) =>
     .toc strong {
         color: var(--text-main);
         font-size: 0.9rem;
+        font-family: var(--font-mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
     }
 
     .toc nav {
@@ -206,25 +210,26 @@ const formatDate = (date: Date) =>
     .prose {
         min-width: 0;
         color: var(--text-muted);
-        font-size: 1.06rem;
+        font-size: var(--text-body);
         line-height: 1.86;
     }
 
     .prose :global(h2),
     .prose :global(h3) {
         color: var(--text-main);
+        font-family: var(--font-display);
         line-height: 1.28;
         scroll-margin-top: calc(var(--header-height) + 36px);
     }
 
     .prose :global(h2) {
         margin: 2.6rem 0 1rem;
-        font-size: clamp(1.65rem, 3vw, 2.15rem);
+        font-size: var(--title-section);
     }
 
     .prose :global(h3) {
         margin: 2rem 0 0.8rem;
-        font-size: 1.28rem;
+        font-size: var(--title-card);
     }
 
     .prose :global(p) {

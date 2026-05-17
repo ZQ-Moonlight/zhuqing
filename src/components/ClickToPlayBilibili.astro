@@ -125,16 +125,17 @@ const playerSrc = `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&h
 
     .bilibili-click-player__content strong {
         color: #fff;
-        font-size: clamp(2.5rem, 7vw, 5.4rem);
+        font-family: var(--font-display);
+        font-size: var(--title-page);
         font-weight: 780;
-        line-height: 0.95;
+        line-height: 1;
         text-transform: uppercase;
     }
 
     .bilibili-click-player__content small {
         max-width: 540px;
         color: var(--text-muted);
-        font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+        font-size: var(--text-body);
         line-height: 1.6;
     }
 
@@ -174,7 +175,7 @@ const playerSrc = `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&h
     }
 
     .bilibili-click-player--compact .bilibili-click-player__content strong {
-        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-size: var(--title-card);
         line-height: 1.25;
         text-transform: none;
     }

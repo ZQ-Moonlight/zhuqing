@@ -18,8 +18,8 @@ import { withBase } from "../../lib/paths";
             <h1>《底特律：化身为人》场景与交互复刻</h1>
             <p>基于 Unreal Engine 5 的章节级交互叙事练习，聚焦蓝图逻辑、镜头调度、环境扫描与沉浸式反馈。</p>
             <div class="case-meta">
-                <span>北京电影学院</span>
-                <span>影视技术方向</span>
+                <span>UE5 交互复刻</span>
+                <span>Case Study</span>
                 <span>2025.01</span>
             </div>
         </div>
@@ -124,7 +124,7 @@ import { withBase } from "../../lib/paths";
         </section>
     </main>
 
-    <footer class="site-footer">© 2026 祝庆 Zhu Qing | 北京电影学院影视技术方向</footer>
+    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
 </BaseLayout>
 
 <style>
@@ -166,15 +166,17 @@ import { withBase } from "../../lib/paths";
     .case-hero h1 {
         margin: 14px 0 18px;
         color: #fff;
-        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-family: var(--font-display);
+        font-size: var(--title-article);
         line-height: 1.06;
         letter-spacing: 0;
+        text-wrap: balance;
     }
 
     .case-hero p {
         margin: 0;
         color: #d2d2d4;
-        font-size: clamp(1rem, 1.7vw, 1.22rem);
+        font-size: var(--text-lead);
         line-height: 1.78;
     }
 
@@ -185,6 +187,8 @@ import { withBase } from "../../lib/paths";
         margin-top: 26px;
         color: var(--text-muted);
         font-size: 0.86rem;
+        font-family: var(--font-mono);
+        letter-spacing: 0.04em;
     }
 
     .case-meta span:not(:last-child)::after {
@@ -240,22 +244,22 @@ import { withBase } from "../../lib/paths";
         padding-bottom: 16px;
         border-bottom: 1px solid var(--border);
         color: var(--text-main);
-        font-size: clamp(1.7rem, 3vw, 2.3rem);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
     }
 
     .case-section h2 span {
         color: rgba(255, 255, 255, 0.16);
-        font-family: "Times New Roman", serif;
-        font-size: clamp(2.5rem, 5vw, 4.2rem);
-        font-style: italic;
-        font-weight: 400;
+        font-family: var(--font-mono);
+        font-size: clamp(1.55rem, 3vw, 2.4rem);
+        font-weight: 760;
         line-height: 1;
     }
 
     .text-block p {
         margin: 0 0 1.55rem;
         color: var(--text-muted);
-        font-size: 1.08rem;
+        font-size: var(--text-body);
         line-height: 1.88;
     }
 
@@ -265,7 +269,7 @@ import { withBase } from "../../lib/paths";
         border-radius: 0 8px 8px 0;
         background: rgba(255, 255, 255, 0.035);
         color: #fff;
-        font-size: 1.2rem;
+        font-size: var(--text-lead);
     }
 
     .video-wrapper {
@@ -329,7 +333,8 @@ import { withBase } from "../../lib/paths";
     .lesson-list h3 {
         margin: 0 0 10px;
         color: var(--accent);
-        font-size: 1.08rem;
+        font-family: var(--font-display);
+        font-size: var(--title-card);
     }
 
     .tech-grid p,
@@ -364,7 +369,8 @@ import { withBase } from "../../lib/paths";
     .return-panel h2 {
         margin: 8px 0 10px;
         color: var(--text-main);
-        font-size: clamp(1.4rem, 3vw, 2rem);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
     }
 
     .return-panel a {
