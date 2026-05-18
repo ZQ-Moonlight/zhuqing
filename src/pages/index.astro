@@ -53,7 +53,10 @@ import { withBase } from "../lib/paths";
                     </p>
                     <div class="contact-box">
                         <span>如果你对研究项目、电影制作或技术开发感兴趣，或者只是单纯想聊聊历史与电影之间有意思的事，欢迎通过邮件联系我。我也在寻找影视后期或互动式电影游戏开发方向的工作/实习机会，希望能用我的技能为团队创造价值。</span>
-                        <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+                        <div class="contact-actions">
+                            <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+                            <button class="message-button" type="button" data-message-open>留言给我</button>
+                        </div>
                     </div>
                 </div>
 
@@ -75,16 +78,59 @@ import { withBase } from "../lib/paths";
                     </p>
                     <div class="contact-box">
                         <span>If you are interested in research projects, filmmaking, or technical development, or if you simply want to talk about the strange and fascinating ties between history and cinema, feel free to reach out. I am also looking for work or internship opportunities in post-production and interactive film/game development, where I hope my skills can create value for a team.</span>
-                        <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+                        <div class="contact-actions">
+                            <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+                            <button class="message-button" type="button" data-message-open>Leave a note</button>
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
+    <div class="message-modal" data-message-modal hidden>
+        <div class="message-modal__backdrop" data-message-close></div>
+        <section class="message-dialog" role="dialog" aria-modal="true" aria-labelledby="message-title" data-message-dialog>
+            <button class="message-close" type="button" aria-label="关闭留言窗口" data-message-close>×</button>
+            <span class="eyebrow">Email Message</span>
+            <h2 id="message-title">给我留言</h2>
+            <p>写下想聊的内容和联系方式，提交后会用你的邮件客户端发给我。</p>
+            <form class="message-form" data-message-form>
+                <label>
+                    <span>联系方式</span>
+                    <input name="contact" type="text" autocomplete="email" placeholder="邮箱 / 微信 / 电话" required />
+                </label>
+                <label>
+                    <span>留言</span>
+                    <textarea name="message" rows="6" placeholder="想合作的项目、问题，或者只是打个招呼。" required></textarea>
+                </label>
+                <button type="submit">发送到邮箱</button>
+            </form>
+            <div class="message-success" data-message-success hidden>
+                <h3>发送成功提醒</h3>
+                <p>如果邮件客户端已经弹出，请确认发送。为了保险，也建议使用 QQ 邮箱网页版联系我。</p>
+                <a class="message-webmail" href="https://mail.qq.com/" target="_blank" rel="noreferrer">打开 QQ 邮箱网页版</a>
+                <label>
+                    <span>刚刚发送的内容</span>
+                    <textarea data-message-copy readonly rows="7"></textarea>
+                </label>
+                <button type="button" data-message-copy-button>复制留言内容</button>
+            </div>
+        </section>
+    </div>
+
     <script>
         const buttons = document.querySelectorAll("[data-lang-button]");
         const panels = document.querySelectorAll("[data-lang-panel]");
+        const modal = document.querySelector("[data-message-modal]");
+        const dialog = document.querySelector("[data-message-dialog]");
+        const openMessageButtons = document.querySelectorAll("[data-message-open]");
+        const closeMessageButtons = document.querySelectorAll("[data-message-close]");
+        const messageForm = document.querySelector("[data-message-form]");
+        const messageSuccess = document.querySelector("[data-message-success]");
+        const messageCopy = document.querySelector("[data-message-copy]");
+        const messageCopyButton = document.querySelector("[data-message-copy-button]");
+        let previousFocus = null;
 
         buttons.forEach((button) => {
             button.addEventListener("click", () => {
@@ -97,6 +143,58 @@ import { withBase } from "../lib/paths";
                     panel.toggleAttribute("hidden", !active);
                 });
             });
+        });
+
+        const openMessageModal = () => {
+            previousFocus = document.activeElement;
+            modal?.removeAttribute("hidden");
+            document.body.classList.add("message-modal-open");
+            messageForm?.removeAttribute("hidden");
+            messageSuccess?.setAttribute("hidden", "");
+            if (messageCopyButton) messageCopyButton.textContent = "复制留言内容";
+            dialog?.querySelector("input")?.focus();
+        };
+
+        const closeMessageModal = () => {
+            modal?.setAttribute("hidden", "");
+            document.body.classList.remove("message-modal-open");
+            previousFocus?.focus?.();
+        };
+
+        openMessageButtons.forEach((button) => button.addEventListener("click", openMessageModal));
+        closeMessageButtons.forEach((button) => button.addEventListener("click", closeMessageModal));
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !modal?.hasAttribute("hidden")) {
+                closeMessageModal();
+            }
+        });
+
+        messageForm?.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const formData = new FormData(messageForm);
+            const contact = String(formData.get("contact") || "").trim();
+            const message = String(formData.get("message") || "").trim();
+            const plainMessage = `收件人：zq_eugene@qq.com\n主题：来自个人网站的留言\n\n联系方式：${contact}\n\n留言：\n${message}`;
+            const subject = encodeURIComponent("来自个人网站的留言");
+            const body = encodeURIComponent(`联系方式：${contact}\n\n留言：\n${message}`);
+            window.location.href = `mailto:zq_eugene@qq.com?subject=${subject}&body=${body}`;
+            if (messageCopy) messageCopy.value = plainMessage;
+            messageForm.setAttribute("hidden", "");
+            messageSuccess?.removeAttribute("hidden");
+            messageCopyButton?.focus();
+        });
+
+        messageCopyButton?.addEventListener("click", async () => {
+            const text = messageCopy?.value || "";
+            try {
+                await navigator.clipboard.writeText(text);
+                messageCopyButton.textContent = "已复制";
+            } catch {
+                messageCopy?.focus();
+                messageCopy?.select();
+                messageCopyButton.textContent = "请手动复制";
+            }
         });
     </script>
 </BaseLayout>
@@ -279,6 +377,177 @@ import { withBase } from "../lib/paths";
 
     .contact-box a:hover {
         color: var(--accent);
+    }
+
+    .contact-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .message-button,
+    .message-form button,
+    .message-success button,
+    .message-webmail {
+        border: 1px solid rgba(255, 94, 0, 0.55);
+        border-radius: 4px;
+        background: rgba(255, 94, 0, 0.12);
+        color: var(--text-main);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.92rem;
+        font-weight: 720;
+        padding: 10px 16px;
+        text-decoration: none;
+        transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    }
+
+    .message-button:hover,
+    .message-form button:hover,
+    .message-success button:hover,
+    .message-webmail:hover {
+        border-color: var(--accent);
+        background: rgba(255, 94, 0, 0.24);
+        transform: translateY(-1px);
+    }
+
+    .message-modal[hidden] {
+        display: none;
+    }
+
+    .message-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 160;
+        display: grid;
+        place-items: center;
+        padding: 22px;
+    }
+
+    .message-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.68);
+        backdrop-filter: blur(10px);
+    }
+
+    .message-dialog {
+        position: relative;
+        width: min(100%, 560px);
+        padding: clamp(24px, 5vw, 34px);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: rgba(12, 12, 13, 0.96);
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
+    }
+
+    :root[data-theme="light"] .message-dialog {
+        background: rgba(250, 248, 243, 0.98);
+        box-shadow: 0 24px 70px rgba(32, 28, 22, 0.18);
+    }
+
+    .message-dialog h2 {
+        margin: 8px 0 10px;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+    }
+
+    .message-dialog p {
+        margin: 0 0 22px;
+        color: var(--text-muted);
+        line-height: 1.72;
+    }
+
+    .message-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--bg-panel);
+        color: var(--text-muted);
+        cursor: pointer;
+        font: inherit;
+        font-size: 1.35rem;
+        line-height: 1;
+    }
+
+    .message-close:hover {
+        color: var(--text-main);
+        border-color: rgba(255, 94, 0, 0.44);
+    }
+
+    .message-form,
+    .message-success {
+        display: grid;
+        gap: 16px;
+    }
+
+    .message-form[hidden],
+    .message-success[hidden] {
+        display: none;
+    }
+
+    .message-success h3 {
+        margin: 0;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+    }
+
+    .message-success p {
+        margin: 0;
+    }
+
+    .message-webmail,
+    .message-success button {
+        justify-self: start;
+    }
+
+    .message-form label,
+    .message-success label {
+        display: grid;
+        gap: 8px;
+        color: var(--text-main);
+        font-size: 0.9rem;
+        font-weight: 650;
+    }
+
+    .message-form input,
+    .message-form textarea,
+    .message-success textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.055);
+        color: var(--text-main);
+        font: inherit;
+        line-height: 1.55;
+        padding: 12px 13px;
+        resize: vertical;
+    }
+
+    .message-form input:focus,
+    .message-form textarea:focus,
+    .message-success textarea:focus {
+        outline: 2px solid rgba(255, 94, 0, 0.38);
+        outline-offset: 2px;
+        border-color: rgba(255, 94, 0, 0.48);
+    }
+
+    .message-form button {
+        justify-self: start;
+        margin-top: 4px;
+    }
+
+    :global(body.message-modal-open) {
+        overflow: hidden;
     }
 
     @media (max-width: 900px) {

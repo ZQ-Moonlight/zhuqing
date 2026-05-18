@@ -16,8 +16,8 @@ import { withBase } from "../../lib/paths";
         <div class="case-hero__overlay" data-reveal>
             <a class="case-back-link" href={withBase("/portfolio")}>返回作品集 / Works</a>
             <span class="eyebrow">UE5 交互复盘 / Case Study</span>
-            <h1>《底特律：化身为人》场景与交互复刻</h1>
-            <p>基于 Unreal Engine 5 的章节级交互叙事练习，聚焦蓝图逻辑、镜头调度、环境扫描与沉浸式反馈。</p>
+            <h1>《底特律：化身为人》“来自死者”片段</h1>
+            <p>一段围绕人物操控、动画播放、自定义 QTE 与关卡序列互动搭建的虚幻引擎交互式体验。</p>
             <div class="case-meta">
                 <span>UE5 交互复刻</span>
                 <span>Case Study</span>
@@ -32,15 +32,20 @@ import { withBase } from "../../lib/paths";
         <a href="#gallery">场景截图</a>
         <a href="#tech">技术实现</a>
         <a href="#lessons">复盘</a>
+        <a href="#credits">致谢</a>
     </nav>
 
     <main class="case-content">
         <section id="intro" class="case-section" data-reveal>
-            <h2>项目背景<span>01</span></h2>
+            <h2>项目内容介绍<span>01</span></h2>
             <div class="text-block">
-                <p class="lead">这个项目试图还原《底特律：化身为人》中废弃场景内寻找零件、修复自身并重获行动能力的叙事体验。</p>
-                <p>核心目标不是单纯做一个可走动场景，而是把镜头、交互提示、环境观察、QTE 和关卡序列连成一段可被观看也可被操作的短流程。</p>
-                <p>我负责场景搭建、蓝图逻辑、交互 UI、摄像机状态、视频演示与后期整理，并把项目中遇到的失败点作为技术文档的一部分记录下来。</p>
+                <p class="lead">本项目实现了人物操控、动画播放、自定义 QTE（快速反应事件）与关卡序列互动，目标是复刻《底特律：化身为人》中马库斯从废弃垃圾场坑洞中重获新生的片段体验。</p>
+                <p>玩家将扮演马库斯（Markus），一位觉醒了自我意识的仿生人。在经历重重变故后，他被遗弃在荒芜的废弃垃圾场坑洞中，身体严重受损，四周散落着其他破损的仿生人部件。</p>
+                <ol class="flow-list">
+                    <li>玩家需要调查周围环境，帮助马库斯获得修复视觉所需的眼睛组件。</li>
+                    <li>装备眼睛后，玩家可以通过点击鼠标右键扫描和观察附近可用的零件，逐步收集并修复自身。</li>
+                    <li>完整收集视觉、听觉和维生组件后，马库斯即可爬出坑洞、获得新生，游戏至此结束。</li>
+                </ol>
             </div>
         </section>
 
@@ -68,49 +73,108 @@ import { withBase } from "../../lib/paths";
         </section>
 
         <section id="tech" class="case-section" data-reveal>
-            <h2>技术实现<span>04</span></h2>
+            <h2>技术实现说明<span>04</span></h2>
             <div class="tech-grid">
                 <article>
-                    <h3>场景与天气</h3>
-                    <p>使用 Blender 自主建模与地编，结合动态天气、雾效和后处理，塑造潮湿、低照度、废弃垃圾场的氛围。</p>
+                    <h3>地图搭建</h3>
+                    <p>场景基于 Blender 建模与精细的地编调整，实现 100% 自主搭建。</p>
                 </article>
                 <article>
-                    <h3>交互与 UI</h3>
-                    <p>通过蓝图和关卡序列管理观察、拾取、安装、QTE 等状态，使用 Widget 动画承担提示与反馈。</p>
+                    <h3>QTE 交互系统</h3>
+                    <p>通过蓝图（Blueprint）与关卡序列（Level Sequence）之间的深度通信，实现视图冻结、自定义按键映射与交互效果。</p>
                 </article>
                 <article>
-                    <h3>扫描视觉</h3>
-                    <p>结合后处理材质、Niagara 粒子和深度信息，模拟仿生人的环境扫描与可交互目标识别。</p>
+                    <h3>场景物体扫描</h3>
+                    <p>利用后处理材质、Niagara 粒子系统以及自定义深度通道，还原原作的扫描透视与发光轮廓特效。</p>
                 </article>
                 <article>
-                    <h3>动画与镜头</h3>
-                    <p>尝试 Motion Matching、手 K 动作与摄像机状态切换，让角色修复过程和观看节奏更接近原作质感。</p>
+                    <h3>自定义角色动画</h3>
+                    <p>融合运动匹配（Motion Matching）与自定义骨骼网格体匹配技术，尽量贴近原片中的角色运动节奏。</p>
                 </article>
                 <article>
-                    <h3>声音状态</h3>
-                    <p>用音频总线和状态切换区分角色受损、视觉恢复与行动恢复后的声音层次。</p>
+                    <h3>动态材质</h3>
+                    <p>实现材质亮度的动态改变，以及断肢恢复时的渐变材质效果。</p>
                 </article>
                 <article>
-                    <h3>虚拟制片适配</h3>
-                    <p>整理了 nDisplay 背景墙播放与素材格式的注意事项，为后续实时影像拍摄流程做准备。</p>
+                    <h3>角色与动作表现</h3>
+                    <p>综合应用动捕、面捕、MetaHuman 框架以及手动 K 帧完成关键表演。</p>
+                </article>
+                <article>
+                    <h3>视频与 UI 引导</h3>
+                    <p>通过序列帧优化缓解外部视频播放卡顿，并借助动态 Widget 动画实现流畅的功能与人物引导 UI。</p>
+                </article>
+                <article>
+                    <h3>摄像机与环境系统</h3>
+                    <p>配置后处理眼部亮度适应和相机晃动效果；天气系统基于 Ultra Dynamic Sky 进行了深度定制。</p>
+                </article>
+                <article>
+                    <h3>声音系统</h3>
+                    <p>基于声音总线控制，实现切换不同角色状态时的实时音频状态切换。</p>
+                </article>
+                <article>
+                    <h3>布料模拟</h3>
+                    <p>对角色服装进行了布料运算模拟，让近景动作中的服装表现更自然。</p>
                 </article>
             </div>
         </section>
 
         <section id="lessons" class="case-section" data-reveal>
-            <h2>复盘记录<span>05</span></h2>
+            <h2>遇到问题与开发心得<span>05</span></h2>
             <div class="lesson-list">
                 <article>
-                    <h3>面部绑定与自定义角色</h3>
-                    <p>自定义模型在 Maya 与 UE 之间的骨骼、面部蒙皮和资产标准并不稳定，最后使用 MetaHuman 与原片段替代，保留流程完整性。</p>
+                    <h3>面部蒙皮与骨骼绑定失败</h3>
+                    <p>由于下载的自定义 RK200 模型极为不标准，我在 Maya 中尝试整整两天进行面部绑定均告失败。最终选择将面部动作通过 MetaHuman 实现，或用原片片段进行替代。</p>
                 </article>
                 <article>
-                    <h3>动作捕捉的取舍</h3>
-                    <p>手部动作捕捉工具精度不足，BVH 处理链路也不顺畅。最终对关键动作手动调整，反而获得了更可控的表演节奏。</p>
+                    <h3>手部动作捕捉精度限制</h3>
+                    <p>曾尝试使用 Dollars Mono 进行手部动捕，但精度较低、抽搐明显，且难以利用其生成的 .bvh 文件。后转用 Cascadeur 进行动捕配合手 K，虽然不能捕捉手指且制作较慢，但最终发现手 K 出来的动作效果反而最好。</p>
                 </article>
                 <article>
-                    <h3>性能与备份</h3>
-                    <p>项目经历过蓝屏、资源丢失和外部视频播放掉帧。后续流程会优先做版本备份、素材序列化和性能预算。</p>
+                    <h3>Motion Matching 资产库过于庞大</h3>
+                    <p>原本期望深度修改 Motion Matching 示例动画库以更贴近原片动作，但因动作库过于庞大复杂，时间有限未敢深度涉及。</p>
+                </article>
+                <article>
+                    <h3>视频播放性能瓶颈</h3>
+                    <p>UE 播放外部视频文件易产生卡顿。虽然通过将其全部转化为序列帧找到了最优解，但播放时仍消耗大量资源，导致原本 60fps 的文件在运行时掉至 24fps 以下。</p>
+                </article>
+                <article>
+                    <h3>材质遮罩与 MetaHuman 限制</h3>
+                    <p>由于时间关系和技术限制，未能完美做出模型衣服与皮肤之间的不完整剥落感及内部光源透光效果，且 MetaHuman 无法直接自定义衣服导入，留下了些许遗憾。</p>
+                </article>
+                <article>
+                    <h3>灾难性硬件与项目崩溃</h3>
+                    <p>项目开发期间经历无数次蓝屏、爆显存、内存及驱动崩溃。甚至一度导致项目文件损坏、Content 文件夹内资产丢失、模型消失。此经历让我深刻汲取教训，学会了及时备份。</p>
+                </article>
+            </div>
+            <blockquote class="case-quote">多给我一些时间吧！我能做得更好 QAQ</blockquote>
+        </section>
+
+        <section id="credits" class="case-section" data-reveal>
+            <h2>附录与致谢<span>06</span></h2>
+            <div class="credits-grid">
+                <article>
+                    <h3>素材来源</h3>
+                    <ul>
+                        <li><strong>Fab & MetaHuman</strong> - Epic Games 官方素材及 Motion Matching 示例文件</li>
+                        <li><strong>Markus Broken RK200 模型</strong> - Sketchfab，作者 Q.SARDOR</li>
+                        <li><strong>《底特律：化身为人》原片片段</strong> - Quantic Dream</li>
+                    </ul>
+                </article>
+                <article>
+                    <h3>核心参考教程</h3>
+                    <p><strong>UI 系统：</strong>果果CG、soth1s、JaysongShao。</p>
+                    <p><strong>动画/动捕控制：</strong>A-peak_虚幻丰哥、产奶的黄药师、吃瓜大魔王_、机智的小忍、蓝饺子、小狐狸和秃头怪、ACG老师。</p>
+                    <p><strong>开发与优化：</strong>UE4阿文、白泽有点忙、王刀CooL、Promi1440、UE五栋大楼。</p>
+                    <p><strong>特效及其他：</strong>优莱卡嗷非秀、源木良音、游戏人YR、超气人嘟嘟酱、仰泳Young。</p>
+                    <p><strong>工具链：</strong>小小效果、Huangjst、ChaseHWYY。</p>
+                </article>
+                <article class="thanks-card">
+                    <h3>特别鸣谢</h3>
+                    <ul>
+                        <li>感谢指导老师 <strong>薛彤老师</strong> 的悉心教导。</li>
+                        <li>感谢 <strong>于浩然</strong> 同学慷慨提供的优质声音素材。</li>
+                        <li>感谢 B 站各大 UP 主上传分享的免费高质量教程。</li>
+                    </ul>
                 </article>
             </div>
         </section>
@@ -304,6 +368,38 @@ import { withBase } from "../../lib/paths";
         font-size: var(--text-lead);
     }
 
+    .flow-list {
+        display: grid;
+        gap: 12px;
+        margin: 24px 0 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: flow;
+    }
+
+    .flow-list li {
+        position: relative;
+        min-height: 58px;
+        padding: 16px 18px 16px 64px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-panel);
+        color: var(--text-muted);
+        line-height: 1.72;
+        counter-increment: flow;
+    }
+
+    .flow-list li::before {
+        content: counter(flow, decimal-leading-zero);
+        position: absolute;
+        top: 16px;
+        left: 18px;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 0.86rem;
+        font-weight: 800;
+    }
+
     .video-wrapper {
         position: relative;
         width: 100%;
@@ -385,6 +481,62 @@ import { withBase } from "../../lib/paths";
 
     .lesson-list h3 {
         color: var(--danger);
+    }
+
+    .case-quote {
+        margin: 24px 0 0;
+        padding: 20px 24px;
+        border-left: 4px solid var(--accent);
+        border-radius: 0 8px 8px 0;
+        background: rgba(255, 94, 0, 0.06);
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--text-lead);
+        line-height: 1.72;
+    }
+
+    .credits-grid {
+        display: grid;
+        gap: 18px;
+    }
+
+    .credits-grid article {
+        padding: 26px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-panel);
+    }
+
+    .credits-grid h3 {
+        margin: 0 0 14px;
+        color: var(--accent);
+        font-family: var(--font-display);
+        font-size: var(--title-card);
+    }
+
+    .credits-grid ul {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding-left: 1.1rem;
+    }
+
+    .credits-grid p,
+    .credits-grid li {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.96rem;
+        line-height: 1.78;
+    }
+
+    .credits-grid strong {
+        color: var(--text-main);
+        font-weight: 700;
+    }
+
+    .thanks-card {
+        border-color: rgba(255, 94, 0, 0.24);
+        background: rgba(255, 94, 0, 0.045);
     }
 
     .return-panel {

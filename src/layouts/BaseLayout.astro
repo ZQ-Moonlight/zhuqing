@@ -61,6 +61,10 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         <FilmGrain />
         <AmbientBackground variant={backgroundVariant} />
         <Header activePath={activePath} />
+        <div class="theme-tip" data-theme-tip hidden>
+            <span>最佳视觉效果建议使用暗黑模式。</span>
+            <button type="button" data-theme-tip-close aria-label="关闭暗黑模式提示">×</button>
+        </div>
         <slot />
 
         <script is:inline>
@@ -69,7 +73,10 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
             const revealItems = document.querySelectorAll("[data-reveal]");
             const themeToggle = document.querySelector("[data-theme-toggle]");
             const themeToggleLabel = document.querySelector("[data-theme-toggle-label]");
+            const themeTip = document.querySelector("[data-theme-tip]");
+            const themeTipClose = document.querySelector("[data-theme-tip-close]");
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            let themeTipTimer;
 
             const syncThemeLabel = () => {
                 const isLight = document.documentElement.dataset.theme === "light";
@@ -80,7 +87,28 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
                 themeToggle?.setAttribute("aria-pressed", String(isLight));
             };
 
+            const hideThemeTip = () => {
+                window.clearTimeout(themeTipTimer);
+                themeTip?.setAttribute("hidden", "");
+            };
+
+            const showThemeTip = () => {
+                if (document.documentElement.dataset.theme !== "light") return;
+                themeTip?.removeAttribute("hidden");
+                window.clearTimeout(themeTipTimer);
+                themeTipTimer = window.setTimeout(hideThemeTip, 5200);
+            };
+
             syncThemeLabel();
+            try {
+                if (document.documentElement.dataset.theme === "light" && sessionStorage.getItem("zq-theme-tip-seen") !== "1") {
+                    sessionStorage.setItem("zq-theme-tip-seen", "1");
+                    showThemeTip();
+                }
+            } catch {
+                showThemeTip();
+            }
+
             themeToggle?.addEventListener("click", () => {
                 const nextTheme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
                 document.documentElement.dataset.theme = nextTheme;
@@ -88,7 +116,13 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
                     localStorage.setItem("zq-theme", nextTheme);
                 } catch {}
                 syncThemeLabel();
+                if (nextTheme === "light") {
+                    showThemeTip();
+                } else {
+                    hideThemeTip();
+                }
             });
+            themeTipClose?.addEventListener("click", hideThemeTip);
 
             const updateChrome = () => {
                 const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -437,6 +471,50 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         background: var(--bg-panel-strong);
     }
 
+    .theme-tip {
+        position: fixed;
+        top: calc(var(--header-height) + 12px);
+        right: var(--page-x);
+        z-index: 115;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        max-width: min(320px, calc(100vw - 40px));
+        padding: 10px 12px 10px 14px;
+        border: 1px solid rgba(255, 94, 0, 0.28);
+        border-radius: 8px;
+        background: rgba(10, 10, 11, 0.88);
+        color: #f5f5f7;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        backdrop-filter: blur(12px);
+    }
+
+    .theme-tip[hidden] {
+        display: none;
+    }
+
+    .theme-tip button {
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        color: currentColor;
+        cursor: pointer;
+        font: inherit;
+        line-height: 1;
+        padding: 0;
+    }
+
+    .theme-tip button:hover {
+        border-color: rgba(255, 94, 0, 0.58);
+    }
+
     .page-shell {
         position: relative;
         z-index: 10;
@@ -626,6 +704,15 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         .page-shell {
             padding-top: calc(var(--header-height) + 38px);
             padding-bottom: 72px;
+        }
+
+        .theme-tip {
+            top: auto;
+            right: 20px;
+            bottom: 20px;
+            left: 20px;
+            max-width: none;
+            justify-content: space-between;
         }
     }
 </style>

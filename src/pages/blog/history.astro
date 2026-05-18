@@ -2,100 +2,33 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { withBase } from "../../lib/paths";
 
-const documents = [
-    {
-        title: "文革资料时间线与解构说明",
-        description: "以 1958-1981 为时间轴整理文革前后关键节点，配合个人解读与资料备注。",
-        href: withBase("/blog/history/cultural-revolution-notes/"),
-        type: "MD",
-    },
-];
-
-const references = [
-    {
-        title: "解构时间表",
-        description: "用于快速索引事件顺序和叙事结构的视觉化资料。",
-        href: withBase("/images/archive/history/deconstruction-timeline.jpg"),
-        type: "IMAGE",
-    },
-    {
-        title: "文攻武卫资料图",
-        description: "文革口号、群众动员与武斗语境相关的图像材料。",
-        href: withBase("/images/archive/history/cultural-revolution-defense.jpg"),
-        type: "IMAGE",
-    },
-    {
-        title: "稻上飞图像资料",
-        description: "大跃进时期影像叙事与宣传视觉的参考图。",
-        href: withBase("/images/archive/history/rice-overplanting.jpg"),
-        type: "IMAGE",
-    },
-];
+const archiveUrl = "https://ZQ-Moonlight.github.io/history-archive/";
+const localArchiveUrl = "http://127.0.0.1:4323/history-archive/";
 ---
 
 <BaseLayout
-    title="深度历史档案 | Archive | 祝庆 Zhu Qing"
-    description="中国近现代史、文革资料与历史记忆的个人资料索引。"
+    title="历史资料入口 | Archive | 祝庆 Zhu Qing"
+    description="中国近现代史与文革资料分析文章的独立站点入口。"
     activePath="/blog"
     backgroundVariant="article"
     noindex
 >
-    <main class="page-shell history-page" id="history-content">
-        <header class="archive-hero" data-reveal>
-            <span class="eyebrow">档案 / Private Historical Notes</span>
-            <h1>深度历史档案</h1>
-            <p>这里仅作为资料索引使用。点击文档或文献标题后，再进入具体内容。</p>
-        </header>
+    <main class="page-shell history-entry-page">
+        <section class="history-entry" data-reveal>
+            <span class="history-entry__star" aria-hidden="true">★</span>
+            <span class="eyebrow">历史资料入口 / External Dossier</span>
+            <h1>四海翻腾云水怒，狂飙骤息是何年？</h1>
+            <p>
+                输入原访问密码后，会跳转到独立的中国近现代史与文革资料分析站点。
+            </p>
 
-        <section class="archive-section" aria-labelledby="documents-title">
-            <div class="archive-section__head" data-reveal>
-                <h2 id="documents-title">文档</h2>
-                <span>{documents.length}</span>
-            </div>
-
-            <div class="reference-items">
-                {documents.map((item) => (
-                    <a class="reference-item" href={item.href} data-reveal>
-                        <span class="file-chip">{item.type}</span>
-                        <span>
-                            <strong>{item.title}</strong>
-                            <small>{item.description}</small>
-                        </span>
-                    </a>
-                ))}
-            </div>
-        </section>
-
-        <section class="archive-section" aria-labelledby="references-title">
-            <div class="archive-section__head" data-reveal>
-                <h2 id="references-title">文献资料</h2>
-                <span>{references.length}</span>
-            </div>
-
-            <div class="reference-items">
-                {references.map((item) => (
-                    <a class="reference-item" href={item.href} target="_blank" rel="noreferrer" data-reveal>
-                        <span class="file-chip file-chip--local">{item.type}</span>
-                        <span>
-                            <strong>{item.title}</strong>
-                            <small>{item.description}</small>
-                        </span>
-                    </a>
-                ))}
-            </div>
-        </section>
-    </main>
-
-    <div class="history-gate" data-history-gate role="dialog" aria-modal="true" aria-labelledby="history-gate-title">
-        <div class="history-gate__panel">
-            <a class="history-gate__exit" href={withBase("/blog")} aria-label="退出深度历史档案">退出</a>
-            <span class="history-gate__signal" aria-hidden="true"><span></span></span>
-            <span class="eyebrow">Private Archive</span>
-            <h2 id="history-gate-title">
-                <span>四海翻腾云水怒，</span>
-                <span>狂飙骤息是何年？</span>
-            </h2>
-            <form class="history-gate__form" data-history-gate-form novalidate>
+            <form
+                class="history-entry__form"
+                data-history-entry-form
+                data-archive-url={archiveUrl}
+                data-local-archive-url={localArchiveUrl}
+                novalidate
+            >
                 <label class="sr-only" for="history-password">访问密码</label>
                 <input
                     id="history-password"
@@ -105,41 +38,41 @@ const references = [
                     inputmode="numeric"
                     autocomplete="off"
                     placeholder="输入年份"
-                    aria-describedby="history-gate-message"
+                    aria-describedby="history-entry-message"
                 />
-                <button type="submit">确定</button>
+                <button type="submit">进入站点</button>
             </form>
-            <p class="history-gate__message" id="history-gate-message" data-history-gate-message aria-live="polite"></p>
-        </div>
-    </div>
+            <p class="history-entry__message" id="history-entry-message" data-history-entry-message aria-live="polite"></p>
+
+            <a class="history-entry__back" href={withBase("/blog")}>返回 Archive</a>
+        </section>
+    </main>
 
     <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
 
     <script is:inline>
-        const gate = document.querySelector("[data-history-gate]");
-        const form = document.querySelector("[data-history-gate-form]");
+        const form = document.querySelector("[data-history-entry-form]");
         const input = document.querySelector("[data-history-password]");
-        const message = document.querySelector("[data-history-gate-message]");
+        const message = document.querySelector("[data-history-entry-message]");
         const correctPassword = "1976";
 
-        const releaseGate = () => {
-            gate?.classList.add("is-unlocked");
-            gate?.setAttribute("aria-hidden", "true");
-            document.documentElement.classList.remove("history-gate-active");
-
-            window.setTimeout(() => {
-                gate?.remove();
-            }, 360);
+        const getArchiveUrl = () => {
+            const remote = form?.getAttribute("data-archive-url") ?? "/";
+            const local = form?.getAttribute("data-local-archive-url") ?? remote;
+            const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+            return isLocalHost ? local : remote;
         };
 
-        document.documentElement.classList.add("history-gate-active");
         input?.focus({ preventScroll: true });
 
         form?.addEventListener("submit", (event) => {
             event.preventDefault();
 
             if (input?.value.trim() === correctPassword) {
-                releaseGate();
+                if (message) message.textContent = "权限确认，正在切换到独立资料站。";
+                window.setTimeout(() => {
+                    window.location.href = getArchiveUrl();
+                }, 280);
                 return;
             }
 
@@ -160,245 +93,87 @@ const references = [
 </BaseLayout>
 
 <style>
-    .history-page {
-        max-width: 1120px;
+    .history-entry-page {
+        min-height: calc(100vh - var(--header-height));
+        display: grid;
+        place-items: center;
     }
 
-    .archive-hero {
-        margin-bottom: 52px;
-        max-width: 760px;
+    .history-entry {
+        position: relative;
+        overflow: hidden;
+        width: min(100%, 680px);
+        padding: clamp(28px, 5vw, 54px);
+        border: 1px solid rgba(210, 28, 28, 0.5);
+        border-radius: 8px;
+        background:
+            radial-gradient(circle at 87% 14%, rgba(255, 55, 55, 0.3), transparent 15rem),
+            linear-gradient(135deg, rgba(92, 7, 7, 0.96), rgba(13, 8, 8, 0.96) 52%, rgba(9, 9, 10, 0.96)),
+            var(--bg-panel);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(255, 205, 151, 0.04) inset;
     }
 
-    .archive-hero h1 {
-        margin: 12px 0 18px;
+    .history-entry::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+            linear-gradient(0deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(135deg, transparent, #000 18%, transparent 76%);
+        opacity: 0.28;
+    }
+
+    .history-entry__star {
+        position: absolute;
+        top: -24px;
+        right: clamp(20px, 6vw, 46px);
+        color: rgba(255, 48, 48, 0.78);
+        font-size: clamp(7rem, 20vw, 12rem);
+        line-height: 1;
+        text-shadow: 0 0 36px rgba(255, 0, 0, 0.22);
+        transform: rotate(-9deg);
+    }
+
+    .history-entry > *:not(.history-entry__star) {
+        position: relative;
+        z-index: 1;
+    }
+
+    .history-entry h1 {
+        margin: 14px 0 18px;
         color: var(--text-main);
         font-family: var(--font-display);
-        font-size: var(--title-page);
-        line-height: 1;
+        font-size: clamp(2rem, 4.6vw, 3.8rem);
+        line-height: 1.22;
         letter-spacing: 0;
+        text-wrap: balance;
     }
 
-    .archive-hero p {
+    .history-entry p {
         margin: 0;
         color: var(--text-muted);
         font-size: var(--text-lead);
         line-height: 1.78;
     }
 
-    .archive-section {
-        margin-top: 56px;
-    }
-
-    .archive-section__head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 24px;
-        margin-bottom: 20px;
-        padding-bottom: 14px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .archive-section__head h2 {
-        margin: 0;
-        color: var(--text-main);
-        font-family: var(--font-display);
-        font-size: var(--title-section);
-    }
-
-    .archive-section__head span {
-        color: var(--text-dim);
-        font-family: var(--font-mono);
-    }
-
-    .reference-items {
-        display: grid;
-        gap: 10px;
-    }
-
-    .reference-item {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        align-items: center;
-        gap: 18px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.065);
-        color: inherit;
-        padding: 16px 0;
-        text-decoration: none;
-        transition: border-color 180ms ease, transform 180ms ease;
-    }
-
-    .reference-item:hover {
-        border-color: rgba(255, 94, 0, 0.38);
-        transform: translateX(3px);
-    }
-
-    .reference-item strong,
-    .reference-item small {
-        display: block;
-    }
-
-    .reference-item strong {
-        color: var(--text-main);
-        font-size: 1.06rem;
-        line-height: 1.35;
-    }
-
-    .reference-item small {
-        margin-top: 4px;
-        color: var(--text-dim);
-        font-size: 0.82rem;
-        line-height: 1.55;
-    }
-
-    .file-chip {
-        border-radius: 4px;
-        background: var(--accent);
-        color: #fff;
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        font-weight: 800;
-        letter-spacing: 0.04em;
-        padding: 5px 9px;
-    }
-
-    .file-chip--local {
-        background: rgba(255, 255, 255, 0.12);
-        color: var(--text-muted);
-    }
-
-    .history-gate {
-        position: fixed;
-        inset: 0;
-        z-index: 180;
-        display: grid;
-        place-items: center;
-        padding: 24px;
-        background:
-            radial-gradient(circle at 52% 44%, rgba(154, 0, 0, 0.22), transparent 20rem),
-            radial-gradient(circle at 78% 82%, rgba(255, 94, 0, 0.16), transparent 24rem),
-            radial-gradient(circle at 16% 20%, rgba(0, 90, 86, 0.12), transparent 20rem),
-            rgba(0, 0, 0, 0.82);
-        backdrop-filter: blur(18px) saturate(135%);
-        transition: opacity 320ms ease, visibility 320ms ease;
-    }
-
-    .history-gate.is-unlocked {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-    }
-
-    .history-gate__panel {
-        position: relative;
-        width: min(100%, 540px);
-        display: grid;
-        gap: 20px;
-        overflow: hidden;
-        border: 1px solid rgba(255, 94, 0, 0.2);
-        border-radius: 8px;
-        background:
-            radial-gradient(circle at 52% 0%, rgba(174, 0, 0, 0.18), transparent 12rem),
-            linear-gradient(135deg, rgba(10, 28, 42, 0.96), rgba(8, 10, 12, 0.95));
-        box-shadow: 0 32px 90px rgba(0, 0, 0, 0.48), 0 0 120px rgba(130, 0, 0, 0.18);
-        padding: clamp(28px, 6vw, 48px);
-    }
-
-    .history-gate__panel::before {
-        content: "";
-        position: absolute;
-        inset: auto auto -44% 50%;
-        width: 420px;
-        height: 420px;
-        border: 1px solid rgba(255, 94, 0, 0.08);
-        border-radius: 999px;
-        transform: translateX(-50%);
-        pointer-events: none;
-    }
-
-    .history-gate__exit {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        color: var(--text-muted);
-        font-size: 0.84rem;
-        text-decoration: none;
-    }
-
-    .history-gate__exit:hover {
-        color: var(--text-main);
-    }
-
-    .history-gate__signal {
-        position: relative;
-        width: 68px;
-        height: 54px;
-        margin: 0 auto -4px;
-        opacity: 0.9;
-    }
-
-    .history-gate__signal::before {
-        content: "";
-        position: absolute;
-        left: 12px;
-        top: 10px;
-        width: 42px;
-        height: 42px;
-        border-radius: 999px;
-        background: linear-gradient(135deg, rgba(178, 0, 34, 0.88), rgba(20, 26, 58, 0.9));
-        box-shadow: 0 0 32px rgba(178, 0, 34, 0.32);
-    }
-
-    .history-gate__signal::after {
-        content: "";
-        position: absolute;
-        left: 5px;
-        top: 28px;
-        width: 58px;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 204, 132, 0.6), transparent);
-        transform: rotate(-12deg);
-    }
-
-    .history-gate__signal span {
-        position: absolute;
-        right: 6px;
-        top: 3px;
-        z-index: 1;
-        width: 18px;
-        height: 18px;
-        background: #d6383b;
-        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 56%, 79% 92%, 50% 70%, 21% 92%, 32% 56%, 2% 35%, 39% 35%);
-    }
-
-    .history-gate h2 {
-        max-width: 420px;
-        margin: 0;
-        color: #fff;
-        font-family: var(--font-display);
-        font-size: var(--title-section);
-        line-height: 1.45;
-        letter-spacing: 0;
-    }
-
-    .history-gate h2 span {
-        display: block;
-    }
-
-    .history-gate__form {
+    .history-entry__form {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 10px;
+        margin-top: 34px;
     }
 
-    .history-gate input,
-    .history-gate button {
-        min-height: 46px;
+    .history-entry input,
+    .history-entry button {
+        min-height: 48px;
         border-radius: 4px;
         font: inherit;
     }
 
-    .history-gate input {
+    .history-entry input {
         width: 100%;
         border: 1px solid rgba(255, 255, 255, 0.16);
         outline: none;
@@ -407,42 +182,52 @@ const references = [
         padding: 0 14px;
     }
 
-    .history-gate button {
-        border: 1px solid rgba(255, 94, 0, 0.74);
-        background: rgba(255, 94, 0, 0.12);
+    .history-entry input:focus {
+        border-color: rgba(255, 94, 0, 0.62);
+    }
+
+    .history-entry button {
+        border: 1px solid rgba(255, 94, 0, 0.72);
+        background: rgba(255, 94, 0, 0.14);
         color: #fff;
         cursor: pointer;
-        font-weight: 740;
+        font-weight: 760;
         padding: 0 18px;
+        transition: background 180ms ease, border-color 180ms ease;
     }
 
-    .history-gate__message {
+    .history-entry button:hover {
+        background: rgba(255, 94, 0, 0.24);
+        border-color: rgba(255, 94, 0, 0.9);
+    }
+
+    .history-entry__message {
         min-height: 1.5em;
-        margin: 0;
+        margin-top: 12px;
         color: #ffb0a3;
-        font-size: 0.9rem;
+        font-size: 0.92rem;
     }
 
-    .history-gate input.is-shaking {
+    .history-entry__back {
+        display: inline-flex;
+        width: fit-content;
+        margin-top: 18px;
+        color: var(--text-dim);
+        font-size: 0.88rem;
+        text-decoration: none;
+        transition: color 180ms ease;
+    }
+
+    .history-entry__back:hover {
+        color: var(--text-main);
+    }
+
+    .history-entry input.is-shaking {
         border-color: rgba(255, 102, 102, 0.82);
-        animation: gateShake 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+        animation: entryShake 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
     }
 
-    .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        white-space: nowrap;
-    }
-
-    :global(html.history-gate-active),
-    :global(html.history-gate-active body) {
-        overflow: hidden;
-    }
-
-    @keyframes gateShake {
+    @keyframes entryShake {
         10%,
         90% {
             transform: translateX(-1px);
@@ -462,23 +247,12 @@ const references = [
         }
     }
 
-    @media (max-width: 760px) {
-        .reference-item {
-            grid-template-columns: 1fr;
-            gap: 8px;
-        }
-
-        .file-chip {
-            width: fit-content;
-        }
-    }
-
     @media (max-width: 560px) {
-        .history-gate__form {
+        .history-entry__form {
             grid-template-columns: 1fr;
         }
 
-        .history-gate button {
+        .history-entry button {
             width: 100%;
         }
     }

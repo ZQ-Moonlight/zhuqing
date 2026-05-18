@@ -29,6 +29,9 @@ desktop.ini
 # local asset staging folder
 test/
 
+# standalone historical archive site; kept in its own repository
+history-archive/
+
 # jetbrains setting folder
 .idea/
 
