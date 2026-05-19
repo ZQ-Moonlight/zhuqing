@@ -1,3 +1,10 @@
+---
+title: "解决 Git Push 超时与 443 端口连接失败问题"
+description: "因为我自己老是git不上，所以写一下教程帮助未来的自己"
+pubDate: 2026-05-19
+tags: ["git", "vpn", "Notes"]
+---
+
 # 教程：如何解决 Git Push 超时与 443 端口连接失败问题
 
 当你在国内使用 GitHub 时，经常会在执行 `git push` 或 `git clone` 时遇到长时间卡顿，最终报出类似下面的超时错误：
@@ -26,7 +33,7 @@ fatal: unable to access 'https://github.com/xxxx/xxxx.git/': Failed to connect t
 
 **方法：使用 PowerShell 查询**
 
-1. 按下 `Win` 键，搜索并打开 **PowerShell**。
+1. 按下 `Win + X` 键，搜索并打开 **PowerShell**。
 
 2. 复制并运行以下命令：
 
