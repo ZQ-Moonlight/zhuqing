@@ -9,6 +9,13 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft && !data.pr
 );
 
 const references = await getReferenceGroups();
+const webTools = [
+    {
+        title: "Stereoscopic 3D Camera Base Calculator",
+        description: "用于立体拍摄前期测算摄影机基线、视差与拍摄参数的网页计算工具。",
+        href: "https://zq-moonlight.github.io/Stereoscopic-3D-Camera-Base-Calculator/",
+    },
+];
 const externalArticles = [
     {
         title: "UE5 修改材质颜色时出现的 float3 and float4 问题（已解决）",
@@ -141,6 +148,25 @@ const groupedPosts = posts.reduce((groups, post) => {
                 </div>
             </section>
         )}
+
+        <section class="archive-section" aria-labelledby="tools-title">
+            <div class="archive-section__head" data-reveal>
+                <h2 id="tools-title">网页工具</h2>
+                <span>{webTools.length}</span>
+            </div>
+
+            <div class="reference-items">
+                {webTools.map((item) => (
+                    <a class="reference-item reference-item--tool" href={item.href} target="_blank" rel="noreferrer" data-reveal>
+                        <span class="file-chip">TOOL</span>
+                        <span class="reference-item__main">
+                            <strong>{item.title}</strong>
+                            <small>{item.description}</small>
+                        </span>
+                    </a>
+                ))}
+            </div>
+        </section>
 
         <section class="archive-section" aria-labelledby="external-title">
             <div class="archive-section__head" data-reveal>
@@ -291,6 +317,16 @@ const groupedPosts = posts.reduce((groups, post) => {
 
     .reference-item.is-local:hover {
         transform: none;
+    }
+
+    .reference-item--tool {
+        border-left-color: rgba(0, 240, 255, 0.3);
+        background: linear-gradient(90deg, rgba(0, 240, 255, 0.04), transparent 54%);
+        padding-left: 14px;
+    }
+
+    .reference-item--tool:hover {
+        border-left-color: rgba(0, 240, 255, 0.7);
     }
 
     .archive-item time {
