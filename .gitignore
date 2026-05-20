@@ -28,6 +28,7 @@ desktop.ini
 
 # local asset staging folder
 test/
+.tmp-docx-extract-*/
 
 # standalone historical archive site; kept in its own repository
 history-archive/

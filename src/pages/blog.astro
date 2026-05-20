@@ -27,6 +27,11 @@ const externalArticles = [
         description: "关于 Codex 后台服务完全磁盘访问权限的处理记录，发布于 Bilibili 专栏。",
         href: "https://www.bilibili.com/opus/1148162552045240326?spm_id_from=333.1387.0.0",
     },
+    {
+        title: "解决 Houdini 用 Mantra 渲染时提示 No licenses could be found",
+        description: "关于 Houdini Mantra 渲染许可证报错的排查记录，发布于 Bilibili 专栏。",
+        href: "https://www.bilibili.com/opus/1163335022240858118?spm_id_from=333.1387.0.0",
+    },
 ];
 
 const getTitle = (post) => post.data.title ?? post.id.split("/").at(-1);
@@ -353,7 +358,7 @@ const groupedPosts = posts.reduce((groups, post) => {
         font-family: var(--font-display);
         font-size: var(--title-card);
         line-height: 1.35;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
     }
 
     .archive-item small,
@@ -361,7 +366,7 @@ const groupedPosts = posts.reduce((groups, post) => {
         color: var(--text-dim);
         font-size: 0.82rem;
         line-height: 1.55;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
     }
 
     .reference-meta {
@@ -436,6 +441,23 @@ const groupedPosts = posts.reduce((groups, post) => {
         color: var(--text-muted);
     }
 
+    @media (max-width: 980px) {
+        .archive-year {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .archive-item {
+            grid-template-columns: 116px minmax(0, 1fr);
+            align-items: start;
+        }
+
+        .archive-tags {
+            grid-column: 2;
+            justify-content: flex-start;
+        }
+    }
+
     @media (max-width: 760px) {
         .archive-year,
         .reference-group {
@@ -449,6 +471,7 @@ const groupedPosts = posts.reduce((groups, post) => {
         }
 
         .archive-tags {
+            grid-column: auto;
             justify-content: flex-start;
         }
     }

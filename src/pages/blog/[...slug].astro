@@ -255,6 +255,16 @@ const formatDate = (date: Date) =>
         color: #d8d8dc;
     }
 
+    .prose :global(img) {
+        display: block;
+        width: min(100%, 920px);
+        height: auto;
+        margin: 2rem auto 0.6rem;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: #111;
+    }
+
     .prose :global(code) {
         border: 1px solid var(--border);
         border-radius: 4px;
