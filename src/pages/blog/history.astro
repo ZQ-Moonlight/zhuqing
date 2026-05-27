@@ -227,6 +227,25 @@ const localArchiveUrl = "http://127.0.0.1:4323/history-archive/";
         animation: entryShake 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
     }
 
+    :root[data-theme="light"] .history-entry input {
+        border-color: rgba(20, 20, 20, 0.16);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--text-main);
+    }
+
+    :root[data-theme="light"] .history-entry button {
+        background: rgba(200, 79, 18, 0.08);
+        color: var(--accent);
+    }
+
+    :root[data-theme="light"] .history-entry button:hover {
+        background: rgba(200, 79, 18, 0.14);
+    }
+
+    :root[data-theme="light"] .history-entry__message {
+        color: var(--danger);
+    }
+
     @keyframes entryShake {
         10%,
         90% {

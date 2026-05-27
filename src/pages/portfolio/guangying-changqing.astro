@@ -1,0 +1,348 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/paths";
+
+const archiveUrl = withBase("/blog/guangying-changqing-workflow/");
+const posterUrl = withBase("/images/portfolio/changqing/poster.webp");
+const heroImage = withBase("/images/portfolio/changqing/still.webp");
+const documentUrl = withBase("/files/portfolio/changqing/workflow.pdf");
+---
+
+<BaseLayout
+    title="光影长青 | 作品 | 祝庆 Zhu Qing"
+    description="一部结合 MetaHuman 数字人、高斯泼溅场景重建与人文叙事的数字影像作品。"
+    activePath="/portfolio"
+    backgroundVariant="article"
+    image="/images/portfolio/changqing/still.webp"
+    preloadImage="/images/portfolio/changqing/still.webp"
+>
+    <section class="work-hero">
+        <img src={heroImage} alt="" loading="eager" fetchpriority="high" />
+        <div class="work-hero__shade"></div>
+        <div class="work-hero__content" data-reveal>
+            <a class="back-link" href={withBase("/portfolio")} data-i18n-cn="返回作品集 / Works" data-i18n-en="Back to Works">返回作品集 / Works</a>
+            <span class="eyebrow" data-i18n-cn="数字人 / 高斯泼溅 / 叙事短片" data-i18n-en="Digital Human / Gaussian Splatting / Narrative Film">数字人 / 高斯泼溅 / 叙事短片</span>
+            <h1>光影长青</h1>
+            <p class="subtitle">Light and Shadow, Evergreen</p>
+            <p data-i18n-cn="一部结合 MetaHuman 数字人、高斯泼溅场景重建与人文叙事的数字影像作品。" data-i18n-en="A digital image work combining MetaHuman digital humans, Gaussian Splatting scene reconstruction, and humanistic narrative design.">一部结合 MetaHuman 数字人、高斯泼溅场景重建与人文叙事的数字影像作品。</p>
+            <div class="tag-row" aria-label="Project tags">
+                <span>MetaHuman</span>
+                <span>Gaussian Splatting</span>
+                <span>Digital Human</span>
+                <span>Narrative Film</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="case-detail">
+        <section class="case-block" data-reveal>
+            <div class="case-block__head">
+                <span>01</span>
+                <h2 data-i18n-cn="项目记录" data-i18n-en="Project Notes">项目记录</h2>
+            </div>
+
+            <a class="archive-jump" href={archiveUrl}>
+                <span class="category" data-i18n-cn="完整技术档案 / Markdown Archive" data-i18n-en="Full Technical Archive">完整技术档案 / Markdown Archive</span>
+                <strong data-i18n-cn="查看《光影长青》创新影像项目技术工作流" data-i18n-en="Read the Light and Shadow, Evergreen Technical Workflow">查看《光影长青》创新影像项目技术工作流</strong>
+                <small data-i18n-cn="这份档案包含高斯泼溅场景重建、MetaHuman 数字人、UE5.6 渲染、动作捕捉与后期点云动画的完整记录。" data-i18n-en="This archive covers Gaussian Splatting scene reconstruction, MetaHuman creation, UE5.6 rendering, motion capture, and point-cloud animation in post.">这份档案包含高斯泼溅场景重建、MetaHuman 数字人、UE5.6 渲染、动作捕捉与后期点云动画的完整记录。</small>
+                <em data-i18n-cn="跳转到档案页面" data-i18n-en="Open Archive Article">跳转到档案页面</em>
+            </a>
+
+            <article class="case-prose">
+                <h2 data-i18n-cn="作品简介" data-i18n-en="Project Overview">作品简介</h2>
+                <p data-i18n-cn="《光影长青》是一部致敬陈波儿女士的数字影像作品。影片以跨越时空的对话为主线，重现了陈波儿的历史风采。在历史回响与当代青年的共鸣中，重温“镜头对准人民”的艺术誓言。" data-i18n-en="Light and Shadow, Evergreen is a digital image work paying tribute to Chen Bo'er. Built around a dialogue across time, it revisits her historical presence and the artistic vow to turn the camera toward the people.">《光影长青》是一部致敬陈波儿女士的数字影像作品。影片以跨越时空的对话为主线，重现了陈波儿的历史风采。在历史回响与当代青年的共鸣中，重温“镜头对准人民”的艺术誓言。</p>
+                <p data-i18n-cn="片尾虚拟身影与实体雕像重合，通过场记板的交接，展现中国电影精神薪火相传、生生不息的力量。" data-i18n-en="In the final image, the virtual figure overlaps with a physical statue, while the passing of the slate suggests the continuity and vitality of Chinese cinema.">片尾虚拟身影与实体雕像重合，通过场记板的交接，展现中国电影精神薪火相传、生生不息的力量。</p>
+                <h2 data-i18n-cn="技术路径" data-i18n-en="Technical Path">技术路径</h2>
+                <p data-i18n-cn="本片结合 MetaHuman 数字人、高斯泼溅场景重建与实时渲染流程。完整的技术路径、失败尝试与最终解决方案，已整理在上方档案页面中。" data-i18n-en="The work combines MetaHuman digital humans, Gaussian Splatting scene reconstruction, and real-time rendering. The full technical path, failed attempts, and final solutions are collected in the archive linked above.">本片结合 MetaHuman 数字人、高斯泼溅场景重建与实时渲染流程。完整的技术路径、失败尝试与最终解决方案，已整理在上方档案页面中。</p>
+            </article>
+        </section>
+
+        <section class="case-block case-assets" data-reveal>
+            <div class="case-block__head">
+                <span>02</span>
+                <h2 data-i18n-cn="项目资料" data-i18n-en="Project Assets">项目资料</h2>
+            </div>
+            <div class="asset-grid">
+                <figure>
+                    <img src={posterUrl} alt="光影长青项目海报" loading="lazy" />
+                    <figcaption data-i18n-cn="项目海报" data-i18n-en="Project Poster">项目海报</figcaption>
+                </figure>
+                <a class="document-card" href={documentUrl} target="_blank" rel="noreferrer">
+                    <span class="file-chip">PDF</span>
+                    <strong data-i18n-cn="下载技术工作流文档" data-i18n-en="Download Technical Workflow PDF">下载技术工作流文档</strong>
+                    <small data-i18n-cn="技术流程、制作记录与项目复盘" data-i18n-en="Technical process, production notes, and project review">技术流程、制作记录与项目复盘</small>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" data-i18n-cn="© 2026 祝庆 Zhu Qing" data-i18n-en="© 2026 Zhu Qing">© 2026 祝庆 Zhu Qing</footer>
+</BaseLayout>
+
+<style>
+    .work-hero {
+        position: relative;
+        z-index: 10;
+        min-height: 78vh;
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .work-hero > img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.48) contrast(1.08) saturate(0.86);
+    }
+
+    .work-hero__shade {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(0deg, rgba(5, 5, 5, 0.96), rgba(5, 5, 5, 0.18) 48%, rgba(5, 5, 5, 0.62)),
+            linear-gradient(90deg, rgba(5, 5, 5, 0.78), transparent 68%);
+    }
+
+    .work-hero__content {
+        position: relative;
+        z-index: 2;
+        width: min(900px, 100%);
+        padding: calc(var(--header-height) + 74px) var(--page-x) 10vh;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        margin-bottom: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 999px;
+        background: rgba(5, 5, 5, 0.54);
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        letter-spacing: 0.04em;
+        padding: 8px 13px;
+        text-decoration: none;
+    }
+
+    .back-link::before {
+        content: "\2190";
+        color: var(--accent);
+    }
+
+    .work-hero h1 {
+        margin: 14px 0 12px;
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: var(--title-article);
+        line-height: 1.06;
+    }
+
+    .work-hero p {
+        max-width: 760px;
+        margin: 0;
+        color: #d4d4d8;
+        font-size: var(--text-lead);
+        line-height: 1.76;
+    }
+
+    .work-hero .subtitle {
+        margin-bottom: 14px;
+        color: #d4d4d8;
+        font-family: var(--font-mono);
+        font-size: 0.86rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+    }
+
+    .tag-row span {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        color: #d4d4d8;
+        font-size: 0.76rem;
+        padding: 4px 10px;
+    }
+
+    .case-detail {
+        position: relative;
+        z-index: 10;
+        width: min(100%, 1040px);
+        margin: 0 auto;
+        padding: 74px var(--page-x) 100px;
+    }
+
+    .case-block {
+        margin-bottom: 92px;
+    }
+
+    .case-block__head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 30px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .case-block__head h2 {
+        margin: 0;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+    }
+
+    .case-block__head span {
+        order: 2;
+        color: rgba(255, 255, 255, 0.16);
+        font-family: var(--font-mono);
+        font-size: clamp(1.55rem, 3vw, 2.4rem);
+        font-weight: 760;
+    }
+
+    .archive-jump,
+    .document-card,
+    .asset-grid figure {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-panel);
+    }
+
+    .archive-jump {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 36px;
+        border-color: rgba(255, 94, 0, 0.36);
+        border-left: 4px solid var(--accent);
+        background: linear-gradient(90deg, rgba(255, 94, 0, 0.12), rgba(255, 255, 255, 0.035)), var(--bg-panel);
+        color: inherit;
+        padding: clamp(20px, 3vw, 28px);
+        text-decoration: none;
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .archive-jump:hover {
+        border-color: rgba(255, 94, 0, 0.6);
+        background: linear-gradient(90deg, rgba(255, 94, 0, 0.17), rgba(255, 255, 255, 0.055)), var(--bg-panel-strong);
+        transform: translateY(-2px);
+    }
+
+    .archive-jump strong,
+    .document-card strong {
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-card);
+        line-height: 1.32;
+    }
+
+    .archive-jump small,
+    .document-card small,
+    .case-prose p,
+    .asset-grid figcaption {
+        color: var(--text-muted);
+        line-height: 1.78;
+    }
+
+    .archive-jump em {
+        width: fit-content;
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 760;
+    }
+
+    .archive-jump em::after {
+        content: "\2192";
+        margin-left: 8px;
+    }
+
+    .case-prose {
+        color: var(--text-muted);
+        font-size: var(--text-body);
+        line-height: 1.9;
+    }
+
+    .case-prose h2 {
+        margin: 2.4rem 0 1rem;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-section);
+    }
+
+    .case-prose p {
+        margin: 0 0 1.5rem;
+    }
+
+    .asset-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+        gap: clamp(20px, 4vw, 34px);
+    }
+
+    .asset-grid figure {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .asset-grid figure img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        filter: brightness(0.86) saturate(0.9);
+    }
+
+    .asset-grid figcaption {
+        font-size: 0.84rem;
+        padding: 14px 16px;
+    }
+
+    .document-card {
+        display: grid;
+        align-content: start;
+        gap: 12px;
+        min-height: 100%;
+        color: inherit;
+        padding: 24px;
+        text-decoration: none;
+    }
+
+    .file-chip {
+        width: fit-content;
+        border-radius: 4px;
+        background: var(--accent);
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        padding: 5px 9px;
+    }
+
+    :root[data-theme="light"] .archive-jump {
+        background: linear-gradient(90deg, rgba(200, 79, 18, 0.1), rgba(255, 255, 255, 0.72)), var(--bg-panel);
+        border-color: rgba(200, 79, 18, 0.28);
+        box-shadow: 0 16px 38px rgba(32, 28, 22, 0.06);
+    }
+
+    @media (max-width: 760px) {
+        .work-hero {
+            min-height: 68vh;
+        }
+
+        .asset-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

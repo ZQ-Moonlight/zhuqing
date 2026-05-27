@@ -19,6 +19,24 @@ const postTitle = post.data.title ?? post.id.split("/").at(-1);
 const postDescription = post.data.description ?? "";
 const heroImage = post.data.heroImage;
 const heroImageSrc = typeof heroImage === "string" ? withBase(heroImage) : heroImage?.src;
+const postUrl = new URL(withBase(`/blog/${post.id}/`), Astro.site ?? Astro.url.origin).toString();
+const postImage = new URL(heroImageSrc ?? withBase("/images/og/zhuqing-social-card.png"), Astro.site ?? Astro.url.origin).toString();
+const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: postTitle,
+    description: postDescription,
+    image: postImage,
+    url: postUrl,
+    datePublished: post.data.pubDate?.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.pubDate)?.toISOString(),
+    inLanguage: "zh-CN",
+    author: {
+        "@type": "Person",
+        name: "祝庆",
+        alternateName: "Zhu Qing",
+    },
+};
 
 const formatDate = (date: Date) =>
     new Intl.DateTimeFormat("zh-CN", {
@@ -33,7 +51,10 @@ const formatDate = (date: Date) =>
     description={postDescription}
     activePath="/blog"
     backgroundVariant="article"
-    image={heroImageSrc ?? withBase("/favicon.svg")}
+    image={heroImageSrc ?? withBase("/images/og/zhuqing-social-card.png")}
+    preloadImage={typeof heroImage === "string" ? heroImage : undefined}
+    noindex={post.data.privateArchive}
+    structuredData={articleStructuredData}
 >
     <main class="article-page">
         <article>
@@ -263,6 +284,10 @@ const formatDate = (date: Date) =>
         border: 1px solid var(--border);
         border-radius: 6px;
         background: #111;
+    }
+
+    .prose :global(img[alt="现场拍摄参考"]) {
+        width: min(100%, 560px);
     }
 
     .prose :global(code) {

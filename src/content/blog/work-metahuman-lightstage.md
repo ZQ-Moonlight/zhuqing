@@ -7,7 +7,7 @@ tags: ["MetaHuman", "Light Stage", "UE5", "Works"]
 
 这份归档文档整理自作品集中的 MetaHuman 与数字人光场流程。项目关注的问题是：真人如何被转译为一个能在实时引擎镜头前成立的数字角色。
 
-<img src="/zhuqing/images/portfolio/lightstage/lightstage-article-cover.jpg" alt="MetaHuman and Light Stage workflow" />
+<img src="/zhuqing/images/portfolio/lightstage/lightstage-article-cover.webp" alt="MetaHuman and Light Stage workflow" loading="lazy" />
 
 ## 项目概述
 

@@ -2,6 +2,25 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
 import { withBase } from "../../lib/paths";
+
+const detroitUrl = new URL(withBase("/portfolio/detroit/"), Astro.site ?? Astro.url.origin).toString();
+const detroitImage = new URL(withBase("/images/portfolio/detroit/cover.webp"), Astro.site ?? Astro.url.origin).toString();
+const detroitStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: "《底特律：化身为人》UE5 复刻",
+    headline: "《底特律：化身为人》“来自死者”片段",
+    description: "基于 Unreal Engine 5 的交互叙事片段复刻：角色控制、QTE、环境扫描、镜头与后期流程复盘。",
+    image: detroitImage,
+    url: detroitUrl,
+    datePublished: "2025-01-01",
+    keywords: ["UE5", "Interaction", "Blueprint", "Case Study", "Virtual Production"],
+    creator: {
+        "@type": "Person",
+        name: "祝庆",
+        alternateName: "Zhu Qing",
+    },
+};
 ---
 
 <BaseLayout
@@ -9,13 +28,15 @@ import { withBase } from "../../lib/paths";
     description="基于 Unreal Engine 5 的交互叙事片段复刻：角色控制、QTE、环境扫描、镜头与后期流程复盘。"
     activePath="/portfolio"
     backgroundVariant="article"
-    image={withBase("/images/portfolio/detroit/cover.jpg")}
+    image={withBase("/images/portfolio/detroit/cover.webp")}
+    preloadImage="/images/portfolio/detroit/cover.webp"
+    structuredData={detroitStructuredData}
 >
     <section class="case-hero">
-        <img src={withBase("/images/portfolio/detroit/cover.jpg")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
+        <img src={withBase("/images/portfolio/detroit/cover.webp")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
         <div class="case-hero__overlay" data-reveal>
-            <a class="case-back-link" href={withBase("/portfolio")}>返回作品集 / Works</a>
-            <span class="eyebrow">UE5 交互复盘 / Case Study</span>
+            <a class="case-back-link" href={withBase("/portfolio")} data-i18n-cn="返回作品集 / Works" data-i18n-en="Back to Works">返回作品集 / Works</a>
+            <span class="eyebrow" data-i18n-cn="UE5 交互复盘 / Case Study" data-i18n-en="UE5 Interactive Case Study">UE5 交互复盘 / Case Study</span>
             <h1>《底特律：化身为人》“来自死者”片段</h1>
             <p>一段围绕人物操控、动画播放、自定义 QTE 与关卡序列互动搭建的虚幻引擎交互式体验。</p>
             <div class="case-meta">
@@ -55,7 +76,7 @@ import { withBase } from "../../lib/paths";
                 <ClickToPlayBilibili
                     bvid="BV18XApe2Efy"
                     title="Detroit UE5 recreation video"
-                    poster={withBase("/images/portfolio/detroit/cover.jpg")}
+                    poster={withBase("/images/portfolio/detroit/cover.webp")}
                     eyebrow="Demo Video"
                     heading="点击播放"
                     description="《底特律：化身为人》UE5 场景与交互复刻演示"
@@ -67,7 +88,7 @@ import { withBase } from "../../lib/paths";
             <h2>场景截图<span>03</span></h2>
             <div class="masonry-grid">
                 {[1, 2, 3, 4, 5, 6, 8, 7, 9].map((item) => (
-                    <img src={withBase(`/images/portfolio/detroit/${item}.jpg`)} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
+                    <img src={withBase(`/images/portfolio/detroit/${item}.webp`)} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
                 ))}
             </div>
         </section>
@@ -181,15 +202,15 @@ import { withBase } from "../../lib/paths";
 
         <section class="return-panel" data-reveal>
             <div>
-                <span class="eyebrow">更多作品 / More Works</span>
-                <h2>继续查看作品集</h2>
-                <p>回到作品集大厅，查看更多影视后期、数字人与虚幻引擎相关项目。</p>
+                <span class="eyebrow" data-i18n-cn="更多作品 / More Works" data-i18n-en="More Works">更多作品 / More Works</span>
+                <h2 data-i18n-cn="继续查看作品集" data-i18n-en="Continue Browsing Works">继续查看作品集</h2>
+                <p data-i18n-cn="回到作品集大厅，查看更多影视后期、数字人与虚幻引擎相关项目。" data-i18n-en="Return to the works index for more post-production, digital-human, and Unreal Engine projects.">回到作品集大厅，查看更多影视后期、数字人与虚幻引擎相关项目。</p>
             </div>
-            <a href={withBase("/portfolio")}>返回作品集</a>
+            <a href={withBase("/portfolio")} data-i18n-cn="返回作品集" data-i18n-en="Back to Works">返回作品集</a>
         </section>
     </main>
 
-    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
+    <footer class="site-footer" data-i18n-cn="© 2026 祝庆 Zhu Qing" data-i18n-en="© 2026 Zhu Qing">© 2026 祝庆 Zhu Qing</footer>
 </BaseLayout>
 
 <style>

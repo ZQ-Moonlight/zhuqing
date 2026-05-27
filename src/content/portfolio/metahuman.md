@@ -4,9 +4,9 @@ subtitle: "Light Stage / Digital Human Workflow"
 description: "围绕真人采集、光场资产、MetaHuman 重建与表情材质流程，整理一套面向实时数字人的角色资产实验。"
 category: "数字人 / 工作流"
 pubDate: 2025-06-01
-heroImage: "/images/portfolio/lightstage/lightstage-article-cover.jpg"
+heroImage: "/images/portfolio/lightstage/lightstage-article-cover.webp"
 videoBvid: "BV1SnbCzfEpL"
-videoPoster: "/images/portfolio/lightstage/lightstage-video-cover.jpg"
+videoPoster: "/images/portfolio/lightstage/lightstage-video-cover.webp"
 videoTitle: "MetaHuman 与数字人光场流程"
 tags: ["MetaHuman", "Light Stage", "Digital Human", "UE5"]
 ---

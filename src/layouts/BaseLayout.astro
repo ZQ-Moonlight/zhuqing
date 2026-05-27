@@ -8,23 +8,30 @@ interface Props {
     title?: string;
     description?: string;
     image?: string;
+    preloadImage?: string;
     activePath?: string;
     backgroundVariant?: "default" | "portfolio" | "article";
     noindex?: boolean;
+    structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
     title = "祝庆 Zhu Qing | 影视后期与 Unreal Engine 开发",
     description = "祝庆的个人作品集与博客，聚焦影视后期、Unreal Engine、虚拟制片、MetaHuman 与视觉设计。",
-    image = "/images/home/zq.jpg",
+    image = "/images/og/zhuqing-social-card.png",
+    preloadImage,
     activePath = Astro.url.pathname,
     backgroundVariant = "default",
     noindex = false,
+    structuredData,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
 const imagePath = withBase(image);
 const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
+const preloadImagePath = preloadImage ? withBase(preloadImage) : undefined;
+const absolutePreloadImage = preloadImagePath ? new URL(preloadImagePath, Astro.url.origin).toString() : undefined;
+const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
 ---
 
 <!doctype html>
@@ -38,21 +45,36 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         <link rel="canonical" href={canonical} />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
         <meta name="theme-color" content="#050505" />
+        <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={absoluteImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:url" content={canonical} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={absoluteImage} />
         <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
         <link rel="icon" href={withBase("/favicon.ico")} />
+        {absolutePreloadImage && <link rel="preload" as="image" href={absolutePreloadImage} fetchpriority="high" />}
+        {structuredDataItems.map((item) => (
+            <script type="application/ld+json" set:html={JSON.stringify(item)} />
+        ))}
         <script is:inline>
             document.documentElement.classList.add("js");
             try {
                 const savedTheme = localStorage.getItem("zq-theme");
+                const savedLanguage = localStorage.getItem("zq-language");
                 document.documentElement.dataset.theme = savedTheme || "dark";
+                document.documentElement.dataset.language = savedLanguage === "en" ? "en" : "cn";
+                document.documentElement.lang = savedLanguage === "en" ? "en" : "zh-CN";
             } catch {
                 document.documentElement.dataset.theme = "dark";
+                document.documentElement.dataset.language = "cn";
+                document.documentElement.lang = "zh-CN";
             }
         </script>
     </head>
@@ -61,10 +83,6 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         <FilmGrain />
         <AmbientBackground variant={backgroundVariant} />
         <Header activePath={activePath} />
-        <div class="theme-tip" data-theme-tip hidden>
-            <span>最佳视觉效果建议使用暗黑模式。</span>
-            <button type="button" data-theme-tip-close aria-label="关闭暗黑模式提示">×</button>
-        </div>
         <slot />
 
         <script is:inline>
@@ -73,41 +91,55 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
             const revealItems = document.querySelectorAll("[data-reveal]");
             const themeToggle = document.querySelector("[data-theme-toggle]");
             const themeToggleLabel = document.querySelector("[data-theme-toggle-label]");
-            const themeTip = document.querySelector("[data-theme-tip]");
-            const themeTipClose = document.querySelector("[data-theme-tip-close]");
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            let themeTipTimer;
+
+            const getUiLanguage = () => (document.documentElement.dataset.language === "en" ? "en" : "cn");
+
+            const applyStaticLanguage = (language = getUiLanguage()) => {
+                const lang = language === "en" ? "en" : "cn";
+                document.documentElement.dataset.language = lang;
+                document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+
+                document.querySelectorAll("[data-i18n-cn][data-i18n-en]").forEach((element) => {
+                    element.textContent = lang === "en" ? element.dataset.i18nEn : element.dataset.i18nCn;
+                });
+
+                document.querySelectorAll("[data-aria-cn][data-aria-en]").forEach((element) => {
+                    element.setAttribute("aria-label", lang === "en" ? element.dataset.ariaEn : element.dataset.ariaCn);
+                });
+
+                document.querySelectorAll("[data-title-cn][data-title-en]").forEach((element) => {
+                    element.setAttribute("title", lang === "en" ? element.dataset.titleEn : element.dataset.titleCn);
+                });
+
+                document.querySelectorAll("[data-placeholder-cn][data-placeholder-en]").forEach((element) => {
+                    element.setAttribute("placeholder", lang === "en" ? element.dataset.placeholderEn : element.dataset.placeholderCn);
+                });
+            };
 
             const syncThemeLabel = () => {
                 const isLight = document.documentElement.dataset.theme === "light";
-                const label = isLight ? "切换为黑暗风格" : "切换为明亮风格";
+                const isEnglish = getUiLanguage() === "en";
+                const label = isEnglish
+                    ? isLight
+                        ? "Switch to dark mode"
+                        : "Switch to light mode"
+                    : isLight
+                      ? "切换为黑暗风格"
+                      : "切换为明亮风格";
                 if (themeToggleLabel) themeToggleLabel.textContent = label;
                 themeToggle?.setAttribute("aria-label", label);
                 themeToggle?.setAttribute("title", label);
                 themeToggle?.setAttribute("aria-pressed", String(isLight));
             };
 
-            const hideThemeTip = () => {
-                window.clearTimeout(themeTipTimer);
-                themeTip?.setAttribute("hidden", "");
-            };
-
-            const showThemeTip = () => {
-                if (document.documentElement.dataset.theme !== "light") return;
-                themeTip?.removeAttribute("hidden");
-                window.clearTimeout(themeTipTimer);
-                themeTipTimer = window.setTimeout(hideThemeTip, 5200);
-            };
-
+            applyStaticLanguage();
             syncThemeLabel();
-            try {
-                if (document.documentElement.dataset.theme === "light" && sessionStorage.getItem("zq-theme-tip-seen") !== "1") {
-                    sessionStorage.setItem("zq-theme-tip-seen", "1");
-                    showThemeTip();
-                }
-            } catch {
-                showThemeTip();
-            }
+
+            window.addEventListener("zq-language-change", (event) => {
+                applyStaticLanguage(event.detail?.language);
+                syncThemeLabel();
+            });
 
             themeToggle?.addEventListener("click", () => {
                 const nextTheme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
@@ -116,13 +148,7 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
                     localStorage.setItem("zq-theme", nextTheme);
                 } catch {}
                 syncThemeLabel();
-                if (nextTheme === "light") {
-                    showThemeTip();
-                } else {
-                    hideThemeTip();
-                }
             });
-            themeTipClose?.addEventListener("click", hideThemeTip);
 
             const updateChrome = () => {
                 const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -435,7 +461,15 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         cursor: pointer;
         font: inherit;
         padding: 0;
-        transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+        transition: color 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    :root[data-theme="light"] .theme-toggle {
+        background: rgba(255, 255, 255, 0.96);
+        border-color: rgba(20, 20, 20, 0.2);
+        color: #171717;
+        box-shadow: 0 10px 26px rgba(32, 28, 22, 0.16);
     }
 
     .theme-icon {
@@ -469,50 +503,14 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         border-color: rgba(255, 94, 0, 0.42);
         color: var(--text-main);
         background: var(--bg-panel-strong);
+        transform: translateY(-1px);
     }
 
-    .theme-tip {
-        position: fixed;
-        top: calc(var(--header-height) + 12px);
-        right: var(--page-x);
-        z-index: 115;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        max-width: min(320px, calc(100vw - 40px));
-        padding: 10px 12px 10px 14px;
-        border: 1px solid rgba(255, 94, 0, 0.28);
-        border-radius: 8px;
-        background: rgba(10, 10, 11, 0.88);
-        color: #f5f5f7;
-        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
-        font-size: 0.86rem;
-        line-height: 1.5;
-        backdrop-filter: blur(12px);
-    }
-
-    .theme-tip[hidden] {
-        display: none;
-    }
-
-    .theme-tip button {
-        display: grid;
-        place-items: center;
-        flex: 0 0 auto;
-        width: 24px;
-        height: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.06);
-        color: currentColor;
-        cursor: pointer;
-        font: inherit;
-        line-height: 1;
-        padding: 0;
-    }
-
-    .theme-tip button:hover {
-        border-color: rgba(255, 94, 0, 0.58);
+    :root[data-theme="light"] .theme-toggle:hover {
+        border-color: rgba(200, 79, 18, 0.46);
+        background: #fff;
+        color: var(--accent);
+        box-shadow: 0 12px 30px rgba(32, 28, 22, 0.2);
     }
 
     .page-shell {
@@ -598,6 +596,61 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
         background: rgba(255, 255, 255, 0.72);
         border-color: var(--border);
         box-shadow: 0 18px 48px rgba(32, 28, 22, 0.08);
+    }
+
+    :root[data-theme="light"] .tag-row span,
+    :root[data-theme="light"] .archive-tags em,
+    :root[data-theme="light"] .reference-tags em,
+    :root[data-theme="light"] .reel-tags em,
+    :root[data-theme="light"] .reel-meta time,
+    :root[data-theme="light"] .reel-meta span,
+    :root[data-theme="light"] .document-meta span,
+    :root[data-theme="light"] .card-status {
+        background: rgba(255, 255, 255, 0.72);
+        border-color: rgba(20, 20, 20, 0.14);
+        color: var(--text-muted);
+    }
+
+    :root[data-theme="light"] .file-chip--local {
+        background: rgba(20, 20, 20, 0.08);
+        color: var(--text-muted);
+    }
+
+    :root[data-theme="light"] .chapter-nav {
+        background: rgba(244, 241, 234, 0.9);
+        border-color: rgba(20, 20, 20, 0.12);
+        box-shadow: 0 10px 28px rgba(32, 28, 22, 0.06);
+    }
+
+    :root[data-theme="light"] .chapter-nav a {
+        color: var(--text-muted);
+    }
+
+    :root[data-theme="light"] .chapter-nav a:hover {
+        color: var(--text-main);
+    }
+
+    :root[data-theme="light"] .text-block .lead,
+    :root[data-theme="light"] .prose blockquote {
+        background: rgba(255, 255, 255, 0.64);
+        color: var(--text-main);
+    }
+
+    :root[data-theme="light"] .prose code {
+        background: rgba(20, 20, 20, 0.055);
+        color: var(--text-main);
+    }
+
+    :root[data-theme="light"] .lesson-list article {
+        background: rgba(255, 246, 240, 0.72);
+        border-color: rgba(180, 58, 52, 0.16);
+        border-left-color: rgba(180, 58, 52, 0.54);
+        box-shadow: 0 16px 36px rgba(32, 28, 22, 0.06);
+    }
+
+    :root[data-theme="light"] .case-section h2 span,
+    :root[data-theme="light"] .case-block__head span {
+        color: rgba(20, 20, 20, 0.08);
     }
 
     :root[data-theme="light"] .article-hero:not(.article-hero--no-cover) .article-heading h1,
@@ -706,13 +759,5 @@ const absoluteImage = new URL(imagePath, Astro.url.origin).toString();
             padding-bottom: 72px;
         }
 
-        .theme-tip {
-            top: auto;
-            right: 20px;
-            bottom: 20px;
-            left: 20px;
-            max-width: none;
-            justify-content: space-between;
-        }
     }
 </style>

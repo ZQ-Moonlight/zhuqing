@@ -3,8 +3,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getReferenceGroups } from "../lib/contentArchive";
 import { withBase } from "../lib/paths";
 
-const reelDocs = (await getReferenceGroups()).find((group) => group.label === "reel")?.items ?? [];
+const shareDocs = (await getReferenceGroups()).find((group) => group.label === "分享资料")?.items ?? [];
+const shareDocCopy: Record<string, { titleEn: string; descriptionEn?: string }> = {
+    "影像册 V1": {
+        titleEn: "Image Collection V1",
+        descriptionEn: "A staged image collection centered on photography, showing visual observation, narrative mood, and image organization.",
+    },
+    "DIT 快速入门手册 V1.1": {
+        titleEn: "DIT Quick Start Guide V1.1",
+        descriptionEn: "A DIT workflow guide for on-set media management, transcoding, verification, backup, and data handoff.",
+    },
+};
+const getShareDocCopy = (title: string) => shareDocCopy[title] ?? { titleEn: title };
 const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Camera-Base-Calculator/";
+const guangyingWorkflowUrl = withBase("/blog/guangying-changqing-workflow/");
+const portfolioUrl = new URL(withBase("/portfolio/"), Astro.site ?? Astro.url.origin).toString();
+const collectionStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "作品集 | 祝庆 Zhu Qing",
+    description: "祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。",
+    url: portfolioUrl,
+    mainEntity: {
+        "@type": "ItemList",
+        itemListElement: [
+            { "@type": "CreativeWork", name: "《底特律：化身为人》场景与交互复刻", url: new URL(withBase("/portfolio/detroit/"), Astro.site ?? Astro.url.origin).toString() },
+            { "@type": "CreativeWork", name: "MetaHuman 与数字人光场流程", url: new URL(withBase("/portfolio/metahuman/"), Astro.site ?? Astro.url.origin).toString() },
+            { "@type": "CreativeWork", name: "《光影长青》", url: new URL(withBase("/portfolio/guangying-changqing/"), Astro.site ?? Astro.url.origin).toString() },
+            { "@type": "CreativeWork", name: "《光影长青》创新影像项目技术工作流", url: new URL(guangyingWorkflowUrl, Astro.site ?? Astro.url.origin).toString() },
+            { "@type": "CreativeWork", name: "nDisplay 虚拟拍摄主摄影系统构建", url: new URL(withBase("/portfolio/ndisplay/"), Astro.site ?? Astro.url.origin).toString() },
+        ],
+    },
+};
 ---
 
 <BaseLayout
@@ -12,65 +42,66 @@ const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Came
     description="祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。"
     activePath="/portfolio"
     backgroundVariant="portfolio"
+    structuredData={collectionStructuredData}
 >
     <main class="page-shell portfolio-layout">
         <header class="portfolio-hero" data-reveal>
-            <span class="eyebrow">作品 / 流程 / 后期</span>
-            <h1>部分作品 Works</h1>
-            <p>虚幻引擎交互、数字人技术研究、影视后期调色与电影放映。</p>
+            <span class="eyebrow" data-i18n-cn="作品 / 流程 / 后期" data-i18n-en="Works / Pipeline / Post">作品 / 流程 / 后期</span>
+            <h1 data-i18n-cn="部分作品 Works" data-i18n-en="Selected Works">部分作品 Works</h1>
+            <p data-i18n-cn="虚幻引擎交互、数字人技术研究、影视后期调色与电影放映。" data-i18n-en="Unreal Engine interaction, digital-human research, post-production color work, and cinema delivery.">虚幻引擎交互、数字人技术研究、影视后期调色与电影放映。</p>
         </header>
 
         <section class="work-section" aria-labelledby="works-title">
             <div class="section-heading" data-reveal>
-                <h2 id="works-title">部分项目</h2>
+                <h2 id="works-title" data-i18n-cn="部分项目" data-i18n-en="Projects">部分项目</h2>
             </div>
 
             <div class="work-grid">
                 <a href={withBase("/portfolio/detroit")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/detroit/cover.jpg")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
-                        <span class="card-hover">查看技术复盘</span>
+                        <img src={withBase("/images/portfolio/detroit/cover.webp")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
+                        <span class="card-hover" data-i18n-cn="查看技术复盘" data-i18n-en="View Case Study">查看技术复盘</span>
                     </div>
                     <div class="card-info">
-                        <span class="category">UE5 / 交互叙事</span>
-                        <h3>《底特律：化身为人》场景与交互复刻</h3>
-                        <p>章节级交互还原，包含蓝图 QTE、关卡序列、环境扫描、虚拟制片适配与镜头流程复盘。</p>
+                        <span class="category" data-i18n-cn="UE5 / 交互叙事" data-i18n-en="UE5 / Interactive Narrative">UE5 / 交互叙事</span>
+                        <h3 data-i18n-cn="《底特律：化身为人》场景与交互复刻" data-i18n-en="Detroit: Become Human Scene & Interaction Recreation">《底特律：化身为人》场景与交互复刻</h3>
+                        <p data-i18n-cn="章节级交互还原，包含蓝图 QTE、关卡序列、环境扫描、虚拟制片适配与镜头流程复盘。" data-i18n-en="A chapter-level interactive recreation covering Blueprint QTEs, level sequences, environmental scanning, virtual-production adaptation, and camera workflow notes.">章节级交互还原，包含蓝图 QTE、关卡序列、环境扫描、虚拟制片适配与镜头流程复盘。</p>
                     </div>
                 </a>
 
                 <a href={withBase("/portfolio/metahuman")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/lightstage/lightstage-article-cover.jpg")} alt="MetaHuman and Light Stage workflow" loading="lazy" />
-                        <span class="card-hover">查看数字人流程</span>
+                        <img src={withBase("/images/portfolio/lightstage/lightstage-article-cover.webp")} alt="MetaHuman and Light Stage workflow" loading="lazy" />
+                        <span class="card-hover" data-i18n-cn="查看数字人流程" data-i18n-en="View Digital-Human Pipeline">查看数字人流程</span>
                     </div>
                     <div class="card-info">
-                        <span class="category">数字人 / 工作流</span>
-                        <h3>MetaHuman 与数字人光场流程</h3>
-                        <p>研究数字人资产规范、表情/材质流程与高精度光照采集，探索实时数字人的视觉可信度边界。</p>
+                        <span class="category" data-i18n-cn="数字人 / 工作流" data-i18n-en="Digital Human / Workflow">数字人 / 工作流</span>
+                        <h3 data-i18n-cn="MetaHuman 与数字人光场流程" data-i18n-en="MetaHuman and Digital-Human Light-Stage Pipeline">MetaHuman 与数字人光场流程</h3>
+                        <p data-i18n-cn="研究数字人资产规范、表情/材质流程与高精度光照采集，探索实时数字人的视觉可信度边界。" data-i18n-en="Research into digital-human asset standards, facial and material workflows, and high-precision lighting capture for believable real-time characters.">研究数字人资产规范、表情/材质流程与高精度光照采集，探索实时数字人的视觉可信度边界。</p>
                     </div>
                 </a>
 
                 <a href={withBase("/portfolio/guangying-changqing")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/changqing/still.png")} alt="Light and Shadow Changqing digital image work" loading="lazy" />
-                        <span class="card-hover">查看项目复盘</span>
+                        <img src={withBase("/images/portfolio/changqing/still.webp")} alt="Light and Shadow Changqing digital image work" loading="lazy" />
+                        <span class="card-hover" data-i18n-cn="查看项目复盘" data-i18n-en="View Project Notes">查看项目复盘</span>
                     </div>
                     <div class="card-info">
-                        <span class="category">数字人 / 高斯泼溅 / 叙事短片</span>
-                        <h3>《光影长青》</h3>
-                        <p>结合 MetaHuman 数字人、高斯泼溅校园场景重建与人文叙事，完成一段跨越时空的影像对话。</p>
+                        <span class="category" data-i18n-cn="数字人 / 高斯泼溅 / 叙事短片" data-i18n-en="Digital Human / Gaussian Splatting / Narrative Film">数字人 / 高斯泼溅 / 叙事短片</span>
+                        <h3 data-i18n-cn="《光影长青》" data-i18n-en="Light and Shadow, Evergreen">《光影长青》</h3>
+                        <p data-i18n-cn="结合 MetaHuman 数字人、高斯泼溅校园场景重建与人文叙事，完成一段跨越时空的影像对话。" data-i18n-en="A time-spanning visual dialogue combining MetaHuman digital humans, Gaussian Splatting campus reconstruction, and humanistic narrative design.">结合 MetaHuman 数字人、高斯泼溅校园场景重建与人文叙事，完成一段跨越时空的影像对话。</p>
                     </div>
                 </a>
 
                 <a href={withBase("/portfolio/ndisplay")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/ndisplay/cover.jpg")} alt="nDisplay ICVFX LED volume workflow" loading="lazy" />
-                        <span class="card-hover">查看虚拟拍摄流程</span>
+                        <img src={withBase("/images/portfolio/ndisplay/cover.webp")} alt="nDisplay ICVFX LED volume workflow" loading="lazy" />
+                        <span class="card-hover" data-i18n-cn="查看虚拟拍摄流程" data-i18n-en="View Virtual-Production Workflow">查看虚拟拍摄流程</span>
                     </div>
                     <div class="card-info">
-                        <span class="category">nDisplay / ICVFX / 虚拟拍摄</span>
-                        <h3>nDisplay 虚拟拍摄主摄影系统构建</h3>
-                        <p>围绕 LED 背景墙、nDisplay 配置、实时内容播放与主摄影机视角管理，整理 ICVFX 现场拍摄流程。</p>
+                        <span class="category" data-i18n-cn="nDisplay / ICVFX / 虚拟拍摄" data-i18n-en="nDisplay / ICVFX / Virtual Production">nDisplay / ICVFX / 虚拟拍摄</span>
+                        <h3 data-i18n-cn="nDisplay 虚拟拍摄主摄影系统构建" data-i18n-en="nDisplay Virtual-Production Camera System">nDisplay 虚拟拍摄主摄影系统构建</h3>
+                        <p data-i18n-cn="围绕 LED 背景墙、nDisplay 配置、实时内容播放与主摄影机视角管理，整理 ICVFX 现场拍摄流程。" data-i18n-en="An ICVFX workflow organized around LED volumes, nDisplay configuration, real-time playback, and main-camera viewpoint management.">围绕 LED 背景墙、nDisplay 配置、实时内容播放与主摄影机视角管理，整理 ICVFX 现场拍摄流程。</p>
                     </div>
                 </a>
 
@@ -85,37 +116,40 @@ const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Came
                             <strong>Camera Base</strong>
                             <i></i>
                         </div>
-                        <span class="card-hover">打开网页工具</span>
+                        <span class="card-hover" data-i18n-cn="打开网页工具" data-i18n-en="Open Web Tool">打开网页工具</span>
                     </div>
                     <div class="card-info">
-                        <span class="category">网页工具 / 立体拍摄</span>
+                        <span class="category" data-i18n-cn="网页工具 / 立体拍摄" data-i18n-en="Web Tool / Stereoscopic 3D">网页工具 / 立体拍摄</span>
                         <h3>Stereoscopic 3D Camera Base Calculator</h3>
-                        <p>用于立体拍摄前期测算摄影机基线、视差与拍摄参数，辅助现场快速评估 3D 立体影像的舒适范围。</p>
+                        <p data-i18n-cn="用于立体拍摄前期测算摄影机基线、视差与拍摄参数，辅助现场快速评估 3D 立体影像的舒适范围。" data-i18n-en="A web calculator for pre-production stereoscopic planning, helping estimate camera base, parallax, and comfortable 3D capture ranges on set.">用于立体拍摄前期测算摄影机基线、视差与拍摄参数，辅助现场快速评估 3D 立体影像的舒适范围。</p>
                     </div>
                 </a>
 
-                <article class="project-card" data-reveal>
+                <article class="project-card project-card--summary" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/post/dcp-screening.jpg")} alt="DCP screening on Barco projector" loading="lazy" />
+                        <img src={withBase("/images/portfolio/post/dcp-screening.webp")} alt="DCP screening on Barco projector" loading="lazy" />
                     </div>
                     <div class="card-info">
-                        <span class="category">DCP / 电影节字幕</span>
-                        <h3>电影节 DCP 与外挂字幕放映</h3>
-                        <p>这张图拍自C329教室，使用系里的 Barco 投影机完成 DCP 放映测试，并制作日语竖排加 ruby 注音的外挂字幕，字幕以外挂形式展示，不烧入画面。</p>
+                        <span class="category" data-i18n-cn="DCP / 电影节字幕" data-i18n-en="DCP / Festival Subtitles">DCP / 电影节字幕</span>
+                        <span class="card-status" data-i18n-cn="项目简述" data-i18n-en="Brief">项目简述</span>
+                        <h3 data-i18n-cn="电影节 DCP 与外挂字幕放映" data-i18n-en="Festival DCP and External Subtitle Screening">电影节 DCP 与外挂字幕放映</h3>
+                        <p data-i18n-cn="这张图拍自C329教室，使用系里的 Barco 投影机完成 DCP 放映测试，并制作日语竖排加 ruby 注音的外挂字幕，字幕以外挂形式展示，不烧入画面。" data-i18n-en="A DCP screening test on the department's Barco projector, paired with external Japanese vertical subtitles with ruby annotation rather than burned-in text.">这张图拍自C329教室，使用系里的 Barco 投影机完成 DCP 放映测试，并制作日语竖排加 ruby 注音的外挂字幕，字幕以外挂形式展示，不烧入画面。</p>
                     </div>
                 </article>
 
-                <article class="project-card" data-reveal>
+                <article class="project-card project-card--summary" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/post/brand-post-cover.jpg")} alt="Post-production and color grading work" loading="lazy" />
+                        <img src={withBase("/images/portfolio/post/brand-post-cover.webp")} alt="Post-production and color grading work" loading="lazy" />
                     </div>
                     <div class="card-info">
-                        <span class="category">后期 / 剪辑 / 调色</span>
-                        <h3>商业与品牌后期合作</h3>
-                        <p>参与短片剪辑、调色和影像包装，熟练使用 DaVinci Resolve。合作对象包括小红书、国家地理等品牌内容。</p>
+                        <span class="category" data-i18n-cn="后期 / 剪辑 / 调色" data-i18n-en="Post / Editing / Color">后期 / 剪辑 / 调色</span>
+                        <span class="card-status" data-i18n-cn="项目简述" data-i18n-en="Brief">项目简述</span>
+                        <h3 data-i18n-cn="商业与品牌后期合作" data-i18n-en="Commercial and Brand Post-Production">商业与品牌后期合作</h3>
+                        <p data-i18n-cn="参与短片剪辑、调色和影像包装，熟练使用 DaVinci Resolve。合作对象包括小红书、国家地理等品牌内容。" data-i18n-en="Editing, color grading, and visual packaging for short-form and commercial projects, with DaVinci Resolve as the core finishing tool.">参与短片剪辑、调色和影像包装，熟练使用 DaVinci Resolve。合作对象包括小红书、国家地理等品牌内容。</p>
                     </div>
                 </article>
             </div>
+
         </section>
 
         <section class="work-section reel-hub" aria-labelledby="reel-hub-title">
@@ -124,25 +158,27 @@ const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Came
             </div>
 
             <div class="reel-placeholder" data-reveal>
-                <span class="category">Showreel / Coming Soon</span>
-                <strong>Reel 链接整理中</strong>
-                <p>这里会单独放置可播放的 showreel 与阶段性影像合集，后续补充链接后可以直接更新这个区块。</p>
+                <span class="category">Showreel / In Progress</span>
+                <strong data-i18n-cn="精选片段整理中" data-i18n-en="Selected Clips in Progress">精选片段整理中</strong>
+                <p data-i18n-cn="这里将放置可播放的 showreel 与阶段性影像合集；在正式视频上线前，作品页中的案例复盘可作为当前展示入口。" data-i18n-en="A playable showreel and selected visual collection will live here; before the final video is ready, the case-study pages serve as the main viewing path.">这里将放置可播放的 showreel 与阶段性影像合集；在正式视频上线前，作品页中的案例复盘可作为当前展示入口。</p>
             </div>
         </section>
 
-        {reelDocs.length > 0 && (
+        {shareDocs.length > 0 && (
             <section class="work-section reel-section" aria-labelledby="reel-title">
                 <div class="section-heading" data-reveal>
-                    <h2 id="reel-title">资料下载</h2>
+                    <h2 id="reel-title" data-i18n-cn="分享资料" data-i18n-en="Shared Documents">分享资料</h2>
                 </div>
 
                 <div class="reel-list">
-                    {reelDocs.map((item) => (
+                    {shareDocs.map((item) => (
                         <a class="reel-item" href={item.href} target="_blank" rel="noreferrer" data-reveal>
                             <span class="file-chip">{item.kind}</span>
                             <span class="reel-item__main">
-                                <strong>{item.title}</strong>
-                                {item.description && <small>{item.description}</small>}
+                                <strong data-i18n-cn={item.title} data-i18n-en={getShareDocCopy(item.title).titleEn}>{item.title}</strong>
+                                {item.description && (
+                                    <small data-i18n-cn={item.description} data-i18n-en={getShareDocCopy(item.title).descriptionEn ?? item.description}>{item.description}</small>
+                                )}
                                 <span class="reel-meta">
                                     <time>{item.uploadedLabel}</time>
                                     <span>{item.sizeLabel}</span>
@@ -158,7 +194,7 @@ const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Came
         )}
     </main>
 
-    <footer class="site-footer">© 2026 祝庆 Zhu Qing</footer>
+    <footer class="site-footer" data-i18n-cn="© 2026 祝庆 Zhu Qing" data-i18n-en="© 2026 Zhu Qing">© 2026 祝庆 Zhu Qing</footer>
 </BaseLayout>
 
 <style>
@@ -266,6 +302,35 @@ const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Came
         font-family: var(--font-display);
         font-size: var(--title-card);
         line-height: 1.32;
+    }
+
+    .card-status {
+        display: inline-flex;
+        width: fit-content;
+        margin: 0 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        line-height: 1;
+        padding: 5px 9px;
+    }
+
+    .project-card--summary .card-image::after {
+        content: "Brief";
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(5, 5, 5, 0.68);
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        padding: 6px 9px;
+        text-transform: uppercase;
     }
 
     .card-info p {

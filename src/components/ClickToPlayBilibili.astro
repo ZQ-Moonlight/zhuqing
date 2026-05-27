@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/paths";
+
 interface Props {
     bvid: string;
     title: string;
@@ -9,7 +11,7 @@ interface Props {
     compact?: boolean;
 }
 
-const { bvid, title, compact = false } = Astro.props;
+const { bvid, title, poster, eyebrow = "Bilibili Video", heading = "点击播放", description, compact = false } = Astro.props;
 
 const playerParams = new URLSearchParams({
     bvid,
@@ -22,27 +24,53 @@ const playerParams = new URLSearchParams({
 });
 const playerSrc = `https://player.bilibili.com/player.html?${playerParams.toString()}`;
 const videoUrl = `https://www.bilibili.com/video/${bvid}/`;
+const posterSrc = poster ? withBase(poster) : undefined;
 ---
 
-<div class:list={["bilibili-embed-player", compact && "bilibili-embed-player--compact"]}>
-    <iframe
-        src={playerSrc}
-        title={title}
-        loading="eager"
-        scrolling="no"
-        frameborder="0"
-        allow="fullscreen; autoplay; picture-in-picture"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-    ></iframe>
+<div
+    class:list={["bilibili-embed-player", compact && "bilibili-embed-player--compact"]}
+    data-bilibili-player
+    data-player-src={playerSrc}
+    data-player-title={title}
+>
+    <button class="bilibili-embed-player__poster" type="button" data-bilibili-play aria-label={`播放视频：${title}`}>
+        {posterSrc && <img src={posterSrc} alt="" loading="lazy" />}
+        <span class="bilibili-embed-player__copy">
+            <span class="bilibili-embed-player__eyebrow">{eyebrow}</span>
+            <strong>{heading}</strong>
+            {description && <small>{description}</small>}
+        </span>
+        <span class="bilibili-embed-player__play" aria-hidden="true">Play</span>
+    </button>
     <a class="bilibili-embed-player__fallback" href={videoUrl} target="_blank" rel="noreferrer">
         &#22312; Bilibili &#25171;&#24320;
     </a>
 </div>
 
+<script is:inline>
+    document.querySelectorAll("[data-bilibili-player]:not([data-bilibili-bound])").forEach((player) => {
+        player.setAttribute("data-bilibili-bound", "true");
+        const button = player.querySelector("[data-bilibili-play]");
+
+        button?.addEventListener("click", () => {
+            const iframe = document.createElement("iframe");
+            iframe.src = player.getAttribute("data-player-src") || "";
+            iframe.title = player.getAttribute("data-player-title") || "Bilibili video";
+            iframe.loading = "lazy";
+            iframe.scrolling = "no";
+            iframe.allow = "fullscreen; autoplay; picture-in-picture";
+            iframe.referrerPolicy = "no-referrer-when-downgrade";
+            iframe.allowFullscreen = true;
+            player.appendChild(iframe);
+            player.classList.add("is-playing");
+        });
+    });
+</script>
+
 <style>
     .bilibili-embed-player,
-    .bilibili-embed-player iframe {
+    .bilibili-embed-player iframe,
+    .bilibili-embed-player__poster {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -55,18 +83,92 @@ const videoUrl = `https://www.bilibili.com/video/${bvid}/`;
         isolation: isolate;
     }
 
+    .bilibili-embed-player__poster {
+        display: grid;
+        place-items: center;
+        border: 0;
+        cursor: pointer;
+        overflow: hidden;
+        padding: 0;
+        text-align: left;
+    }
+
+    .bilibili-embed-player__poster img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.42) saturate(0.86);
+        transition: filter 220ms ease, transform 720ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .bilibili-embed-player__poster:hover img {
+        filter: brightness(0.52) saturate(0.92);
+        transform: scale(1.035);
+    }
+
+    .bilibili-embed-player__copy {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 8px;
+        width: min(520px, calc(100% - 44px));
+        color: #fff;
+    }
+
+    .bilibili-embed-player__eyebrow {
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+        font-weight: 760;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .bilibili-embed-player__copy strong {
+        font-family: var(--font-display);
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        line-height: 1.2;
+    }
+
+    .bilibili-embed-player__copy small {
+        color: #d4d4d8;
+        font: inherit;
+        line-height: 1.65;
+    }
+
+    .bilibili-embed-player__play {
+        position: absolute;
+        left: 22px;
+        bottom: 22px;
+        z-index: 1;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        background: rgba(5, 5, 5, 0.72);
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        padding: 10px 14px;
+        text-transform: uppercase;
+    }
+
     .bilibili-embed-player iframe {
         display: block;
         border: 0;
         background: #050505;
         color-scheme: dark;
+        z-index: 3;
     }
 
     .bilibili-embed-player__fallback {
         position: absolute;
         right: 12px;
         bottom: 12px;
-        z-index: 2;
+        z-index: 4;
         border: 1px solid rgba(255, 255, 255, 0.22);
         border-radius: 999px;
         background: rgba(5, 5, 5, 0.72);
@@ -85,6 +187,10 @@ const videoUrl = `https://www.bilibili.com/video/${bvid}/`;
     }
 
     .bilibili-embed-player--compact .bilibili-embed-player__fallback {
+        display: none;
+    }
+
+    .bilibili-embed-player.is-playing .bilibili-embed-player__poster {
         display: none;
     }
 </style>

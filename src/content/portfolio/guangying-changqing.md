@@ -4,8 +4,8 @@ subtitle: "Light and Shadow, Evergreen"
 description: "一部结合 MetaHuman 数字人、高斯泼溅场景重建与人文叙事的数字影像作品。"
 category: "数字人 / 高斯泼溅 / 叙事短片"
 pubDate: 2025-01-01
-heroImage: "/images/portfolio/changqing/still.png"
-coverImage: "/images/portfolio/changqing/poster.jpg"
+heroImage: "/images/portfolio/changqing/still.webp"
+coverImage: "/images/portfolio/changqing/poster.webp"
 documentUrl: "/files/portfolio/changqing/workflow.pdf"
 documentLabel: "下载技术工作流文档"
 tags: ["MetaHuman", "Gaussian Splatting", "Digital Human", "Narrative Film"]
@@ -26,4 +26,3 @@ tags: ["MetaHuman", "Gaussian Splatting", "Digital Human", "Narrative Film"]
 ## 创作复盘
 
 这部作品最重要的挑战，是让技术不只是“展示技术”，而是真正进入叙事。数字人承担历史人物的情绪与姿态，高斯泼溅承担空间记忆的质感，两者共同服务于一段关于传承、信念与青年创作者位置的影像表达。
-

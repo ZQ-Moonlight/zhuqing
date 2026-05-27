@@ -1,86 +1,143 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { withBase } from "../lib/paths";
+
+const homeUrl = new URL(withBase("/"), Astro.site ?? Astro.url.origin).toString();
+const profileStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: "祝庆 Zhu Qing | 影视后期与 Unreal Engine 开发",
+    url: homeUrl,
+    description: "祝庆的个人作品集首页，聚焦影视后期、UE5、虚拟制片、MetaHuman 与视觉设计。",
+    mainEntity: {
+        "@type": "Person",
+        name: "祝庆",
+        alternateName: "Zhu Qing",
+        email: "mailto:zq_eugene@qq.com",
+        jobTitle: "Film and Television Technology Student",
+        knowsAbout: ["Unreal Engine", "MetaHuman", "Post-Production", "Virtual Production", "Color Grading"],
+    },
+};
 ---
 
 <BaseLayout
     title="祝庆 Zhu Qing | 影视后期与 Unreal Engine 开发"
     description="祝庆的个人作品集首页，聚焦影视后期、UE5、虚拟制片、MetaHuman 与视觉设计。"
     activePath="/"
+    preloadImage="/images/home/zq.webp"
+    structuredData={profileStructuredData}
 >
     <main class="home-hero">
         <div class="home-grid">
             <section class="profile-col" data-reveal>
                 <div class="cinematic-frame">
-                    <img src={withBase("/images/home/zq.jpg")} alt="祝庆 Zhu Qing cinematic portfolio still" loading="eager" fetchpriority="high" />
+                    <img src={withBase("/images/home/zq.webp")} alt="祝庆 Zhu Qing cinematic portfolio still" loading="eager" fetchpriority="high" />
                 </div>
 
-                <p class="eyebrow">影视技术 / UE Development</p>
+                <p class="eyebrow" data-i18n-cn="影视技术 / UE Development" data-i18n-en="Film Technology / UE Development">影视技术 / UE Development</p>
                 <h1>
-                    <span>祝庆</span>
-                    <small>Zhu Qing</small>
+                    <span data-i18n-cn="祝庆" data-i18n-en="Zhu Qing">祝庆</span>
+                    <small data-i18n-cn="Zhu Qing" data-i18n-en="Film Tech / UE Developer">Zhu Qing</small>
                 </h1>
-                <div class="role-tags" aria-label="Profile tags">
-                    <span>BFA Student</span>
-                    <span class="divider"></span>
-                    <span>MetaHuman</span>
-                    <span class="divider"></span>
-                    <span>Post-Production</span>
+                <div class="hero-actions" aria-label="快速入口" data-aria-cn="快速入口" data-aria-en="Quick links">
+                    <a class="hero-action" href={withBase("/portfolio")} data-i18n-cn="查看作品" data-i18n-en="View Works">查看作品</a>
+                    <a class="hero-action" href={withBase("/blog")} data-i18n-cn="阅读档案" data-i18n-en="Read Archive">阅读档案</a>
+                    <button class="hero-action" type="button" data-message-open data-i18n-cn="留言给我" data-i18n-en="Message Me">留言给我</button>
                 </div>
             </section>
 
             <section class="bio-col" data-reveal>
                 <div class="language-tabs" role="tablist" aria-label="Language">
-                    <button class="active" type="button" data-lang-button="cn" aria-controls="content-cn">中文</button>
-                    <button type="button" data-lang-button="en" aria-controls="content-en">EN</button>
+                    <button id="tab-cn" class="active" type="button" role="tab" aria-selected="true" tabindex="0" data-lang-button="cn" aria-controls="content-cn" data-i18n-cn="中文" data-i18n-en="Chinese">中文</button>
+                    <button id="tab-en" type="button" role="tab" aria-selected="false" tabindex="-1" data-lang-button="en" aria-controls="content-en" data-i18n-cn="EN" data-i18n-en="English">EN</button>
                 </div>
 
-                <div id="content-cn" class="lang-content active" data-lang-panel="cn">
+                <div id="content-cn" class="lang-content active" role="tabpanel" lang="zh-CN" aria-labelledby="tab-cn" data-lang-panel="cn">
                     <p class="lead">
-                        我是祝庆，目前正在北京电影学院学习影视技术。
+                        我是祝庆，目前正在北京电影学院学习影视技术，致力于影视后期、游戏开发（虚幻引擎）与近代史研究。
                     </p>
-                    <p>
-                        我一直很着迷于影视后期、虚幻引擎开发和视觉设计之间那个交叉的地带：技术怎样才能更好地服务于故事，又怎样能催生出新的视觉语言。
-                    </p>
-                    <p>
-                        我在学校 ISFVF 电影节当了三年的字幕组组长，无论是内嵌字幕、XML 外挂字幕，还是自媒体平台的各种发行版本，我都很熟悉。另外，利用学校的放映机资源，我也掌握了 DCP 的制作和放映。能亲手完成电影院放映的最后一环，真的很令人兴奋。
-                    </p>
-                    <p>
-                        在 UE5 的自学中，我复刻过《底特律：化身为人》的一个章节，也熟悉 nDisplay 虚拟拍摄 LED 背景墙的流程。同时，借助系里的光台资产，我研究了如何把真人复刻成 MetaHuman 数字人。我还做了一个纯原创的作品，结合高斯泼溅与数字人技术，拿到了 2025 年中国创新影像大赛数字人赛道的奖项。游戏技术让我着迷，尤其是过场动画的设计。
-                    </p>
-                    <p>
-                        在剪辑和调色方面，我有幸参与了一些短片和商业项目的后期制作，合作方包括小红书、国家地理。目前我也在尝试将 3D 立体拍摄、CG 制作与调色流程结合起来：这个过程很有挑战，也让我兴奋。
-                    </p>
+                    <ul class="bio-points" aria-label="简介重点">
+                        <li>
+                            <strong>影视后期流程</strong>
+                            <span>三年 ISFVF 国际影展字幕组经验。贯通从剪辑、DaVinci 调色到院线级 DCP 制作与放映的完整标准后期流水线。</span>
+                        </li>
+                        <li>
+                            <strong>游戏开发</strong>
+                            <span>专注引擎全流程。曾深度复刻《底特律：化身为人》影视级关卡，会使用 UE5 蓝图、nDisplay LED 虚拟制片及实时渲染流。</span>
+                        </li>
+                        <li>
+                            <strong>数字人创作</strong>
+                            <span>全栈数字人管线。掌握基于 Light-Stage（光台）资产到 MetaHuman 的超写实角色重建，高斯泼溅融合作品荣获 2025 行业赛事奖项。</span>
+                        </li>
+                    </ul>
+                    <details class="bio-details">
+                        <summary data-label-collapsed="展开完整介绍" data-label-expanded="收起详细介绍"><span class="arrow">▶</span> 展开完整介绍</summary>
+                        <div class="bio-details__content">
+                            <div class="bio-details__inner">
+                                <p>
+                                    我一直很着迷于影视后期、虚幻引擎开发和视觉设计之间那个交叉的地带：技术怎样才能更好地服务于故事，又怎样能催生出新的视觉语言。
+                                </p>
+                                <p>
+                                    我在学校 ISFVF 电影节当了三年的字幕组组长，无论是内嵌字幕、XML 外挂字幕，还是自媒体平台的各种发行版本，我都很熟悉。另外，利用学校的放映机资源，我也掌握了 DCP 的制作和放映。能亲手完成电影院放映的最后一环，真的很令人兴奋。
+                                </p>
+                                <p>
+                                    在 UE5 的自学中，我复刻过《底特律：化身为人》的一个章节，也熟悉 nDisplay 虚拟拍摄 LED 背景墙的流程。同时，借助系里的光台资产，我研究了如何把真人复刻成 MetaHuman 数字人。我还做了一个纯原创的作品，结合高斯泼溅与数字人技术，拿到了 2025 年中国创新影像大赛数字人赛道的奖项。游戏技术让我着迷，尤其是过场动画的设计，要是有一天我也能做动画就好了。
+                                </p>
+                                <p>
+                                    在剪辑和调色方面，我有幸参与了一些短片和商业项目的后期制作，合作方包括小红书、国家地理。目前我也在尝试将 3D 立体拍摄、CG 制作与调色流程结合起来：这个过程很有挑战，也让我兴奋。
+                                </p>
+                            </div>
+                        </div>
+                    </details>
                     <div class="contact-box">
                         <span>如果你对研究项目、电影制作或技术开发感兴趣，或者只是单纯想聊聊历史与电影之间有意思的事，欢迎通过邮件联系我。我也在寻找影视后期或互动式电影游戏开发方向的工作/实习机会，希望能用我的技能为团队创造价值。</span>
                         <div class="contact-actions">
                             <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
-                            <button class="message-button" type="button" data-message-open>留言给我</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="content-en" class="lang-content" data-lang-panel="en" hidden>
+                <div id="content-en" class="lang-content" role="tabpanel" lang="en" aria-labelledby="tab-en" data-lang-panel="en" hidden>
                     <p class="lead">
-                        I am Zhu Qing, currently studying Film and Television Technology at Beijing Film Academy.
+                        I am Zhu Qing, currently studying Film and Television Technology at Beijing Film Academy, with a focus on post-production, game development (Unreal Engine), and modern history research.
                     </p>
-                    <p>
-                        I have long been fascinated by the space where post-production, Unreal Engine development, and visual design overlap: how technology can better serve story, and how it can give rise to new visual languages.
-                    </p>
-                    <p>
-                        For three years, I led the subtitle team at my school's ISFVF film festival. I am comfortable with embedded subtitles, XML sidecar subtitles, and the many delivery versions required by social media platforms. With access to the academy's projection facilities, I have also learned DCP creation and screening. Completing the final step before a film reaches the cinema screen still feels genuinely exciting.
-                    </p>
-                    <p>
-                        In my self-directed UE5 practice, I recreated a chapter from <em>Detroit: Become Human</em> and became familiar with nDisplay workflows for LED virtual production backgrounds. Using light-stage assets, I also researched how to reconstruct a real person as a MetaHuman digital human. I created an original work combining Gaussian Splatting and digital-human techniques, which received an award in the Digital Human category at the 2025 China Innovative Image Competition. Game technology fascinates me, especially the design of cinematics.
-                    </p>
-                    <p>
-                        As an editor and colorist, I have been lucky to join post-production on short films and commercial projects, with collaborators including Xiaohongshu and National Geographic. I am now experimenting with combining stereoscopic 3D shooting, CG production, and color workflows: a demanding process, and one that keeps me excited.
-                    </p>
+                    <ul class="bio-points" aria-label="Profile highlights">
+                        <li>
+                            <strong>Post-production pipeline</strong>
+                            <span>Three years of subtitle-team experience at the ISFVF International Film Festival. I work across a standard post-production pipeline, from editing and DaVinci Resolve color grading to cinema-grade DCP creation and screening.</span>
+                        </li>
+                        <li>
+                            <strong>Game development</strong>
+                            <span>Focused on the full engine workflow. I have deeply recreated a cinematic level from <em>Detroit: Become Human</em>, and work with UE5 Blueprints, nDisplay LED virtual production, and real-time rendering pipelines.</span>
+                        </li>
+                        <li>
+                            <strong>Digital-human creation</strong>
+                            <span>A full-stack digital-human pipeline. I work from Light Stage assets to photoreal MetaHuman reconstruction, and a Gaussian Splatting hybrid project received a 2025 industry competition award.</span>
+                        </li>
+                    </ul>
+                    <details class="bio-details">
+                        <summary data-label-collapsed="Read full introduction" data-label-expanded="Collapse full introduction"><span class="arrow">▶</span> Read full introduction</summary>
+                        <div class="bio-details__content">
+                            <div class="bio-details__inner">
+                                <p>
+                                    I have long been fascinated by the space where post-production, Unreal Engine development, and visual design overlap: how technology can better serve story, and how it can give rise to new visual languages.
+                                </p>
+                                <p>
+                                    For three years, I led the subtitle team at my school's ISFVF film festival. I am comfortable with embedded subtitles, XML sidecar subtitles, and the many delivery versions required by social media platforms. With access to the academy's projection facilities, I have also learned DCP creation and screening. Completing the final step before a film reaches the cinema screen still feels genuinely exciting.
+                                </p>
+                                <p>
+                                    In my self-directed UE5 practice, I recreated a chapter from <em>Detroit: Become Human</em> and became familiar with nDisplay workflows for LED virtual production backgrounds. Using light-stage assets, I also researched how to reconstruct a real person as a MetaHuman digital human. I created an original work combining Gaussian Splatting and digital-human techniques, which received an award in the Digital Human category at the 2025 China Innovative Image Competition. Game technology fascinates me, especially the design of cinematics, and I hope I can make animation myself someday.
+                                </p>
+                                <p>
+                                    As an editor and colorist, I have been lucky to join post-production on short films and commercial projects, with collaborators including Xiaohongshu and National Geographic. I am now experimenting with combining stereoscopic 3D shooting, CG production, and color workflows: a demanding process, and one that keeps me excited.
+                                </p>
+                            </div>
+                        </div>
+                    </details>
                     <div class="contact-box">
-                        <span>If you are interested in research projects, filmmaking, or technical development, or if you simply want to talk about the strange and fascinating ties between history and cinema, feel free to reach out. I am also looking for work or internship opportunities in post-production and interactive film/game development, where I hope my skills can create value for a team.</span>
+                        <span>If you are interested in research projects, filmmaking, or technical development, or if you simply want to talk about the fascinating ties between history and cinema, feel free to email me. I am also looking for work or internship opportunities in post-production or interactive film/game development, where I hope my skills can create value for a team.</span>
                         <div class="contact-actions">
                             <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
-                            <button class="message-button" type="button" data-message-open>Leave a note</button>
                         </div>
                     </div>
                 </div>
@@ -91,37 +148,37 @@ import { withBase } from "../lib/paths";
     <div class="message-modal" data-message-modal hidden>
         <div class="message-modal__backdrop" data-message-close></div>
         <section class="message-dialog" role="dialog" aria-modal="true" aria-labelledby="message-title" data-message-dialog>
-            <button class="message-close" type="button" aria-label="关闭留言窗口" data-message-close>×</button>
+            <button class="message-close" type="button" aria-label="关闭留言窗口" data-message-close data-aria-cn="关闭留言窗口" data-aria-en="Close message window">×</button>
             <span class="eyebrow">Email Message</span>
-            <h2 id="message-title">给我留言</h2>
-            <p>写下想聊的内容和联系方式，提交后会用你的邮件客户端发给我。</p>
+            <h2 id="message-title" data-i18n-cn="给我留言" data-i18n-en="Send Me a Message">给我留言</h2>
+            <p data-i18n-cn="写下想聊的内容和联系方式，提交后会用你的邮件客户端发给我。" data-i18n-en="Leave your message and contact details. Submitting will open your email client and address it to me.">写下想聊的内容和联系方式，提交后会用你的邮件客户端发给我。</p>
             <form class="message-form" data-message-form>
                 <label>
-                    <span>联系方式</span>
-                    <input name="contact" type="text" autocomplete="email" placeholder="邮箱 / 微信 / 电话" required />
+                    <span data-i18n-cn="联系方式" data-i18n-en="Contact">联系方式</span>
+                    <input name="contact" type="text" autocomplete="email" placeholder="邮箱 / 微信 / 电话" data-placeholder-cn="邮箱 / 微信 / 电话" data-placeholder-en="Email / WeChat / Phone" required />
                 </label>
                 <label>
-                    <span>留言</span>
-                    <textarea name="message" rows="6" placeholder="想合作的项目、问题，或者只是打个招呼。" required></textarea>
+                    <span data-i18n-cn="留言" data-i18n-en="Message">留言</span>
+                    <textarea name="message" rows="6" placeholder="想合作的项目、问题，或者只是打个招呼。" data-placeholder-cn="想合作的项目、问题，或者只是打个招呼。" data-placeholder-en="A project idea, a question, or just a quick hello." required></textarea>
                 </label>
-                <button type="submit">发送到邮箱</button>
+                <button type="submit" data-i18n-cn="发送到邮箱" data-i18n-en="Send to Email">发送到邮箱</button>
             </form>
             <div class="message-success" data-message-success hidden>
-                <h3>发送成功提醒</h3>
-                <p>如果邮件客户端已经弹出，请确认发送。为了保险，也建议使用 QQ 邮箱网页版联系我。</p>
-                <a class="message-webmail" href="https://mail.qq.com/" target="_blank" rel="noreferrer">打开 QQ 邮箱网页版</a>
+                <h3 data-i18n-cn="发送成功提醒" data-i18n-en="Before You Send">发送成功提醒</h3>
+                <p data-i18n-cn="如果邮件客户端已经弹出，请确认发送。为了保险，也建议使用 QQ 邮箱网页版联系我。" data-i18n-en="If your email client has opened, please confirm the message there. You can also use QQ Mail webmail as a backup.">如果邮件客户端已经弹出，请确认发送。为了保险，也建议使用 QQ 邮箱网页版联系我。</p>
+                <a class="message-webmail" href="https://mail.qq.com/" target="_blank" rel="noreferrer" data-i18n-cn="打开 QQ 邮箱网页版" data-i18n-en="Open QQ Mail Web">打开 QQ 邮箱网页版</a>
                 <label>
-                    <span>刚刚发送的内容</span>
+                    <span data-i18n-cn="刚刚发送的内容" data-i18n-en="Message Draft">刚刚发送的内容</span>
                     <textarea data-message-copy readonly rows="7"></textarea>
                 </label>
-                <button type="button" data-message-copy-button>复制留言内容</button>
+                <button type="button" data-message-copy-button data-i18n-cn="复制留言内容" data-i18n-en="Copy Message">复制留言内容</button>
             </div>
         </section>
     </div>
 
     <script>
-        const buttons = document.querySelectorAll("[data-lang-button]");
-        const panels = document.querySelectorAll("[data-lang-panel]");
+        const buttons = Array.from(document.querySelectorAll("[data-lang-button]"));
+        const panels = Array.from(document.querySelectorAll("[data-lang-panel]"));
         const modal = document.querySelector("[data-message-modal]");
         const dialog = document.querySelector("[data-message-dialog]");
         const openMessageButtons = document.querySelectorAll("[data-message-open]");
@@ -130,33 +187,153 @@ import { withBase } from "../lib/paths";
         const messageSuccess = document.querySelector("[data-message-success]");
         const messageCopy = document.querySelector("[data-message-copy]");
         const messageCopyButton = document.querySelector("[data-message-copy-button]");
+        const pageRoots = document.querySelectorAll("body > main, body > footer, [data-site-header]");
+        const bioDetails = Array.from(document.querySelectorAll(".bio-details"));
+        const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
         let previousFocus = null;
 
-        buttons.forEach((button) => {
-            button.addEventListener("click", () => {
-                const lang = button.getAttribute("data-lang-button");
+        const getCurrentLanguage = () => (document.documentElement.dataset.language === "en" ? "en" : "cn");
+        const syncDocumentTitle = () => {
+            document.title =
+                getCurrentLanguage() === "en"
+                    ? "Zhu Qing | Post-Production & Unreal Engine Development"
+                    : "祝庆 Zhu Qing | 影视后期与 Unreal Engine 开发";
+        };
 
-                buttons.forEach((item) => item.classList.toggle("active", item === button));
-                panels.forEach((panel) => {
-                    const active = panel.getAttribute("data-lang-panel") === lang;
-                    panel.classList.toggle("active", active);
-                    panel.toggleAttribute("hidden", !active);
-                });
+        const setLanguage = (activeButton, options = { persist: true, emit: true }) => {
+            const lang = activeButton.getAttribute("data-lang-button");
+            document.documentElement.dataset.language = lang;
+            document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+
+            if (options.persist) {
+                try {
+                    localStorage.setItem("zq-language", lang);
+                } catch {}
+            }
+
+            buttons.forEach((button) => {
+                const active = button === activeButton;
+                button.classList.toggle("active", active);
+                button.setAttribute("aria-selected", String(active));
+                button.tabIndex = active ? 0 : -1;
+            });
+
+            panels.forEach((panel) => {
+                const active = panel.getAttribute("data-lang-panel") === lang;
+                panel.classList.toggle("active", active);
+                panel.toggleAttribute("hidden", !active);
+            });
+
+            syncDocumentTitle();
+
+            if (options.emit) {
+                window.dispatchEvent(new CustomEvent("zq-language-change", { detail: { language: lang } }));
+            }
+        };
+
+        const initialLanguageButton = buttons.find((button) => button.getAttribute("data-lang-button") === getCurrentLanguage()) || buttons[0];
+        if (initialLanguageButton) {
+            setLanguage(initialLanguageButton, { persist: false, emit: false });
+        }
+
+        buttons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                setLanguage(button);
+            });
+
+            button.addEventListener("keydown", (event) => {
+                if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+
+                event.preventDefault();
+                const nextIndex = {
+                    ArrowLeft: (index - 1 + buttons.length) % buttons.length,
+                    ArrowRight: (index + 1) % buttons.length,
+                    Home: 0,
+                    End: buttons.length - 1,
+                }[event.key];
+                const nextButton = buttons[nextIndex];
+                setLanguage(nextButton);
+                nextButton.focus();
             });
         });
+
+        bioDetails.forEach((details) => {
+            const summary = details.querySelector("summary");
+            const content = details.querySelector(".bio-details__content");
+            if (!summary || !content) return;
+
+            const setSummaryLabel = (expanded) => {
+                const label = expanded ? summary.dataset.labelExpanded : summary.dataset.labelCollapsed;
+                const arrow = expanded ? "▼" : "▶";
+                summary.innerHTML = `<span class="arrow">${arrow}</span> ${label}`;
+                summary.setAttribute("aria-expanded", String(expanded));
+            };
+
+            setSummaryLabel(details.open);
+            content.style.height = details.open ? `${content.scrollHeight}px` : "0px";
+            content.style.opacity = details.open ? "1" : "0";
+
+            summary.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                const isOpen = details.hasAttribute("open");
+                content.style.overflow = "hidden";
+
+                if (isOpen) {
+                    details.dataset.animating = "closing";
+                    setSummaryLabel(false);
+                    content.style.height = `${content.scrollHeight}px`;
+                    content.style.opacity = "1";
+                    content.getBoundingClientRect();
+                    content.style.height = "0px";
+                    content.style.opacity = "0";
+                    const finishClosing = (transitionEvent) => {
+                        if (transitionEvent.propertyName !== "height") return;
+                        details.removeAttribute("open");
+                        delete details.dataset.animating;
+                        content.removeEventListener("transitionend", finishClosing);
+                    };
+                    content.addEventListener("transitionend", finishClosing);
+                } else {
+                    details.dataset.animating = "opening";
+                    details.setAttribute("open", "");
+                    setSummaryLabel(true);
+                    content.style.height = "0px";
+                    content.style.opacity = "0";
+                    content.getBoundingClientRect();
+                    content.style.height = `${content.scrollHeight}px`;
+                    content.style.opacity = "1";
+                }
+            });
+
+            content.addEventListener("transitionend", (event) => {
+                if (event.propertyName !== "height") return;
+                if (details.open && details.dataset.animating === "opening") {
+                    content.style.height = "auto";
+                    delete details.dataset.animating;
+                }
+            });
+        });
+
+        const getDialogFocusables = () => Array.from(dialog?.querySelectorAll(focusableSelector) || []).filter((element) => element.offsetParent !== null);
+        const getCopyIdleLabel = () => (getCurrentLanguage() === "en" ? "Copy Message" : "复制留言内容");
+        const getCopiedLabel = () => (getCurrentLanguage() === "en" ? "Copied" : "已复制");
+        const getCopyFallbackLabel = () => (getCurrentLanguage() === "en" ? "Please copy manually" : "请手动复制");
 
         const openMessageModal = () => {
             previousFocus = document.activeElement;
             modal?.removeAttribute("hidden");
+            pageRoots.forEach((item) => item.setAttribute("inert", ""));
             document.body.classList.add("message-modal-open");
             messageForm?.removeAttribute("hidden");
             messageSuccess?.setAttribute("hidden", "");
-            if (messageCopyButton) messageCopyButton.textContent = "复制留言内容";
-            dialog?.querySelector("input")?.focus();
+            if (messageCopyButton) messageCopyButton.textContent = getCopyIdleLabel();
+            getDialogFocusables()[0]?.focus();
         };
 
         const closeMessageModal = () => {
             modal?.setAttribute("hidden", "");
+            pageRoots.forEach((item) => item.removeAttribute("inert"));
             document.body.classList.remove("message-modal-open");
             previousFocus?.focus?.();
         };
@@ -168,6 +345,21 @@ import { withBase } from "../lib/paths";
             if (event.key === "Escape" && !modal?.hasAttribute("hidden")) {
                 closeMessageModal();
             }
+
+            if (event.key === "Tab" && !modal?.hasAttribute("hidden")) {
+                const focusableItems = getDialogFocusables();
+                const first = focusableItems[0];
+                const last = focusableItems[focusableItems.length - 1];
+                if (!first || !last) return;
+
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            }
         });
 
         messageForm?.addEventListener("submit", (event) => {
@@ -175,9 +367,12 @@ import { withBase } from "../lib/paths";
             const formData = new FormData(messageForm);
             const contact = String(formData.get("contact") || "").trim();
             const message = String(formData.get("message") || "").trim();
-            const plainMessage = `收件人：zq_eugene@qq.com\n主题：来自个人网站的留言\n\n联系方式：${contact}\n\n留言：\n${message}`;
-            const subject = encodeURIComponent("来自个人网站的留言");
-            const body = encodeURIComponent(`联系方式：${contact}\n\n留言：\n${message}`);
+            const isEnglish = getCurrentLanguage() === "en";
+            const plainMessage = isEnglish
+                ? `Recipient: zq_eugene@qq.com\nSubject: Message from personal website\n\nContact: ${contact}\n\nMessage:\n${message}`
+                : `收件人：zq_eugene@qq.com\n主题：来自个人网站的留言\n\n联系方式：${contact}\n\n留言：\n${message}`;
+            const subject = encodeURIComponent(isEnglish ? "Message from personal website" : "来自个人网站的留言");
+            const body = encodeURIComponent(isEnglish ? `Contact: ${contact}\n\nMessage:\n${message}` : `联系方式：${contact}\n\n留言：\n${message}`);
             window.location.href = `mailto:zq_eugene@qq.com?subject=${subject}&body=${body}`;
             if (messageCopy) messageCopy.value = plainMessage;
             messageForm.setAttribute("hidden", "");
@@ -189,11 +384,11 @@ import { withBase } from "../lib/paths";
             const text = messageCopy?.value || "";
             try {
                 await navigator.clipboard.writeText(text);
-                messageCopyButton.textContent = "已复制";
+                messageCopyButton.textContent = getCopiedLabel();
             } catch {
                 messageCopy?.focus();
                 messageCopy?.select();
-                messageCopyButton.textContent = "请手动复制";
+                messageCopyButton.textContent = getCopyFallbackLabel();
             }
         });
     </script>
@@ -220,12 +415,12 @@ import { withBase } from "../lib/paths";
 
     .profile-col h1 {
         display: grid;
-        gap: 6px;
-        margin: 10px 0 18px;
+        gap: 10px;
+        margin: 10px 0 24px;
         color: var(--text-main);
         font-family: var(--font-display);
         font-size: clamp(2.2rem, 9.5cqw, 4.15rem);
-        line-height: 0.98;
+        line-height: 1.05;
         letter-spacing: 0;
     }
 
@@ -235,11 +430,16 @@ import { withBase } from "../lib/paths";
 
     .profile-col h1 small {
         color: var(--text-muted);
-        font-size: 0.34em;
+        font-size: 0.32em;
         font-weight: 680;
-        letter-spacing: 0.08em;
-        line-height: 1;
+        letter-spacing: 0.06em;
+        line-height: 1.18;
         text-transform: uppercase;
+    }
+
+    :root[data-language="en"] .profile-col h1 {
+        gap: 12px;
+        line-height: 1.08;
     }
 
     @supports not (font-size: 1cqw) {
@@ -272,23 +472,81 @@ import { withBase } from "../lib/paths";
         filter: saturate(0.9) contrast(1.16) brightness(0.9);
     }
 
-    .role-tags {
+    .hero-actions {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 10px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        font-size: 0.83rem;
-        letter-spacing: 0.04em;
+        gap: 12px;
+        margin-top: 32px;
     }
 
-    .divider {
-        width: 4px;
-        height: 4px;
+    .hero-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.13);
         border-radius: 999px;
-        background: currentColor;
-        opacity: 0.5;
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--text-muted);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 650;
+        line-height: 1.2;
+        padding: 9px 13px 9px 15px;
+        text-decoration: none;
+        transition: color 180ms ease, transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .hero-action::after {
+        content: "\2192";
+        display: grid;
+        place-items: center;
+        width: 19px;
+        height: 19px;
+        border-radius: 999px;
+        background: rgba(255, 94, 0, 0.1);
+        color: var(--accent);
+        font-size: 0.8em;
+        line-height: 1;
+        opacity: 0.9;
+        transform: translateX(0);
+        transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
+    }
+
+    .hero-action:hover,
+    .hero-action:focus-visible {
+        color: var(--text-main);
+        border-color: rgba(255, 94, 0, 0.48);
+        background: rgba(255, 255, 255, 0.065);
+        transform: translateY(-1px);
+    }
+
+    .hero-action:hover::after,
+    .hero-action:focus-visible::after {
+        opacity: 1;
+        transform: translateX(3px);
+        background: rgba(255, 94, 0, 0.18);
+    }
+
+    .hero-action:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.22);
+        outline-offset: 5px;
+    }
+
+    :root[data-theme="light"] .hero-action {
+        border-color: rgba(20, 20, 20, 0.13);
+        background: rgba(255, 255, 255, 0.56);
+        color: #3f4246;
+    }
+
+    :root[data-theme="light"] .hero-action:hover,
+    :root[data-theme="light"] .hero-action:focus-visible {
+        border-color: rgba(200, 79, 18, 0.42);
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--text-main);
     }
 
     .bio-col {
@@ -319,9 +577,20 @@ import { withBase } from "../lib/paths";
     }
 
     .language-tabs button:hover,
-    .language-tabs button.active {
+    .language-tabs button:focus-visible,
+    .language-tabs button.active,
+    .language-tabs button[aria-selected="true"] {
         background: rgba(255, 255, 255, 0.11);
         color: var(--text-main);
+    }
+
+    .language-tabs button:focus-visible,
+    .message-form button:focus-visible,
+    .message-success button:focus-visible,
+    .message-webmail:focus-visible,
+    .message-close:focus-visible {
+        outline: 2px solid rgba(255, 94, 0, 0.48);
+        outline-offset: 3px;
     }
 
     .lang-content {
@@ -353,17 +622,112 @@ import { withBase } from "../lib/paths";
         font-weight: 650;
     }
 
+    .bio-points {
+        display: grid;
+        gap: 12px;
+        margin: 0 0 22px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .bio-points li {
+        display: grid;
+        gap: 4px;
+        padding-left: 16px;
+        border-left: 2px solid rgba(255, 94, 0, 0.42);
+    }
+
+    .bio-points strong {
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: 1rem;
+        line-height: 1.35;
+    }
+
+    .bio-points span {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+        line-height: 1.7;
+    }
+
+    .bio-details {
+        margin: 8px 0 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .bio-details summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        cursor: pointer;
+        color: var(--accent);
+        font-size: 0.92rem;
+        font-weight: 720;
+        list-style: none;
+        padding: 12px 0 8px;
+        transition: color 180ms ease;
+    }
+
+    .bio-details summary::marker,
+    .bio-details summary::-webkit-details-marker {
+        display: none;
+        content: "";
+    }
+
+    .bio-details .arrow {
+        display: inline-block;
+        width: 1em;
+        font-size: 0.74rem;
+        transform: translateY(-1px);
+    }
+
+    .bio-details summary:hover,
+    .bio-details summary:focus-visible {
+        color: var(--text-main);
+    }
+
+    .bio-details summary:focus-visible {
+        outline: 2px solid rgba(255, 94, 0, 0.48);
+        outline-offset: 3px;
+    }
+
+    .bio-details__content {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-8px);
+        transition: height 360ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease, transform 320ms ease;
+    }
+
+    .bio-details[open] .bio-details__content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .bio-details__inner {
+        min-height: 0;
+        overflow: hidden;
+        padding: 8px 0 2px;
+    }
+
+    .bio-details__inner p:last-child {
+        margin-bottom: 1rem;
+    }
+
     .contact-box {
         display: grid;
         gap: 8px;
-        margin-top: 44px;
-        padding-top: 28px;
-        border-top: 1px solid var(--border);
+        margin-top: 22px;
+        padding-top: 0;
+        border-top: 0;
     }
 
     .contact-box span {
-        color: var(--text-dim);
-        font-size: 0.86rem;
+        color: var(--text-muted);
+        font-size: 0.98rem;
+        line-height: 1.8;
     }
 
     .contact-box a {
@@ -386,7 +750,6 @@ import { withBase } from "../lib/paths";
         gap: 14px;
     }
 
-    .message-button,
     .message-form button,
     .message-success button,
     .message-webmail {
@@ -403,7 +766,6 @@ import { withBase } from "../lib/paths";
         transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
     }
 
-    .message-button:hover,
     .message-form button:hover,
     .message-success button:hover,
     .message-webmail:hover {
@@ -563,6 +925,11 @@ import { withBase } from "../lib/paths";
 
         .cinematic-frame {
             aspect-ratio: 16 / 9;
+        }
+
+        .hero-actions {
+            align-items: center;
+            gap: 10px;
         }
 
         .bio-col {

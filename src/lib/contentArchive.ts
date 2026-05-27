@@ -35,17 +35,17 @@ const referenceMetadata: Record<
         uploadedDate?: string;
     }
 > = {
-    "reel/DIT快速入门手册_V1.1.pdf": {
+    "分享资料/DIT快速入门手册_V1.1.pdf": {
         title: "DIT 快速入门手册 V1.1",
         description: "面向片场素材管理、转码、校验、备份与数据交接的 DIT 工作流手册。",
         tags: ["DIT", "Workflow", "Set Data"],
-        uploadedDate: "2026-02-25",
+        uploadedDate: "2026-05-20",
     },
-    "reel/影像册_V1.pdf": {
+    "分享资料/影像册_V1.pdf": {
         title: "影像册 V1",
         description: "以摄影作品为主体的阶段性影像合集，用于展示画面观察、叙事气质与视觉整理能力。",
         tags: ["Photography", "Reel", "Portfolio"],
-        uploadedDate: "2025-05-07",
+        uploadedDate: "2026-05-20",
     },
 };
 
