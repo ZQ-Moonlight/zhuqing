@@ -7,7 +7,7 @@ tags: ["nDisplay", "ICVFX", "Virtual Production", "Works"]
 
 这份归档文档来自作品集中的 nDisplay 虚拟拍摄主摄影系统构建。项目目标是在 LED 背景墙环境中建立一套可用于现场拍摄的实时影像播放与镜头协同流程。
 
-<img src="/zhuqing/images/portfolio/ndisplay/cover.webp" alt="nDisplay ICVFX workflow" loading="lazy" />
+<img src="/images/portfolio/ndisplay/cover.webp" alt="nDisplay ICVFX workflow" loading="lazy" />
 
 ## 项目概述
 
@@ -25,4 +25,4 @@ nDisplay 流程最容易出问题的地方，往往不是某一个按钮，而�
 
 一次可靠的虚拟拍摄，需要在开拍前完成内容播放、构图范围、屏幕亮度、反射材质和摄影机视角的联动测试。这次练习也让我更清楚地理解了 ICVFX 的价值：它不是后期合成的替代品，而是把一部分视觉创作提前到拍摄现场，让演员、摄影和导演直接面对一个可见的空间。
 
-[查看作品集页面](/zhuqing/portfolio/ndisplay/)
+[查看作品集页面](/portfolio/ndisplay/)

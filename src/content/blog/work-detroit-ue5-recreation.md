@@ -7,7 +7,7 @@ tags: ["UE5", "Interaction", "Blueprint", "Case Study", "Works"]
 
 这份归档文档来自作品集中的《底特律：化身为人》“来自死者”片段复刻。项目目标是用 Unreal Engine 5 搭建一段可交互体验：角色控制、动画播放、自定义 QTE、环境扫描与关卡序列协同，共同还原马库斯从废弃坑洞中重获新生的片段。
 
-<img src="/zhuqing/images/portfolio/detroit/cover.webp" alt="Detroit UE5 recreation cover" loading="lazy" />
+<img src="/images/portfolio/detroit/cover.webp" alt="Detroit UE5 recreation cover" loading="lazy" />
 
 ## 项目目标
 
@@ -29,4 +29,4 @@ tags: ["UE5", "Interaction", "Blueprint", "Case Study", "Works"]
 
 另一个教训是备份策略。开发期间经历过蓝屏、显存爆掉、驱动崩溃和项目文件损坏，这让我更明确地意识到：交互项目的工程安全本身就是工作流的一部分。
 
-[查看作品集页面](/zhuqing/portfolio/detroit/)
+[查看作品集页面](/portfolio/detroit/)

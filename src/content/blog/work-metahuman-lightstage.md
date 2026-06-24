@@ -7,7 +7,7 @@ tags: ["MetaHuman", "Light Stage", "UE5", "Works"]
 
 这份归档文档整理自作品集中的 MetaHuman 与数字人光场流程。项目关注的问题是：真人如何被转译为一个能在实时引擎镜头前成立的数字角色。
 
-<img src="/zhuqing/images/portfolio/lightstage/lightstage-article-cover.webp" alt="MetaHuman and Light Stage workflow" loading="lazy" />
+<img src="/images/portfolio/lightstage/lightstage-article-cover.webp" alt="MetaHuman and Light Stage workflow" loading="lazy" />
 
 ## 项目概述
 
@@ -23,4 +23,4 @@ tags: ["MetaHuman", "Light Stage", "UE5", "Works"]
 
 学得越晚越不用学，现在有了metahuman都不需要自己绑定了，连zbrush都不需要了，唉。AI还会带来工作量多大的改变呢？
 
-[查看作品集页面](/zhuqing/portfolio/metahuman/)
+[查看作品集页面](/portfolio/metahuman/)

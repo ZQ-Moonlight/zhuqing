@@ -14,7 +14,7 @@
 
 > ⚠️ **电波检测机制已同步。**
 
-<a href="https://zq-moonlight.github.io/zhuqing/" target="_blank">
+<a href="https://zhuqing.tech/" target="_blank">
   <img src="https://img.shields.io/badge/ENTER_PORTAL-点击解密网页-00f0ff?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=050505" alt="进入主页" />
 </a>
 

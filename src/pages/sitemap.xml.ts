@@ -12,7 +12,7 @@ const escapeXml = (value: string) =>
 const formatDate = (date?: Date) => date?.toISOString().split("T")[0];
 
 export const GET: APIRoute = async ({ site }) => {
-    const baseUrl = new URL(import.meta.env.BASE_URL, site ?? "https://zq-moonlight.github.io");
+    const baseUrl = new URL(import.meta.env.BASE_URL, site ?? "https://zhuqing.tech");
     const blogPosts = await getCollection("blog", ({ data }) => !data.draft && !data.privateArchive);
     const portfolioItems = await getCollection("portfolio");
 

@@ -60,6 +60,12 @@ const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? st
         <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
         <link rel="icon" href={withBase("/favicon.ico")} />
         {absolutePreloadImage && <link rel="preload" as="image" href={absolutePreloadImage} fetchpriority="high" />}
+        <script is:inline>
+            if (location.hostname.toLowerCase() === "zq-moonlight.github.io" && location.pathname.startsWith("/zhuqing")) {
+                const nextPath = location.pathname.replace(/^\/zhuqing\/?/, "/");
+                location.replace(`https://zhuqing.tech${nextPath}${location.search}${location.hash}`);
+            }
+        </script>
         {structuredDataItems.map((item) => (
             <script type="application/ld+json" set:html={JSON.stringify(item)} />
         ))}

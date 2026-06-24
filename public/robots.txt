@@ -1,4 +1,4 @@
 User-agent: *
-Allow: /zhuqing/
+Allow: /
 
-Sitemap: https://zq-moonlight.github.io/zhuqing/sitemap.xml
+Sitemap: https://zhuqing.tech/sitemap.xml
