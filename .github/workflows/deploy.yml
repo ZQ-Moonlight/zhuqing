@@ -42,8 +42,8 @@ jobs:
       - name: Build with Astro
         run: npm run build
         env:
-          SITE_URL: https://zq-moonlight.github.io
-          BASE_PATH: /zhuqing/
+          SITE_URL: https://zhuqing.tech
+          BASE_PATH: /
           PUBLIC_PDF_MAX_BYTES: 52428800
 
       - name: Upload artifact

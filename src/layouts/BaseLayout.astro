@@ -64,6 +64,23 @@ const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? st
             <script type="application/ld+json" set:html={JSON.stringify(item)} />
         ))}
         <script is:inline>
+            (() => {
+                const legacyHost = "zq-moonlight.github.io";
+                const legacyBase = "/zhuqing";
+                const targetOrigin = "https://zhuqing.tech";
+                const { hostname, pathname, search, hash } = window.location;
+
+                if (hostname !== legacyHost) return;
+
+                const nextPath =
+                    pathname === legacyBase || pathname.startsWith(`${legacyBase}/`)
+                        ? pathname.slice(legacyBase.length) || "/"
+                        : pathname;
+
+                window.location.replace(`${targetOrigin}${nextPath}${search}${hash}`);
+            })();
+        </script>
+        <script is:inline>
             document.documentElement.classList.add("js");
             try {
                 const savedTheme = localStorage.getItem("zq-theme");
