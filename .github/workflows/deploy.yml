@@ -44,6 +44,7 @@ jobs:
         env:
           SITE_URL: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          PUBLIC_PDF_MAX_BYTES: 52428800
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

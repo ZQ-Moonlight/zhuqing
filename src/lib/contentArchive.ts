@@ -20,7 +20,8 @@ export interface ReferenceGroup {
 }
 
 const contentRoot = path.join(process.cwd(), "src", "content", "blog");
-export const MAX_PUBLIC_PDF_BYTES = 50 * 1024 * 1024;
+export const MAX_PUBLIC_PDF_BYTES = Number(process.env.PUBLIC_PDF_MAX_BYTES ?? 25 * 1024 * 1024);
+const legacyContentFileOrigin = "https://zq-moonlight.github.io/zhuqing";
 
 const toPosix = (value: string) => value.split(path.sep).join("/");
 
@@ -89,6 +90,9 @@ export const getContentRoot = () => contentRoot;
 export const encodeContentFileHref = (relativePath: string) =>
     withBase(`/blog/files/${relativePath.split("/").map(encodeURIComponent).join("/")}`);
 
+const encodeLegacyContentFileHref = (relativePath: string) =>
+    `${legacyContentFileOrigin}/blog/files/${relativePath.split("/").map(encodeURIComponent).join("/")}`;
+
 const groupLabelFromPath = (relativePath: string) => {
     const parts = relativePath.split("/");
     if (parts.length <= 1) return "根目录";
@@ -135,7 +139,7 @@ export const getReferenceGroups = async (): Promise<ReferenceGroup[]> => {
                     item: {
                         title: titleFromPdf(file, hasTexSibling),
                         description: metadata.description,
-                        href: fileStat.size <= MAX_PUBLIC_PDF_BYTES ? encodeContentFileHref(file) : undefined,
+                        href: fileStat.size <= MAX_PUBLIC_PDF_BYTES ? encodeContentFileHref(file) : encodeLegacyContentFileHref(file),
                         kind,
                         path: file,
                         sizeLabel: formatBytes(fileStat.size),
