@@ -60,12 +60,6 @@ const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? st
         <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
         <link rel="icon" href={withBase("/favicon.ico")} />
         {absolutePreloadImage && <link rel="preload" as="image" href={absolutePreloadImage} fetchpriority="high" />}
-        <script is:inline>
-            if (location.hostname.toLowerCase() === "zq-moonlight.github.io" && location.pathname.startsWith("/zhuqing")) {
-                const nextPath = location.pathname.replace(/^\/zhuqing\/?/, "/");
-                location.replace(`https://zhuqing.tech${nextPath}${location.search}${location.hash}`);
-            }
-        </script>
         {structuredDataItems.map((item) => (
             <script type="application/ld+json" set:html={JSON.stringify(item)} />
         ))}
@@ -192,7 +186,109 @@ const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? st
 </html>
 
 <style is:global>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;520;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap");
+    @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 300;
+        font-display: swap;
+        src: url("/fonts/inter-300.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/inter-400.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/inter-500.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/inter-600.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("/fonts/inter-700.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 800;
+        font-display: swap;
+        src: url("/fonts/inter-800.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Sans SC";
+        font-style: normal;
+        font-weight: 300;
+        font-display: swap;
+        src: url("/fonts/noto-sans-sc-300.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Sans SC";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/noto-sans-sc-400.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Sans SC";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/noto-sans-sc-500.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Sans SC";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("/fonts/noto-sans-sc-700.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Serif SC";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("/fonts/noto-serif-sc-500.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Serif SC";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("/fonts/noto-serif-sc-600.woff") format("woff");
+    }
+
+    @font-face {
+        font-family: "Noto Serif SC";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("/fonts/noto-serif-sc-700.woff") format("woff");
+    }
 
     :root {
         --bg-base: #050505;
