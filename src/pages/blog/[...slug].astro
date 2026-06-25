@@ -257,6 +257,49 @@ const formatDate = (date: Date) =>
         margin: 0 0 1.45rem;
     }
 
+    .prose :global(table) {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin: 1.8rem 0 2.1rem;
+        overflow-x: auto;
+        border-collapse: collapse;
+        border-spacing: 0;
+        color: var(--text-muted);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .prose :global(thead),
+    .prose :global(tbody) {
+        display: table;
+        width: 100%;
+        min-width: 680px;
+        border-collapse: collapse;
+    }
+
+    .prose :global(th),
+    .prose :global(td) {
+        padding: 0.7rem 0.88rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+        text-align: left;
+    }
+
+    .prose :global(th) {
+        color: var(--text-main);
+        font-weight: 760;
+        background: rgba(255, 255, 255, 0.035);
+    }
+
+    .prose :global(td:first-child),
+    .prose :global(th:first-child) {
+        width: 190px;
+        min-width: 190px;
+        color: var(--text-main);
+        font-weight: 650;
+        white-space: nowrap;
+    }
+
     .prose :global(strong) {
         color: var(--text-main);
     }
@@ -290,6 +333,19 @@ const formatDate = (date: Date) =>
         width: min(100%, 560px);
     }
 
+    .prose :global(pre) {
+        width: 100%;
+        margin: 1.8rem 0 2.1rem;
+        padding: 1rem 1.12rem;
+        overflow-x: auto;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        background: #20252b;
+        color: #edf2f7;
+        line-height: 1.72;
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+    }
+
     .prose :global(code) {
         border: 1px solid var(--border);
         border-radius: 4px;
@@ -297,6 +353,39 @@ const formatDate = (date: Date) =>
         color: #fff;
         font-size: 0.88em;
         padding: 0.12em 0.36em;
+    }
+
+    .prose :global(pre code) {
+        display: block;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: inherit;
+        font-size: 0.92rem;
+        white-space: pre;
+    }
+
+    :root[data-theme="light"] .prose :global(table) {
+        color: var(--text-muted);
+    }
+
+    :root[data-theme="light"] .prose :global(th) {
+        background: rgba(20, 20, 20, 0.035);
+        color: var(--text-main);
+    }
+
+    :root[data-theme="light"] .prose :global(pre) {
+        border-color: rgba(20, 20, 20, 0.12);
+        background: #20252b;
+        color: #edf2f7;
+        box-shadow: 0 16px 38px rgba(32, 28, 22, 0.12);
+    }
+
+    :root[data-theme="light"] .prose :global(pre code),
+    :root[data-theme="light"] .prose :global(pre code *) {
+        color: inherit;
+        background: transparent;
     }
 
     .pdf-download a {
