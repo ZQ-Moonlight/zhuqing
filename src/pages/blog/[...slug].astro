@@ -20,7 +20,7 @@ const postDescription = post.data.description ?? "";
 const heroImage = post.data.heroImage;
 const heroImageSrc = typeof heroImage === "string" ? withBase(heroImage) : heroImage?.src;
 const postUrl = new URL(withBase(`/blog/${post.id}/`), Astro.site ?? Astro.url.origin).toString();
-const postImage = new URL(heroImageSrc ?? withBase("/images/og/zhuqing-social-card.png"), Astro.site ?? Astro.url.origin).toString();
+const postImage = new URL(heroImageSrc ?? withBase("/media/site/og/zhuqing-social-card.png"), Astro.site ?? Astro.url.origin).toString();
 const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -51,7 +51,7 @@ const formatDate = (date: Date) =>
     description={postDescription}
     activePath="/blog"
     backgroundVariant="article"
-    image={heroImageSrc ?? withBase("/images/og/zhuqing-social-card.png")}
+    image={heroImageSrc ?? withBase("/media/site/og/zhuqing-social-card.png")}
     preloadImage={typeof heroImage === "string" ? heroImage : undefined}
     noindex={post.data.privateArchive}
     structuredData={articleStructuredData}

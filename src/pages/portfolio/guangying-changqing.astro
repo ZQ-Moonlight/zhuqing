@@ -3,9 +3,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { withBase } from "../../lib/paths";
 
 const archiveUrl = withBase("/blog/guangying-changqing-workflow/");
-const posterUrl = withBase("/images/portfolio/changqing/poster.webp");
-const heroImage = withBase("/images/portfolio/changqing/still.webp");
-const documentUrl = withBase("/files/portfolio/changqing/workflow.pdf");
+const posterUrl = withBase("/media/portfolio/guangying-changqing/images/poster.webp");
+const heroImage = withBase("/media/portfolio/guangying-changqing/images/still.webp");
+const documentUrl = withBase("/media/portfolio/guangying-changqing/files/workflow.pdf");
 ---
 
 <BaseLayout
@@ -13,8 +13,8 @@ const documentUrl = withBase("/files/portfolio/changqing/workflow.pdf");
     description="一部结合 MetaHuman 数字人、高斯泼溅场景重建与人文叙事的数字影像作品。"
     activePath="/portfolio"
     backgroundVariant="article"
-    image="/images/portfolio/changqing/still.webp"
-    preloadImage="/images/portfolio/changqing/still.webp"
+    image="/media/portfolio/guangying-changqing/images/still.webp"
+    preloadImage="/media/portfolio/guangying-changqing/images/still.webp"
 >
     <section class="work-hero">
         <img src={heroImage} alt="" loading="eager" fetchpriority="high" />

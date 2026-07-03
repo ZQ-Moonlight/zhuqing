@@ -28,6 +28,7 @@ const collectionStructuredData = {
     mainEntity: {
         "@type": "ItemList",
         itemListElement: [
+            { "@type": "CreativeWork", name: "UE5 剧情动画与交互扫描流程", url: new URL(withBase("/portfolio/ue-cinematics-pipeline/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "《底特律：化身为人》场景与交互复刻", url: new URL(withBase("/portfolio/detroit/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "MetaHuman 与数字人光场流程", url: new URL(withBase("/portfolio/metahuman/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "《光影长青》", url: new URL(withBase("/portfolio/guangying-changqing/"), Astro.site ?? Astro.url.origin).toString() },
@@ -51,7 +52,7 @@ const collectionStructuredData = {
         <header class="portfolio-hero" data-reveal>
             <span class="eyebrow" data-i18n-cn="作品 / 流程 / 后期" data-i18n-en="Works / Pipeline / Post">作品 / 流程 / 后期</span>
             <h1 data-i18n-cn="部分作品 Works" data-i18n-en="Selected Works">部分作品 Works</h1>
-            <p data-i18n-cn="虚幻引擎交互、数字人技术研究、影视后期调色与电影放映。" data-i18n-en="Unreal Engine interaction, digital-human research, post-production color work, and cinema delivery.">虚幻引擎交互、数字人技术研究、影视后期调色与电影放映。</p>
+            <p data-i18n-cn="UE 实时过场动画、交互叙事流程、数字人技术研究、影视后期调色与电影放映。" data-i18n-en="Unreal Engine cinematics, interactive narrative pipelines, digital-human research, post-production color work, and cinema delivery.">UE 实时过场动画、交互叙事流程、数字人技术研究、影视后期调色与电影放映。</p>
         </header>
 
         <section class="work-section" aria-labelledby="works-title">
@@ -60,9 +61,21 @@ const collectionStructuredData = {
             </div>
 
             <div class="work-grid">
+                <a href={withBase("/portfolio/ue-cinematics-pipeline")} class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src={withBase("/media/portfolio/ue-cinematics-pipeline/images/cover.webp")} alt="UE5 cinematic integration and scan workflow" loading="lazy" />
+                        <span class="card-hover" data-i18n-cn="查看流程文档" data-i18n-en="View Pipeline Notes">查看流程文档</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="category" data-i18n-cn="UE5 / Cinematics / 技术导演" data-i18n-en="UE5 / Cinematics / Technical Direction">UE5 / Cinematics / 技术导演</span>
+                        <h3 data-i18n-cn="UE5 剧情动画与交互扫描流程" data-i18n-en="UE5 Cinematic and Interactive Scan Pipeline">UE5 剧情动画与交互扫描流程</h3>
+                        <p data-i18n-cn="从白模、Sequencer、蓝图触发、扫描特效、UI 到雨水材质的过程复盘，强调如何把剧情动画落到可交互引擎片段。" data-i18n-en="A process case study covering blockout, Sequencer, Blueprint triggers, scan effects, UI, and rain shaders for an interactive cinematic sequence.">从白模、Sequencer、蓝图触发、扫描特效、UI 到雨水材质的过程复盘，强调如何把剧情动画落到可交互引擎片段。</p>
+                    </div>
+                </a>
+
                 <a href={withBase("/portfolio/detroit")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/detroit/cover.webp")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
+                        <img src={withBase("/media/portfolio/detroit/images/cover.webp")} alt="Detroit Become Human UE5 recreation" loading="lazy" />
                         <span class="card-hover" data-i18n-cn="查看技术复盘" data-i18n-en="View Case Study">查看技术复盘</span>
                     </div>
                     <div class="card-info">
@@ -74,7 +87,7 @@ const collectionStructuredData = {
 
                 <a href={withBase("/portfolio/metahuman")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/lightstage/lightstage-article-cover.webp")} alt="MetaHuman and Light Stage workflow" loading="lazy" />
+                        <img src={withBase("/media/portfolio/metahuman/images/lightstage-article-cover.webp")} alt="MetaHuman and Light Stage workflow" loading="lazy" />
                         <span class="card-hover" data-i18n-cn="查看数字人流程" data-i18n-en="View Digital-Human Pipeline">查看数字人流程</span>
                     </div>
                     <div class="card-info">
@@ -86,7 +99,7 @@ const collectionStructuredData = {
 
                 <a href={withBase("/portfolio/guangying-changqing")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/changqing/still.webp")} alt="Light and Shadow Changqing digital image work" loading="lazy" />
+                        <img src={withBase("/media/portfolio/guangying-changqing/images/still.webp")} alt="Light and Shadow Changqing digital image work" loading="lazy" />
                         <span class="card-hover" data-i18n-cn="查看项目复盘" data-i18n-en="View Project Notes">查看项目复盘</span>
                     </div>
                     <div class="card-info">
@@ -98,7 +111,7 @@ const collectionStructuredData = {
 
                 <a href={withBase("/portfolio/ndisplay")} class="project-card" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/ndisplay/cover.webp")} alt="nDisplay ICVFX LED volume workflow" loading="lazy" />
+                        <img src={withBase("/media/portfolio/ndisplay/images/cover.webp")} alt="nDisplay ICVFX LED volume workflow" loading="lazy" />
                         <span class="card-hover" data-i18n-cn="查看虚拟拍摄流程" data-i18n-en="View Virtual-Production Workflow">查看虚拟拍摄流程</span>
                     </div>
                     <div class="card-info">
@@ -110,7 +123,7 @@ const collectionStructuredData = {
 
                 <article class="project-card project-card--summary" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/post/dcp-screening.webp")} alt="DCP screening on Barco projector" loading="lazy" />
+                        <img src={withBase("/media/portfolio/post-production/images/dcp-screening.webp")} alt="DCP screening on Barco projector" loading="lazy" />
                     </div>
                     <div class="card-info">
                         <span class="category" data-i18n-cn="DCP / 电影节字幕" data-i18n-en="DCP / Festival Subtitles">DCP / 电影节字幕</span>
@@ -122,7 +135,7 @@ const collectionStructuredData = {
 
                 <article class="project-card project-card--summary" data-reveal>
                     <div class="card-image">
-                        <img src={withBase("/images/portfolio/post/brand-post-cover.webp")} alt="Post-production and color grading work" loading="lazy" />
+                        <img src={withBase("/media/portfolio/post-production/images/brand-post-cover.webp")} alt="Post-production and color grading work" loading="lazy" />
                     </div>
                     <div class="card-info">
                         <span class="category" data-i18n-cn="后期 / 剪辑 / 调色" data-i18n-en="Post / Editing / Color">后期 / 剪辑 / 调色</span>

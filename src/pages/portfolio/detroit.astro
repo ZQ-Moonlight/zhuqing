@@ -4,7 +4,8 @@ import ClickToPlayBilibili from "../../components/ClickToPlayBilibili.astro";
 import { withBase } from "../../lib/paths";
 
 const detroitUrl = new URL(withBase("/portfolio/detroit/"), Astro.site ?? Astro.url.origin).toString();
-const detroitImage = new URL(withBase("/images/portfolio/detroit/cover.webp"), Astro.site ?? Astro.url.origin).toString();
+const detroitImage = new URL(withBase("/media/portfolio/detroit/images/cover.webp"), Astro.site ?? Astro.url.origin).toString();
+const pipelineUrl = withBase("/portfolio/ue-cinematics-pipeline/");
 const detroitStructuredData = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -28,12 +29,12 @@ const detroitStructuredData = {
     description="基于 Unreal Engine 5 的交互叙事片段复刻：角色控制、QTE、环境扫描、镜头与后期流程复盘。"
     activePath="/portfolio"
     backgroundVariant="article"
-    image={withBase("/images/portfolio/detroit/cover.webp")}
-    preloadImage="/images/portfolio/detroit/cover.webp"
+    image={withBase("/media/portfolio/detroit/images/cover.webp")}
+    preloadImage="/media/portfolio/detroit/images/cover.webp"
     structuredData={detroitStructuredData}
 >
     <section class="case-hero">
-        <img src={withBase("/images/portfolio/detroit/cover.webp")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
+        <img src={withBase("/media/portfolio/detroit/images/cover.webp")} alt="Detroit UE5 recreation cover" loading="eager" fetchpriority="high" />
         <div class="case-hero__overlay" data-reveal>
             <a class="case-back-link" href={withBase("/portfolio")} data-i18n-cn="返回作品集 / Works" data-i18n-en="Back to Works">返回作品集 / Works</a>
             <span class="eyebrow" data-i18n-cn="UE5 交互复盘 / Case Study" data-i18n-en="UE5 Interactive Case Study">UE5 交互复盘 / Case Study</span>
@@ -50,6 +51,7 @@ const detroitStructuredData = {
     <nav class="chapter-nav" aria-label="Case study chapters">
         <a href="#intro">项目背景</a>
         <a href="#video">演示视频</a>
+        <a href="#pipeline">技术拆解</a>
         <a href="#gallery">场景截图</a>
         <a href="#tech">技术实现</a>
         <a href="#lessons">复盘</a>
@@ -70,13 +72,23 @@ const detroitStructuredData = {
             </div>
         </section>
 
+        <section id="pipeline" class="case-section" data-reveal>
+            <h2>技术拆解<span>02</span></h2>
+            <a class="pipeline-jump" href={pipelineUrl}>
+                <span class="category">Technical Breakdown</span>
+                <strong>查看 UE5 剧情动画与交互扫描流程</strong>
+                <small>同一项目的另一条阅读路径：从白模、Sequencer、蓝图触发、扫描特效、记忆宫殿、UI 和雨水材质拆解制作过程。</small>
+                <em>打开技术拆分页</em>
+            </a>
+        </section>
+
         <section id="video" class="case-section" data-reveal>
-            <h2>演示视频<span>02</span></h2>
+            <h2>演示视频<span>03</span></h2>
             <div class="video-wrapper">
                 <ClickToPlayBilibili
                     bvid="BV18XApe2Efy"
                     title="Detroit UE5 recreation video"
-                    poster={withBase("/images/portfolio/detroit/cover.webp")}
+                    poster={withBase("/media/portfolio/detroit/images/cover.webp")}
                     eyebrow="Demo Video"
                     heading="点击播放"
                     description="《底特律：化身为人》UE5 场景与交互复刻演示"
@@ -85,16 +97,16 @@ const detroitStructuredData = {
         </section>
 
         <section id="gallery" class="case-section" data-reveal>
-            <h2>场景截图<span>03</span></h2>
+            <h2>场景截图<span>04</span></h2>
             <div class="masonry-grid">
                 {[1, 2, 3, 4, 5, 6, 8, 7, 9].map((item) => (
-                    <img src={withBase(`/images/portfolio/detroit/${item}.webp`)} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
+                    <img src={withBase(`/media/portfolio/detroit/images/${item}.webp`)} alt={`Detroit recreation screenshot ${item}`} loading="lazy" />
                 ))}
             </div>
         </section>
 
         <section id="tech" class="case-section" data-reveal>
-            <h2>技术实现说明<span>04</span></h2>
+            <h2>技术实现说明<span>05</span></h2>
             <div class="tech-grid">
                 <article>
                     <h3>地图搭建</h3>
@@ -140,7 +152,7 @@ const detroitStructuredData = {
         </section>
 
         <section id="lessons" class="case-section" data-reveal>
-            <h2>遇到问题与开发心得<span>05</span></h2>
+            <h2>遇到问题与开发心得<span>06</span></h2>
             <div class="lesson-list">
                 <article>
                     <h3>面部蒙皮与骨骼绑定失败</h3>
@@ -171,7 +183,7 @@ const detroitStructuredData = {
         </section>
 
         <section id="credits" class="case-section" data-reveal>
-            <h2>附录与致谢<span>06</span></h2>
+            <h2>附录与致谢<span>07</span></h2>
             <div class="credits-grid">
                 <article>
                     <h3>素材来源</h3>
@@ -419,6 +431,56 @@ const detroitStructuredData = {
         font-family: var(--font-mono);
         font-size: 0.86rem;
         font-weight: 800;
+    }
+
+    .pipeline-jump {
+        display: grid;
+        gap: 10px;
+        border: 1px solid rgba(255, 94, 0, 0.3);
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        background:
+            linear-gradient(90deg, rgba(255, 94, 0, 0.12), rgba(255, 255, 255, 0.035)),
+            var(--bg-panel);
+        color: inherit;
+        padding: clamp(20px, 3vw, 30px);
+        text-decoration: none;
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .pipeline-jump:hover {
+        border-color: rgba(255, 94, 0, 0.58);
+        background:
+            linear-gradient(90deg, rgba(255, 94, 0, 0.16), rgba(255, 255, 255, 0.055)),
+            var(--bg-panel-strong);
+        transform: translateY(-2px);
+    }
+
+    .pipeline-jump strong {
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: clamp(1.14rem, 2vw, 1.42rem);
+        line-height: 1.32;
+    }
+
+    .pipeline-jump small {
+        max-width: 760px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.72;
+    }
+
+    .pipeline-jump em {
+        width: fit-content;
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 760;
+        line-height: 1.3;
+    }
+
+    .pipeline-jump em::after {
+        content: "\2192";
+        margin-left: 8px;
     }
 
     .video-wrapper {

@@ -4,12 +4,12 @@ subtitle: "ICVFX Main Camera System / LED Volume Workflow"
 description: "围绕 ICVFX 主摄影系统构建，整理 nDisplay、LED 背景墙、实时内容播放与现场拍摄协同的技术流程。"
 category: "nDisplay / ICVFX / 虚拟拍摄"
 pubDate: 2025-12-30
-heroImage: "/images/portfolio/ndisplay/cover.webp"
-videoUrl: "/videos/portfolio/ndisplay/demo.mp4"
+heroImage: "/media/portfolio/ndisplay/images/cover.webp"
+videoUrl: "/media/portfolio/ndisplay/videos/demo.mp4"
 videoTitle: "nDisplay ICVFX 效果演示"
-secondaryVideoUrl: "/videos/portfolio/ndisplay/behind-the-scenes.mp4"
+secondaryVideoUrl: "/media/portfolio/ndisplay/videos/behind-the-scenes.mp4"
 secondaryVideoTitle: "幕后流程视频 / Behind the Scenes"
-documentUrl: "/files/portfolio/ndisplay/icvfx-camera-system-scope.pdf"
+documentUrl: "/media/portfolio/ndisplay/files/icvfx-camera-system-scope.pdf"
 documentLabel: "下载 ICVFX 主摄影系统构建文档"
 tags: ["nDisplay", "ICVFX", "LED Volume", "Unreal Engine", "Virtual Production"]
 ---
