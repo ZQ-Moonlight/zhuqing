@@ -13,7 +13,7 @@
 | 页面布局 | `src/layouts/` | 全站页面壳、SEO、公共结构 |
 | 工具函数 | `src/lib/` | 路径处理、内容归档、资源路由等代码逻辑 |
 | 公开媒体 | `public/media/` | 浏览器可以直接访问的图片、视频、PDF |
-| 源素材 | `src/source-media/` | 高质量原图、导出源文件、未直接发布到网页的素材 |
+| 源素材 | `src/source-media/` | 本地保留的高质量原图、导出源文件、未直接发布到网页的素材，不提交到 git |
 | 项目说明 | `docs/` | 给自己和之后维护者看的规则、记录、说明 |
 
 ## 为什么 `src/pages` 里一定会有文件
@@ -27,7 +27,7 @@
 | `.astro` 页面 | 可以 | 直接对应网站页面 |
 | 路由 `.ts` 文件 | 可以 | 例如 sitemap、文件下载接口、旧文章资源兼容路由 |
 | 图片、视频、PDF | 不可以 | 应该放到 `public/media/` 或文章自己的 `.assets` 目录 |
-| 原始工程素材 | 不可以 | 应该放到 `src/source-media/` |
+| 原始工程素材 | 不可以 | 可以本地放到 `src/source-media/`，但不要提交 |
 
 现在 `src/pages/blog/files/[...path].ts` 和 `src/pages/blog/数字摄影技术/数字摄影技术.assets/[...path].ts` 是路由兼容文件，不是素材本体。它们的作用是把 `src/content/blog` 里的旧文件安全地发布出来。
 
@@ -86,7 +86,7 @@ public/media/portfolio/ndisplay/files/icvfx-camera-system-scope.pdf
 不直接在网页上展示，但可能用于重新导出、压缩、修图的原始素材，放在：
 
 ```text
-src/source-media/
+src/source-media/   # 本地素材暂存，已被 .gitignore 忽略
 ```
 
 作品集源素材同样按 slug 分组：
@@ -115,7 +115,7 @@ src/content/blog/post-name.assets/image-01.png
 2. 在 `public/media/portfolio/new-project/images/` 放网页用图片。
 3. 如果有网页视频，放到 `public/media/portfolio/new-project/videos/`。
 4. 如果有 PDF 或下载文件，放到 `public/media/portfolio/new-project/files/`。
-5. 如果有原始大图、未压缩视频、工程导出截图，放到 `src/source-media/portfolio/new-project/`。
+5. 如果有原始大图、未压缩视频、工程导出截图，可以本地放到 `src/source-media/portfolio/new-project/`，但不要提交到 git。
 6. 在 Markdown frontmatter 里使用 `/media/portfolio/new-project/...` 路径。
 7. 不要把图片、视频或 PDF 放进 `src/pages/`。
 

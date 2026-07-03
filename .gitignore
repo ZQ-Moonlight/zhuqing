@@ -36,8 +36,9 @@ history-archive/
 # jetbrains setting folder
 .idea/
 
-# source-only image backups; the site uses optimized public/images instead
+# source-only media backups; the site uses optimized public/media instead
 src/assets/source-images/
+src/source-media/
 
 # LaTeX build byproducts
 src/content/blog/**/*.aux

@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:cloudflare": "astro build && node scripts/remove-cloudflare-large-assets.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
