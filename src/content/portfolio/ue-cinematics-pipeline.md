@@ -144,7 +144,9 @@ tags: ["UE5", "Sequencer", "Blueprint", "QTE", "Interactive Narrative", "Scan FX
         <figcaption>02 早期扫描特效测试：检查实机场景中能否读懂目标物。</figcaption>
     </figure>
     <figure>
-        <img src="https://zq-moonlight.github.io/zhuqing/media/portfolio/ue-cinematics-pipeline/images/animated/motion-matching-scan-test.gif" alt="Motion Matching 与扫描组合测试循环动图" loading="lazy" decoding="async" />
+        <video class="loop-media" autoplay loop muted playsinline preload="metadata" aria-label="Motion Matching 与扫描组合测试循环视频">
+            <source src="/media/portfolio/ue-cinematics-pipeline/videos/motion-matching-scan-test-loop.mp4" type="video/mp4" />
+        </video>
         <figcaption>03 中期 Motion Matching 迁移和扫描特效测试：确认角色动作和扫描状态能否同时成立。</figcaption>
     </figure>
     <figure class="final-step">
