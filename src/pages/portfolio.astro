@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ClickToPlayBilibili from "../components/ClickToPlayBilibili.astro";
 import { getReferenceGroups } from "../lib/contentArchive";
 import { withBase } from "../lib/paths";
 
@@ -18,6 +19,60 @@ const getShareDocCopy = (title: string) => shareDocCopy[title] ?? { titleEn: tit
 const stereoCalculatorUrl = "https://zq-moonlight.github.io/Stereoscopic-3D-Camera-Base-Calculator/";
 const duboisAnaglyphUrl = "https://github.com/ZQ-Moonlight/dubois-anaglyph-converter";
 const guangyingWorkflowUrl = withBase("/blog/guangying-changqing-workflow/");
+const reelItems = [
+    {
+        titleCn: "银翼杀手2049 仿拍后期视效分解",
+        titleEn: "Blade Runner 2049 Inspired VFX Breakdown",
+        categoryCn: "VFX / Breakdown / Compositing",
+        categoryEn: "VFX / Breakdown / Compositing",
+        descriptionCn: "以《银翼杀手2049》的影像气质为参考，展示仿拍镜头的后期视效制作过程、画面氛围塑造与前后对比。",
+        descriptionEn: "A VFX breakdown for a Blade Runner 2049-inspired recreation, covering compositing, atmosphere, and before-after comparisons.",
+        bvid: "BV1nZMg6XEDq",
+        page: 1,
+        poster: "/media/portfolio/reel-covers/blade-runner-2049-vfx.png",
+        duration: "P1",
+        tags: ["VFX", "Breakdown", "2049"],
+    },
+    {
+        titleCn: "Houdini 导入 UE 程序化破损练习过程",
+        titleEn: "Houdini to UE Procedural Fracture Study",
+        categoryCn: "Houdini / Unreal Engine / Procedural",
+        categoryEn: "Houdini / Unreal Engine / Procedural",
+        descriptionCn: "记录 Houdini 程序化破损资产的制作思路，以及导入 Unreal Engine 后的材质、展示和镜头效果测试。",
+        descriptionEn: "A Houdini procedural fracture study brought into Unreal Engine, covering asset setup, materials, presentation, and shot tests.",
+        bvid: "BV1nZMg6XEDq",
+        page: 2,
+        poster: "/media/portfolio/reel-covers/houdini-ue-fracture.jpg",
+        duration: "P2",
+        tags: ["Houdini", "UE", "Procedural"],
+    },
+    {
+        titleCn: "短片人物换脸 VFX",
+        titleEn: "Short Film Face Swap VFX",
+        categoryCn: "VFX / Face Swap / Short Film",
+        categoryEn: "VFX / Face Swap / Short Film",
+        descriptionCn: "短片项目中的人物换脸视效测试，重点关注面部替换后的匹配、融合、光影一致性和镜头内自然度。",
+        descriptionEn: "A short-film face swap VFX test focused on matching, blending, lighting consistency, and shot-level believability.",
+        bvid: "BV1nZMg6XEDq",
+        page: 3,
+        poster: "/media/portfolio/reel-covers/face-replacement-vfx.jpg",
+        duration: "P3",
+        tags: ["Face Swap", "VFX", "Compositing"],
+    },
+    {
+        titleCn: "DaVinci 调色练习 Reel",
+        titleEn: "DaVinci Resolve Color Grading Reel",
+        categoryCn: "Color Grading / DaVinci Resolve",
+        categoryEn: "Color Grading / DaVinci Resolve",
+        descriptionCn: "DaVinci Resolve 调色练习整理，包含不同画面风格、色彩倾向和影调控制的阶段性测试。",
+        descriptionEn: "A DaVinci Resolve color grading reel collecting style, color direction, and tonal-control studies.",
+        bvid: "BV1nZMg6XEDq",
+        page: 4,
+        poster: "/media/portfolio/reel-covers/davinci-color-reel.jpg",
+        duration: "P4",
+        tags: ["DaVinci", "Color", "Reel"],
+    },
+];
 const portfolioUrl = new URL(withBase("/portfolio/"), Astro.site ?? Astro.url.origin).toString();
 const collectionStructuredData = {
     "@context": "https://schema.org",
@@ -193,10 +248,34 @@ const collectionStructuredData = {
                 <h2 id="reel-hub-title">Reel</h2>
             </div>
 
-            <div class="reel-placeholder" data-reveal>
-                <span class="category">Showreel / In Progress</span>
-                <strong data-i18n-cn="精选片段整理中" data-i18n-en="Selected Clips in Progress">精选片段整理中</strong>
-                <p data-i18n-cn="这里将放置可播放的 showreel 与阶段性影像合集；在正式视频上线前，作品页中的案例复盘可作为当前展示入口。" data-i18n-en="A playable showreel and selected visual collection will live here; before the final video is ready, the case-study pages serve as the main viewing path.">这里将放置可播放的 showreel 与阶段性影像合集；在正式视频上线前，作品页中的案例复盘可作为当前展示入口。</p>
+            <div class="reel-showcase">
+                {reelItems.map((reel) => (
+                    <article class="reel-card" data-reveal>
+                        <div class="reel-card__player">
+                            <ClickToPlayBilibili
+                                bvid={reel.bvid}
+                                page={reel.page}
+                                title={reel.titleCn}
+                                poster={reel.poster}
+                                eyebrow={`Bilibili ${reel.duration}`}
+                                heading={reel.titleCn}
+                                description={reel.descriptionCn}
+                            />
+                        </div>
+                        <div class="reel-card__body">
+                            <span class="category" data-i18n-cn={reel.categoryCn} data-i18n-en={reel.categoryEn}>{reel.categoryCn}</span>
+                            <h3 data-i18n-cn={reel.titleCn} data-i18n-en={reel.titleEn}>{reel.titleCn}</h3>
+                            <p data-i18n-cn={reel.descriptionCn} data-i18n-en={reel.descriptionEn}>{reel.descriptionCn}</p>
+                            <div class="reel-card__meta">
+                                <span>{reel.duration}</span>
+                                {reel.tags.map((tag) => <em>{tag}</em>)}
+                            </div>
+                            <a class="reel-card__link" href={`https://www.bilibili.com/video/${reel.bvid}/?p=${reel.page}`} target="_blank" rel="noreferrer">
+                                在 Bilibili 打开
+                            </a>
+                        </div>
+                    </article>
+                ))}
             </div>
         </section>
 
@@ -582,26 +661,95 @@ const collectionStructuredData = {
         gap: clamp(18px, 3vw, 28px);
     }
 
-    .reel-placeholder {
+    .reel-showcase {
         display: grid;
-        gap: 8px;
-        max-width: 680px;
-        border-left: 2px solid rgba(255, 94, 0, 0.58);
-        background: linear-gradient(90deg, rgba(255, 94, 0, 0.06), transparent);
-        padding: 18px 0 18px 22px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(18px, 3vw, 28px);
     }
 
-    .reel-placeholder strong {
+    .reel-card {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-panel);
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .reel-card:hover {
+        border-color: rgba(255, 94, 0, 0.42);
+        background: var(--bg-panel-strong);
+        transform: translateY(-2px);
+    }
+
+    .reel-card__player {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: #050505;
+    }
+
+    .reel-card__body {
+        display: grid;
+        align-content: start;
+        gap: 10px;
+        padding: 20px;
+    }
+
+    .reel-card__body h3 {
+        margin: 0;
         color: var(--text-main);
         font-family: var(--font-display);
         font-size: var(--title-card);
+        line-height: 1.32;
     }
 
-    .reel-placeholder p {
+    .reel-card__body p {
         margin: 0;
         color: var(--text-muted);
         font-size: 0.95rem;
         line-height: 1.7;
+    }
+
+    .reel-card__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .reel-card__meta span,
+    .reel-card__meta em {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-style: normal;
+        line-height: 1;
+        padding: 5px 9px;
+    }
+
+    .reel-card__link {
+        width: fit-content;
+        margin-top: 4px;
+        border: 1px solid rgba(255, 94, 0, 0.52);
+        border-radius: 4px;
+        color: var(--accent);
+        font-size: 0.84rem;
+        font-weight: 760;
+        line-height: 1;
+        padding: 9px 12px;
+        text-decoration: none;
+        transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .reel-card__link:hover,
+    .reel-card__link:focus-visible {
+        border-color: var(--accent);
+        background: rgba(255, 94, 0, 0.14);
+        color: var(--text-main);
     }
 
     .reel-item {
@@ -690,6 +838,7 @@ const collectionStructuredData = {
     @media (max-width: 900px) {
         .work-grid,
         .tool-grid,
+        .reel-showcase,
         .reel-list {
             grid-template-columns: 1fr;
         }

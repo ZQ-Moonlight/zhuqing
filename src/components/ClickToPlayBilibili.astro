@@ -4,6 +4,7 @@ import { withBase } from "../lib/paths";
 interface Props {
     bvid: string;
     title: string;
+    page?: number | string;
     poster?: string;
     eyebrow?: string;
     heading?: string;
@@ -11,19 +12,20 @@ interface Props {
     compact?: boolean;
 }
 
-const { bvid, title, poster, eyebrow = "Bilibili Video", heading = "点击播放", description, compact = false } = Astro.props;
+const { bvid, title, page = 1, poster, eyebrow = "Bilibili Video", heading = "点击播放", description, compact = false } = Astro.props;
+const pageValue = String(page);
 
 const playerParams = new URLSearchParams({
     bvid,
-    page: "1",
-    p: "1",
+    page: pageValue,
+    p: pageValue,
     as_wide: "1",
     high_quality: "1",
     danmaku: "0",
     autoplay: "0",
 });
 const playerSrc = `https://player.bilibili.com/player.html?${playerParams.toString()}`;
-const videoUrl = `https://www.bilibili.com/video/${bvid}/`;
+const videoUrl = `https://www.bilibili.com/video/${bvid}/?p=${pageValue}`;
 const posterSrc = poster ? withBase(poster) : undefined;
 ---
 
