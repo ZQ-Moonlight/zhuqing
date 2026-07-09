@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "build:cloudflare": "astro build && node scripts/remove-cloudflare-large-assets.mjs",
+    "build": "astro build && node scripts/prepare-large-pdf-downloads.mjs",
+    "build:cloudflare": "astro build && node scripts/prepare-large-pdf-downloads.mjs && node scripts/remove-cloudflare-large-assets.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

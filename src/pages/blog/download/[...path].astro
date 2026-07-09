@@ -1,0 +1,170 @@
+---
+import { stat } from "node:fs/promises";
+import nodePath from "node:path";
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getContentRoot, MAX_PUBLIC_PDF_BYTES, walkContentFiles } from "../../../lib/contentArchive";
+import { withBase } from "../../../lib/paths";
+
+const encodePath = (relativePath: string) => relativePath.split("/").map(encodeURIComponent).join("/");
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    const root = getContentRoot();
+    const files = await walkContentFiles(root);
+    const pdfs = await Promise.all(
+        files
+            .map((file) => ({
+                fullPath: file,
+                relativePath: nodePath.relative(root, file).split(nodePath.sep).join("/"),
+            }))
+            .filter(({ relativePath }) => relativePath.toLowerCase().endsWith(".pdf"))
+            .map(async ({ fullPath, relativePath }) => ({
+                relativePath,
+                size: (await stat(fullPath)).size,
+            }))
+    );
+
+    return pdfs
+        .filter((file) => file.size > MAX_PUBLIC_PDF_BYTES)
+        .map((file) => ({ params: { path: file.relativePath }, props: { relativePath: file.relativePath, size: file.size } }));
+};
+
+const { relativePath, size } = Astro.props;
+const filename = nodePath.posix.basename(relativePath);
+const manifestUrl = withBase(`/blog/file-chunks/${encodePath(relativePath)}/manifest.json`);
+const formatSize = (bytes: number) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+---
+
+<BaseLayout
+    title={`${filename} | Download | Zhu Qing`}
+    description="Download a large PDF through static file chunks."
+    activePath="/blog"
+    backgroundVariant="article"
+    noindex
+>
+    <main class="page-shell download-page">
+        <section class="download-panel" data-reveal>
+            <span class="eyebrow">PDF Download</span>
+            <h1>{filename}</h1>
+            <p>{formatSize(size)} / Cloudflare static chunk download</p>
+
+            <button class="download-button" type="button" data-download-button data-manifest-url={manifestUrl}>
+                Download PDF
+            </button>
+            <progress class="download-progress" data-download-progress value="0" max="1"></progress>
+            <p class="download-status" data-download-status>Ready</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">© 2026 Zhu Qing</footer>
+</BaseLayout>
+
+<script>
+    const button = document.querySelector("[data-download-button]");
+    const status = document.querySelector("[data-download-status]");
+    const progress = document.querySelector("[data-download-progress]");
+
+    const setStatus = (message) => {
+        if (status) status.textContent = message;
+    };
+
+    const downloadBlob = (blob, filename) => {
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = objectUrl;
+        link.download = filename;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(objectUrl);
+    };
+
+    button?.addEventListener("click", async () => {
+        const manifestUrl = button.dataset.manifestUrl;
+        if (!manifestUrl) return;
+
+        button.disabled = true;
+        setStatus("Reading file manifest...");
+
+        try {
+            const manifestResponse = await fetch(manifestUrl);
+            if (!manifestResponse.ok) throw new Error("manifest");
+            const manifest = await manifestResponse.json();
+            const baseUrl = manifestUrl.slice(0, manifestUrl.lastIndexOf("/") + 1);
+            const chunks = [];
+
+            for (const [index, part] of manifest.parts.entries()) {
+                setStatus(`Downloading chunk ${index + 1} / ${manifest.parts.length}`);
+                const partResponse = await fetch(`${baseUrl}${part}`);
+                if (!partResponse.ok) throw new Error(part);
+                chunks.push(await partResponse.arrayBuffer());
+                if (progress) progress.value = (index + 1) / manifest.parts.length;
+            }
+
+            setStatus("Combining PDF...");
+            downloadBlob(new Blob(chunks, { type: manifest.mimeType || "application/pdf" }), manifest.filename);
+            setStatus("Download started.");
+        } catch {
+            setStatus("Download failed. Please refresh and try again.");
+        } finally {
+            button.disabled = false;
+        }
+    });
+</script>
+
+<style>
+    .download-page {
+        max-width: 860px;
+    }
+
+    .download-panel {
+        display: grid;
+        gap: 18px;
+        padding-top: 54px;
+    }
+
+    .download-panel h1 {
+        margin: 0;
+        color: var(--text-main);
+        font-family: var(--font-display);
+        font-size: var(--title-article);
+        line-height: 1.12;
+        overflow-wrap: anywhere;
+    }
+
+    .download-panel p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.72;
+    }
+
+    .download-button {
+        width: fit-content;
+        min-height: 44px;
+        border: 1px solid rgba(255, 94, 0, 0.52);
+        border-radius: 4px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 760;
+        padding: 0 18px;
+    }
+
+    .download-button:disabled {
+        cursor: wait;
+        opacity: 0.72;
+    }
+
+    .download-progress {
+        width: min(100%, 520px);
+        height: 8px;
+        accent-color: var(--accent);
+    }
+
+    .download-status {
+        min-height: 1.7em;
+        font-family: var(--font-mono);
+        font-size: 0.84rem;
+    }
+</style>

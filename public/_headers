@@ -7,5 +7,11 @@
 /media/portfolio/*/files/*
   Cache-Control: public, max-age=86400
 
+/blog/files/*
+  Cache-Control: public, max-age=86400
+
+/blog/file-chunks/*
+  Cache-Control: public, max-age=86400
+
 /*
   X-Content-Type-Options: nosniff

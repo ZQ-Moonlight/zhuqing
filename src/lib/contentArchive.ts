@@ -20,8 +20,8 @@ export interface ReferenceGroup {
 }
 
 const contentRoot = path.join(process.cwd(), "src", "content", "blog");
-export const MAX_PUBLIC_PDF_BYTES = Number(process.env.PUBLIC_PDF_MAX_BYTES ?? 25 * 1024 * 1024);
-const legacyContentFileOrigin = "https://zq-moonlight.github.io/zhuqing";
+const defaultPublicPdfBytes = 25 * 1024 * 1024;
+export const MAX_PUBLIC_PDF_BYTES = Number(process.env.PUBLIC_PDF_MAX_BYTES ?? defaultPublicPdfBytes);
 
 const toPosix = (value: string) => value.split(path.sep).join("/");
 
@@ -46,7 +46,7 @@ const referenceMetadata: Record<
         title: "影像册 V1",
         description: "以摄影作品为主体的阶段性影像合集，用于展示画面观察、叙事气质与视觉整理能力。",
         tags: ["Photography", "Reel", "Portfolio"],
-        uploadedDate: "2026-05-20",
+        uploadedDate: "2025-05-04",
     },
 };
 
@@ -90,8 +90,8 @@ export const getContentRoot = () => contentRoot;
 export const encodeContentFileHref = (relativePath: string) =>
     withBase(`/blog/files/${relativePath.split("/").map(encodeURIComponent).join("/")}`);
 
-const encodeLegacyContentFileHref = (relativePath: string) =>
-    `${legacyContentFileOrigin}/blog/files/${relativePath.split("/").map(encodeURIComponent).join("/")}`;
+const encodeChunkedContentFileHref = (relativePath: string) =>
+    withBase(`/blog/download/${relativePath.split("/").map(encodeURIComponent).join("/")}`);
 
 const groupLabelFromPath = (relativePath: string) => {
     const parts = relativePath.split("/");
@@ -139,7 +139,7 @@ export const getReferenceGroups = async (): Promise<ReferenceGroup[]> => {
                     item: {
                         title: titleFromPdf(file, hasTexSibling),
                         description: metadata.description,
-                        href: fileStat.size <= MAX_PUBLIC_PDF_BYTES ? encodeContentFileHref(file) : encodeLegacyContentFileHref(file),
+                        href: fileStat.size <= MAX_PUBLIC_PDF_BYTES ? encodeContentFileHref(file) : encodeChunkedContentFileHref(file),
                         kind,
                         path: file,
                         sizeLabel: formatBytes(fileStat.size),
