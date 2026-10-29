@@ -1,46 +1,14 @@
-import { mkdir, open, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, open, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const contentRoot = path.join(root, "src", "content", "blog");
 const outputRoot = path.join(root, "dist", "blog", "file-chunks");
-const maxPublicPdfBytes = Number(process.env.PUBLIC_PDF_MAX_BYTES ?? 25 * 1024 * 1024);
-const chunkBytes = Number(process.env.PUBLIC_PDF_CHUNK_BYTES ?? 20 * 1024 * 1024);
-
-const toPosix = (value) => value.split(path.sep).join("/");
-
-const walk = async (dir) => {
-  const entries = await readdir(dir, { withFileTypes: true });
-  const files = await Promise.all(
-    entries
-      .filter((entry) => !entry.name.startsWith("."))
-      .map(async (entry) => {
-        const fullPath = path.join(dir, entry.name);
-        if (entry.isDirectory()) return walk(fullPath);
-        return [fullPath];
-      }),
-  );
-  return files.flat();
-};
+import { PDF_CHUNK_BYTES as chunkBytes } from "./deploy-limits.mjs";
+import { getPdfSources } from "./pdf-sources.mjs";
 
 await rm(outputRoot, { force: true, recursive: true });
-
-const files = await walk(contentRoot);
-const largePdfs = [];
-
-for (const fullPath of files) {
-  if (!fullPath.toLowerCase().endsWith(".pdf")) continue;
-
-  const fileStat = await stat(fullPath);
-  if (fileStat.size <= maxPublicPdfBytes) continue;
-
-  largePdfs.push({
-    fullPath,
-    relativePath: toPosix(path.relative(contentRoot, fullPath)),
-    size: fileStat.size,
-  });
-}
+const largePdfs = await getPdfSources();
 
 for (const file of largePdfs) {
   const outputDir = path.join(outputRoot, ...file.relativePath.split("/"));

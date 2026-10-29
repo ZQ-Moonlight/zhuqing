@@ -44,7 +44,7 @@ jobs:
         env:
           SITE_URL: https://zhuqing.tech
           BASE_PATH: /
-          PUBLIC_PDF_MAX_BYTES: 52428800
+          PUBLIC_PDF_MAX_BYTES: 20000000
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

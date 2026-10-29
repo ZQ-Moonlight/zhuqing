@@ -9,6 +9,16 @@ const base = process.env.BASE_PATH ?? '/';
 export default defineConfig({
   site,
   base,
+  integrations: [{
+    name: 'hosting-size-guard',
+    hooks: {
+      'astro:build:done': async () => {
+        await import('./scripts/prepare-large-pdf-downloads.mjs');
+        await import('./scripts/prepare-deploy-assets.mjs');
+        await import('./scripts/verify-cloudflare-pdf-downloads.mjs');
+      },
+    },
+  }],
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],

@@ -1,0 +1,2 @@
+# Preserve the bundled release exactly, including original license line endings.
+public/play/puguang/** -text

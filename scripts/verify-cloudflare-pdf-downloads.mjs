@@ -6,8 +6,9 @@ import path from "node:path";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.join(root, "dist");
-const contentRoot = path.join(root, "src", "content", "blog");
-const maxBytes = Number(process.env.PUBLIC_PDF_MAX_BYTES ?? 25 * 1024 * 1024);
+import { MAX_DEPLOY_BYTES as maxBytes } from "./deploy-limits.mjs";
+import { getPdfSources } from "./pdf-sources.mjs";
+const sources = new Map((await getPdfSources()).map((file) => [file.relativePath, file.fullPath]));
 
 const toPosix = (value) => value.split(path.sep).join("/");
 
@@ -65,7 +66,8 @@ for (const manifestPath of manifestFiles) {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   const chunkDir = path.dirname(manifestPath);
   const relativePdf = toPosix(path.relative(path.join(distRoot, "blog", "file-chunks"), chunkDir));
-  const sourcePath = path.join(contentRoot, ...relativePdf.split("/"));
+  const sourcePath = sources.get(relativePdf);
+  if (!sourcePath) throw new Error(`Unknown PDF source: ${relativePdf}`);
   const sourceHash = await hashFile(sourcePath);
   const chunkHash = await hashChunkSet(chunkDir, manifest.parts);
 

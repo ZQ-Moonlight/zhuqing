@@ -1,31 +1,14 @@
 ---
-import { stat } from "node:fs/promises";
 import nodePath from "node:path";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getContentRoot, MAX_PUBLIC_PDF_BYTES, walkContentFiles } from "../../../lib/contentArchive";
 import { withBase } from "../../../lib/paths";
+import { getPdfSources } from "../../../../scripts/pdf-sources.mjs";
 
 const encodePath = (relativePath: string) => relativePath.split("/").map(encodeURIComponent).join("/");
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const root = getContentRoot();
-    const files = await walkContentFiles(root);
-    const pdfs = await Promise.all(
-        files
-            .map((file) => ({
-                fullPath: file,
-                relativePath: nodePath.relative(root, file).split(nodePath.sep).join("/"),
-            }))
-            .filter(({ relativePath }) => relativePath.toLowerCase().endsWith(".pdf"))
-            .map(async ({ fullPath, relativePath }) => ({
-                relativePath,
-                size: (await stat(fullPath)).size,
-            }))
-    );
-
-    return pdfs
-        .filter((file) => file.size > MAX_PUBLIC_PDF_BYTES)
+    return (await getPdfSources())
         .map((file) => ({ params: { path: file.relativePath }, props: { relativePath: file.relativePath, size: file.size } }));
 };
 
@@ -46,7 +29,7 @@ const formatSize = (bytes: number) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
         <section class="download-panel" data-reveal>
             <span class="eyebrow">PDF Download</span>
             <h1>{filename}</h1>
-            <p>{formatSize(size)} / Cloudflare static chunk download</p>
+            <p>{formatSize(size)}</p>
 
             <button class="download-button" type="button" data-download-button data-manifest-url={manifestUrl}>
                 Download PDF

@@ -78,11 +78,12 @@ const collectionStructuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "作品集 | 祝庆 Zhu Qing",
-    description: "祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。",
+    description: "祝庆的独立游戏、影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。",
     url: portfolioUrl,
     mainEntity: {
         "@type": "ItemList",
         itemListElement: [
+            { "@type": "CreativeWork", name: "《扑光：今夜回家》", url: new URL(withBase("/portfolio/puguang/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "UE5 剧情动画与交互扫描流程", url: new URL(withBase("/portfolio/ue-cinematics-pipeline/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "《底特律：化身为人》场景与交互复刻", url: new URL(withBase("/portfolio/detroit/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "MetaHuman 与数字人光场流程", url: new URL(withBase("/portfolio/metahuman/"), Astro.site ?? Astro.url.origin).toString() },
@@ -98,7 +99,7 @@ const collectionStructuredData = {
 
 <BaseLayout
     title="作品集 | 祝庆 Zhu Qing"
-    description="祝庆的影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。"
+    description="祝庆的独立游戏、影视后期、UE5 交互、MetaHuman 与数字人工作流部分作品。"
     activePath="/portfolio"
     backgroundVariant="portfolio"
     structuredData={collectionStructuredData}
@@ -107,7 +108,7 @@ const collectionStructuredData = {
         <header class="portfolio-hero" data-reveal>
             <span class="eyebrow" data-i18n-cn="作品 / 流程 / 后期" data-i18n-en="Works / Pipeline / Post">作品 / 流程 / 后期</span>
             <h1 data-i18n-cn="部分作品 Works" data-i18n-en="Selected Works">部分作品 Works</h1>
-            <p data-i18n-cn="UE 实时过场动画、交互叙事流程、数字人技术研究、影视后期调色与电影放映。" data-i18n-en="Unreal Engine cinematics, interactive narrative pipelines, digital-human research, post-production color work, and cinema delivery.">UE 实时过场动画、交互叙事流程、数字人技术研究、影视后期调色与电影放映。</p>
+            <p data-i18n-cn="独立游戏、UE 实时过场动画、交互叙事流程、数字人技术研究、影视后期调色与电影放映。" data-i18n-en="Independent games, Unreal Engine cinematics, interactive narrative pipelines, digital-human research, post-production color work, and cinema delivery.">独立游戏、UE 实时过场动画、交互叙事流程、数字人技术研究、影视后期调色与电影放映。</p>
         </header>
 
         <section class="work-section" aria-labelledby="works-title">
@@ -116,6 +117,18 @@ const collectionStructuredData = {
             </div>
 
             <div class="work-grid">
+                <a href={withBase("/portfolio/puguang/")} class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src={withBase("/media/portfolio/puguang/cover.webp")} alt="《扑光：今夜回家》正式宣传封面，提灯少女与飞蛾" width="1920" height="1080" loading="lazy" decoding="async" />
+                        <span class="card-hover" data-i18n-cn="查看游戏" data-i18n-en="Explore the Game">查看游戏</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="category" data-i18n-cn="独立游戏 / 玩法与关卡设计" data-i18n-en="Independent Game / Gameplay & Level Design">独立游戏 / 玩法与关卡设计</span>
+                        <h3 data-i18n-cn="《扑光：今夜回家》" data-i18n-en="Puguang: Home Tonight">《扑光：今夜回家》</h3>
+                        <p data-i18n-cn="《扑光：今夜回家》是一款温暖的光影引导解谜游戏。你将与守候花园的小叶一起，走过二十段夜色中的小路，用灯光和道具引导迷路的绒蝶，寻找回家的方向。" data-i18n-en="A warm, light-guided puzzle game. Join Xiaoye, the garden's keeper, along twenty paths through the night, guiding lost moths home with lights and tools.">《扑光：今夜回家》是一款温暖的光影引导解谜游戏。你将与守候花园的小叶一起，走过二十段夜色中的小路，用灯光和道具引导迷路的绒蝶，寻找回家的方向。</p>
+                    </div>
+                </a>
+
                 <a href={withBase("/portfolio/ue-cinematics-pipeline")} class="project-card" data-reveal>
                     <div class="card-image">
                         <img src={withBase("/media/portfolio/ue-cinematics-pipeline/images/cover.webp")} alt="UE5 cinematic integration and scan workflow" loading="lazy" />

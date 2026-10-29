@@ -8,7 +8,7 @@ import { withBase } from "../../lib/paths";
 
 export async function getStaticPaths() {
     const cases = await getCollection("portfolio");
-    return cases.filter((item) => item.id !== "guangying-changqing").map((item) => ({
+    return cases.filter((item) => !["guangying-changqing", "puguang"].includes(item.id)).map((item) => ({
         params: { slug: item.id },
         props: { item },
     }));
