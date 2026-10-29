@@ -20,8 +20,8 @@ export interface ReferenceGroup {
 }
 
 const contentRoot = path.join(process.cwd(), "src", "content", "blog");
-const defaultPublicPdfBytes = 25 * 1024 * 1024;
-export const MAX_PUBLIC_PDF_BYTES = Number(process.env.PUBLIC_PDF_MAX_BYTES ?? defaultPublicPdfBytes);
+export { MAX_PUBLIC_PDF_BYTES } from "../../scripts/deploy-limits.mjs";
+import { MAX_PUBLIC_PDF_BYTES } from "../../scripts/deploy-limits.mjs";
 
 const toPosix = (value: string) => value.split(path.sep).join("/");
 

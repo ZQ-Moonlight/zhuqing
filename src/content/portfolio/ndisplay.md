@@ -9,7 +9,7 @@ videoUrl: "/media/portfolio/ndisplay/videos/demo.mp4"
 videoTitle: "nDisplay ICVFX 效果演示"
 secondaryVideoUrl: "/media/portfolio/ndisplay/videos/behind-the-scenes.mp4"
 secondaryVideoTitle: "幕后流程视频 / Behind the Scenes"
-documentUrl: "/media/portfolio/ndisplay/files/icvfx-camera-system-scope.pdf"
+documentUrl: "/blog/download/_public/media/portfolio/ndisplay/files/icvfx-camera-system-scope.pdf/"
 documentLabel: "下载 ICVFX 主摄影系统构建文档"
 tags: ["nDisplay", "ICVFX", "LED Volume", "Unreal Engine", "Virtual Production"]
 ---

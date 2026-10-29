@@ -136,7 +136,9 @@ tags: ["UE5", "Sequencer", "Blueprint", "QTE", "Interactive Narrative", "Scan FX
 
 <div class="ordered-media-list">
     <figure>
-        <img src="/media/portfolio/ue-cinematics-pipeline/images/animated/early-scan-development.gif" alt="早期扫描特效制作循环动图" loading="lazy" decoding="async" />
+        <video class="loop-media" autoplay loop muted playsinline preload="metadata" aria-label="早期扫描特效制作循环动图">
+            <source src="/media/portfolio/ue-cinematics-pipeline/videos/early-scan-development.mp4" type="video/mp4" />
+        </video>
         <figcaption>01 早期扫描特效制作：验证扫描扩散、发光轮廓和后处理层级。</figcaption>
     </figure>
     <figure>
@@ -150,7 +152,9 @@ tags: ["UE5", "Sequencer", "Blueprint", "QTE", "Interactive Narrative", "Scan FX
         <figcaption>03 中期 Motion Matching 迁移和扫描特效测试：确认角色动作和扫描状态能否同时成立。</figcaption>
     </figure>
     <figure class="final-step">
-        <img src="/media/portfolio/ue-cinematics-pipeline/images/animated/scan-state-comparison.gif" alt="扫描状态区分循环动图" loading="lazy" decoding="async" />
+        <video class="loop-media" autoplay loop muted playsinline preload="metadata" aria-label="扫描状态区分循环动图">
+            <source src="/media/portfolio/ue-cinematics-pipeline/videos/scan-state-comparison.mp4" type="video/mp4" />
+        </video>
         <figcaption>04 最终游戏环节：扫描会显示已交互物体和未交互物体的区别。</figcaption>
     </figure>
 </div>
@@ -197,7 +201,9 @@ UI 在这个项目里主要是给 QTE 和扫描做提示。最开始我想做更
         <figcaption>人物雨水流淌效果：让近景角色材质和雨夜环境保持一致。</figcaption>
     </figure>
     <figure>
-        <img src="/media/portfolio/ue-cinematics-pipeline/images/animated/raindrop-puddle-fx.gif" alt="雨滴溅射和水坑效果循环动图" loading="lazy" decoding="async" />
+        <video class="loop-media" autoplay loop muted playsinline preload="metadata" aria-label="雨滴溅射和水坑效果循环动图">
+            <source src="/media/portfolio/ue-cinematics-pipeline/videos/raindrop-puddle-fx.mp4" type="video/mp4" />
+        </video>
         <figcaption>雨滴溅射和水坑效果：强化地面反馈和空间湿度。</figcaption>
     </figure>
 </div>
