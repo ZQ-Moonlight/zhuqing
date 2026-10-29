@@ -115,10 +115,13 @@ const relatedAssetLinks =
         <div class="case-detail-hero__shade"></div>
         <div class="case-detail-hero__content" data-reveal>
             <a class="case-back-link" href={withBase("/portfolio")} data-i18n-cn="返回作品集 / Works" data-i18n-en="Back to Works">返回作品集 / Works</a>
-            <span class="eyebrow">{item.data.category}</span>
-            <h1>{item.data.title}</h1>
-            {item.data.subtitle && <p class="subtitle">{item.data.subtitle}</p>}
-            <p>{item.data.description}</p>
+            {item.data.titleEn && (
+                <button class="case-language-toggle" type="button" data-case-language data-i18n-cn="Switch to English" data-i18n-en="切换为中文">Switch to English</button>
+            )}
+            <span class="eyebrow" data-i18n-cn={item.data.category} data-i18n-en={item.data.categoryEn}>{item.data.category}</span>
+            <h1 data-i18n-cn={item.data.title} data-i18n-en={item.data.titleEn}>{item.data.title}</h1>
+            {item.data.subtitle && <p class="subtitle" data-i18n-cn={item.data.subtitle} data-i18n-en={item.data.subtitleEn}>{item.data.subtitle}</p>}
+            <p data-i18n-cn={item.data.description} data-i18n-en={item.data.descriptionEn}>{item.data.description}</p>
             {item.data.tags.length > 0 && (
                 <div class="case-tags">
                     {item.data.tags.map((tag) => <span>{tag}</span>)}
@@ -237,6 +240,12 @@ const relatedAssetLinks =
 </BaseLayout>
 
 <script>
+    document.querySelector("[data-case-language]")?.addEventListener("click", () => {
+        const language = document.documentElement.dataset.language === "en" ? "cn" : "en";
+        try { localStorage.setItem("zq-language", language); } catch {}
+        window.dispatchEvent(new CustomEvent("zq-language-change", { detail: { language } }));
+    });
+
     const lightbox = document.querySelector("[data-image-lightbox]");
     const lightboxImage = document.querySelector("[data-image-lightbox-image]") as HTMLImageElement | null;
     const lightboxCaption = document.querySelector("[data-image-lightbox-caption]");
@@ -295,6 +304,25 @@ const relatedAssetLinks =
 </script>
 
 <style>
+    .case-language-toggle {
+        display: block;
+        min-height: 44px;
+        margin: 0 0 18px;
+        padding: 8px 13px;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 999px;
+        background: rgba(5, 5, 5, 0.54);
+        color: #fff;
+        font: inherit;
+        font-size: 0.8rem;
+        cursor: pointer;
+    }
+
+    .case-language-toggle:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
+    }
+
     .case-detail-hero {
         position: relative;
         z-index: 10;
