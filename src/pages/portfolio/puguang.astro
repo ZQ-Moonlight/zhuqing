@@ -1,0 +1,262 @@
+---
+import { getEntry, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/PuguangIcon.astro";
+import { withBase } from "../../lib/paths";
+const item = await getEntry("portfolio", "puguang");
+if (!item) throw new Error("Missing Puguang content");
+const { Content } = await render(item);
+const asset = (name: string) => withBase(`/media/portfolio/puguang/${name}`);
+const tapUrl = "https://www.taptap.cn/app/991431?os=pc";
+const media = [
+    { label: "宣传片", image: "cover.webp", video: "trailer.mp4" },
+    { label: "实机画面", image: "taptap-01.webp", video: "gameplay.mp4" },
+    { label: "接一束光", image: "taptap-01.webp" },
+    { label: "双门接力", image: "taptap-02.webp" },
+    { label: "三道归门", image: "taptap-03.webp" },
+    { label: "与小叶同行", image: "taptap-04.webp" },
+];
+const pageUrl = new URL(withBase("/portfolio/puguang/"), Astro.site ?? Astro.url.origin).toString();
+const structuredData = {
+    "@context": "https://schema.org", "@type": "VideoGame", name: item.data.title,
+    description: item.data.description, url: pageUrl,
+    image: new URL(asset("cover.webp"), pageUrl).toString(),
+    inLanguage: "zh-CN", genre: "解谜", gamePlatform: "Web browser",
+    publisher: { "@type": "Organization", name: "yes的工作室1" }, sameAs: tapUrl,
+};
+---
+
+<BaseLayout title="扑光：今夜回家 | 祝庆 Zhu Qing" description={item.data.description} activePath="/portfolio" image={asset("cover.webp")} preloadImage={asset("wallpaper.webp")} structuredData={structuredData}>
+    <div class="puguang-store" data-puguang-store data-effects="on" style={`--sprite-sheet: url('${asset("sprites.webp")}')`}>
+        <div class="store-backdrop" aria-hidden="true"><img src={asset("wallpaper.webp")} alt="" width="2400" height="758" fetchpriority="high" /></div>
+        <div class="fireflies" aria-hidden="true">{Array.from({length: 14}, (_, i) => <i style={`--i:${i};left:${(i * 37 + 7) % 97}%;top:${(i * 17 + 11) % 85}%`}></i>)}</div>
+        <main class="store-shell">
+            <div class="store-breadcrumb"><a href={withBase("/portfolio/")}>作品集</a><span>/</span><span>扑光：今夜回家</span><button class="effect-toggle" type="button" aria-label="关闭光点效果" aria-pressed="true" title="光点效果" data-effects-toggle><Icon name="spark" /></button></div>
+            <header class="store-heading">
+                <img src={asset("icon.webp")} alt="" width="56" height="56" class="game-icon" />
+                <div><h1>扑光：今夜回家 <span class="edition">先行服</span></h1><p>借一束光，送它们回家。</p></div>
+                <span class="sprite sprite--moth heading-moth" aria-hidden="true"></span>
+            </header>
+            <section class="store-top" aria-label="游戏预览与简介">
+                <div class="gallery" data-gallery>
+                    <div class="gallery-stage" id="puguang-media-panel" role="tabpanel" aria-labelledby="media-tab-0" tabindex="0" data-gallery-stage>
+                        <img class="stage-image" src={asset("cover.webp")} alt="扑光：今夜回家宣传片封面" width="1672" height="941" data-stage-image />
+                        <video class="stage-video" controls playsinline preload="none" poster={asset("cover.webp")} hidden data-stage-video></video>
+                        <button class="stage-play" type="button" aria-label="播放宣传片" data-stage-play><span><Icon name="play" /></span></button>
+                        <span class="media-caption" aria-live="polite" data-media-label>宣传片</span>
+                        <button class="expand-button" type="button" aria-label="放大查看当前媒体" data-expand><Icon name="expand" /></button>
+                    </div>
+                    <div class="gallery-controls">
+                        <button type="button" class="gallery-arrow gallery-arrow--prev" aria-label="上一项媒体" data-media-prev><Icon name="chevron" /></button>
+                        <div class="media-thumbnails" role="tablist" aria-label="宣传片与游戏截图" data-thumbnails>
+                            {media.map((m, i) => <button type="button" id={`media-tab-${i}`} role="tab" aria-selected={i === 0 ? "true" : "false"} aria-controls="puguang-media-panel" aria-label={m.label} tabindex={i === 0 ? 0 : -1} data-media-index={i} data-image={asset(m.image)} data-video={m.video ? asset(m.video) : undefined} data-label={m.label}>
+                                <img src={asset(m.image)} alt="" width="160" height="90" loading="lazy" />
+                                {m.video && <span class="thumbnail-play"><Icon name="play" /></span>}<span class="thumbnail-label">{m.label}</span>
+                            </button>)}
+                        </div>
+                        <button type="button" class="gallery-arrow" aria-label="下一项媒体" data-media-next><Icon name="chevron" /></button>
+                    </div>
+                </div>
+                <aside class="game-summary">
+                    <img class="summary-cover" src={asset("cover.webp")} alt="扑光：今夜回家正式宣传图" width="1672" height="941" />
+                    <p class="game-intro">{item.data.description}</p>
+                    <dl class="game-facts"><div><dt>开发者</dt><dd><a href="https://www.taptap.cn/developer/461636" target="_blank" rel="noopener noreferrer">yes的工作室1 ↗</a></dd></div><div><dt>游戏状态</dt><dd>先行服 · 试玩 DEMO</dd></div></dl>
+                    <div class="game-tags"><span>光影引导</span><span>解谜</span><span>二十段夜路</span></div>
+                    <a class="play-cta" href={tapUrl} target="_blank" rel="noopener noreferrer"><Icon name="play" /><span>前往 TapTap 试玩</span><span class="sprite sprite--lantern" aria-hidden="true"></span></a>
+                    <a class="browser-play" href="https://puguang-home-zq.openelf5.chatgpt.site" target="_blank" rel="noopener noreferrer">浏览器直接试玩 <Icon name="arrow" /></a>
+                </aside>
+            </section>
+            <section class="store-details" aria-labelledby="about-game">
+                <article class="about-game"><h2 id="about-game">关于这款游戏<span></span></h2><p class="game-motto">借一束光，送它们回家。</p><div class="official-copy"><Content /></div><a class="source-link" href={tapUrl} target="_blank" rel="noopener noreferrer">TapTap 游戏主页 ↗</a></article>
+                <aside class="creator-note"><span class="sprite sprite--xiaoye" aria-hidden="true"></span><h2>创作者的话</h2><p>偷偷给大家递个小提示：游戏里的制作人名单别着急划走！我们在里面埋了个神秘小彩蛋，期待你们的发现~</p><span class="note-signature">yes的工作室1</span></aside>
+            </section>
+            <figure class="journey-banner"><img src={asset("wallpaper.webp")} alt="小叶提着灯，与绒蝶一起走过夜色中的小路" width="2400" height="758" loading="lazy" /></figure>
+            <footer class="store-footer"><a href={withBase("/portfolio/")}>← 返回作品集</a><span>© 2026 祝庆 Zhu Qing</span></footer>
+        </main>
+        <dialog class="media-dialog" aria-labelledby="large-media-title" data-media-dialog>
+            <div class="dialog-heading"><h2 id="large-media-title" data-large-label>宣传片</h2><button type="button" aria-label="关闭放大预览" data-dialog-close><Icon name="close" /></button></div>
+            <img src={asset("cover.webp")} alt="" data-large-image />
+            <video controls playsinline preload="metadata" hidden data-large-video></video>
+        </dialog>
+    </div>
+</BaseLayout>
+
+<script>
+    const store = document.querySelector<HTMLElement>("[data-puguang-store]");
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-media-index]"));
+    const stage = document.querySelector<HTMLElement>("[data-gallery-stage]");
+    const image = document.querySelector<HTMLImageElement>("[data-stage-image]");
+    const video = document.querySelector<HTMLVideoElement>("[data-stage-video]");
+    const play = document.querySelector<HTMLButtonElement>("[data-stage-play]");
+    const label = document.querySelector<HTMLElement>("[data-media-label]");
+    let active = 0;
+    function selectMedia(index: number, focus = false) {
+        const next = (index + tabs.length) % tabs.length;
+        const tab = tabs[next];
+        if (!tab || !stage || !image || !video || !play) return;
+        active = next;
+        video.pause(); video.hidden = true; video.removeAttribute("src"); video.load();
+        image.src = tab.dataset.image ?? ""; image.alt = `扑光：今夜回家 · ${tab.dataset.label}`; image.hidden = false;
+        play.hidden = !tab.dataset.video; play.setAttribute("aria-label", `播放${tab.dataset.label}`);
+        if (label) label.textContent = tab.dataset.label ?? "";
+        stage.setAttribute("aria-labelledby", tab.id);
+        tabs.forEach((button, i) => { button.setAttribute("aria-selected", String(i === active)); button.tabIndex = i === active ? 0 : -1; });
+        tab.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+        if (focus) tab.focus({ preventScroll: true });
+    }
+    tabs.forEach((tab, i) => tab.addEventListener("click", () => selectMedia(i)));
+    document.querySelector("[data-media-prev]")?.addEventListener("click", () => selectMedia(active - 1));
+    document.querySelector("[data-media-next]")?.addEventListener("click", () => selectMedia(active + 1));
+    document.querySelector("[data-thumbnails]")?.addEventListener("keydown", (event) => {
+        if (!(event instanceof KeyboardEvent) || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault(); selectMedia(event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : active + (event.key === "ArrowRight" ? 1 : -1), true);
+    });
+    play?.addEventListener("click", async () => {
+        const tab = tabs[active]; if (!video || !image || !tab?.dataset.video) return;
+        video.src = tab.dataset.video; video.poster = tab.dataset.image ?? "";
+        video.hidden = false; image.hidden = true; play.hidden = true;
+        try { await video.play(); } catch { /* Native controls allow another play attempt. */ }
+    });
+    const dialog = document.querySelector<HTMLDialogElement>("[data-media-dialog]");
+    const largeImage = document.querySelector<HTMLImageElement>("[data-large-image]");
+    const largeVideo = document.querySelector<HTMLVideoElement>("[data-large-video]");
+    document.querySelector("[data-expand]")?.addEventListener("click", () => {
+        const tab = tabs[active]; if (!dialog || !largeImage || !largeVideo || !tab) return;
+        const position = video?.currentTime ?? 0;
+        const wasPlaying = Boolean(video && !video.hidden && !video.paused);
+        video?.pause();
+        const heading = document.querySelector("[data-large-label]");
+        if (heading) heading.textContent = tab.dataset.label ?? "";
+        largeImage.hidden = Boolean(tab.dataset.video); largeVideo.hidden = !tab.dataset.video;
+        if (tab.dataset.video) {
+            largeVideo.poster = tab.dataset.image ?? "";
+            largeVideo.src = tab.dataset.video;
+            largeVideo.onloadedmetadata = () => {
+                if (!dialog.open) return;
+                largeVideo.currentTime = Math.min(position, largeVideo.duration || 0);
+                if (wasPlaying) largeVideo.play().catch(() => {});
+            };
+        } else { largeImage.src = tab.dataset.image ?? ""; largeImage.alt = `扑光：今夜回家 · ${tab.dataset.label}`; }
+        dialog.showModal();
+    });
+    const closeDialog = () => dialog?.close();
+    document.querySelector("[data-dialog-close]")?.addEventListener("click", closeDialog);
+    dialog?.addEventListener("click", (event) => { if (event.target === dialog) closeDialog(); });
+    dialog?.addEventListener("close", () => {
+        if (largeVideo) { largeVideo.pause(); largeVideo.onloadedmetadata = null; largeVideo.removeAttribute("src"); largeVideo.load(); }
+        document.querySelector<HTMLButtonElement>("[data-expand]")?.focus({preventScroll:true});
+    });
+    const effects = document.querySelector<HTMLButtonElement>("[data-effects-toggle]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function setEffects(enabled: boolean) {
+        if (store) store.dataset.effects = enabled ? "on" : "off";
+        effects?.setAttribute("aria-pressed", String(enabled)); effects?.setAttribute("aria-label", enabled ? "关闭光点效果" : "开启光点效果");
+    }
+    setEffects(!reduced.matches);
+    effects?.addEventListener("click", () => setEffects(store?.dataset.effects !== "on"));
+    reduced.addEventListener("change", () => setEffects(!reduced.matches));
+</script>
+
+<style>
+    .puguang-store { position: relative; isolation: isolate; min-height: 100vh; overflow: clip; background: #101d25; color: #d6e1e4; --mint: #b8e3cc; --gold: #eed7a5; --store-line: #9dbfc62e; }
+    .puguang-store :global(svg) { width: 22px; height: 22px; flex-shrink: 0; }
+    .puguang-store :global(button), .puguang-store :global(a) { -webkit-tap-highlight-color: transparent; }
+    .puguang-store :global(button:focus-visible), .puguang-store :global(a:focus-visible) { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .store-backdrop { position: absolute; z-index: -2; inset: 0 0 auto; height: 820px; overflow: hidden; pointer-events: none; }
+    .store-backdrop img { width: 100%; height: 570px; object-fit: cover; opacity: .31; filter: blur(1px) saturate(.8); mask-image: linear-gradient(#000 20%, transparent 100%); }
+    .store-backdrop::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #101d257a, transparent 70%), linear-gradient(0deg,#101d25,transparent 70%); }
+    .store-shell { position: relative; width: min(1180px, calc(100% - 80px)); margin: auto; padding-top: calc(var(--header-height) + 32px); }
+    .store-breadcrumb { display: flex; gap: 11px; align-items: center; color: #9eafb9; font-size: 12px; }
+    .store-breadcrumb a { color: inherit; text-decoration: none; }
+    .store-breadcrumb a:hover { color: var(--mint); }
+    .effect-toggle { margin-left: auto; width: 36px; height: 36px; display: grid; place-items: center; color: var(--gold); background: #182b32b0; border: 1px solid var(--store-line); border-radius: 50%; cursor: pointer; }
+    .effect-toggle[aria-pressed="false"] { color: #8a9ca3; }
+    .effect-toggle :global(svg) { width: 17px; height: 17px; }
+    .store-heading { display: flex; align-items: center; gap: 16px; margin: 20px 0 25px; }
+    .game-icon { border-radius: 13px; border: 1px solid #e8dabc42; box-shadow: 0 5px 24px #0004; width: 56px; height: 56px; }
+    .store-heading h1 { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; margin: 0; color: #f2f0e7; font-size: clamp(23px, 2.5vw, 34px); font-weight: 650; letter-spacing: .015em; line-height: 1.4; }
+    .edition { font-size: 11px; color: #b9dacb; background: #29443c; border: 1px solid #729b8040; padding: 3px 8px; border-radius: 3px; letter-spacing: .08em; font-weight: 500; }
+    .store-heading p { margin: 6px 0 0; font-size: 13px; color: #adbdc4; letter-spacing: .09em; }
+    .sprite { display: block; background-image: var(--sprite-sheet); background-repeat: no-repeat; pointer-events: none; }
+    .sprite--moth { width: 76px; height: 52px; background-size: 152px 152px; background-position: left bottom; }
+    .heading-moth { margin-left: auto; opacity: .9; filter: drop-shadow(0 0 12px #f5d99744); animation: moth-drift 7s ease-in-out infinite; }
+    .store-top { display: grid; grid-template-columns: minmax(0, 1fr) 318px; gap: 26px; align-items: start; }
+    .gallery { min-width: 0; }
+    .gallery-stage { position: relative; aspect-ratio: 16/9; background: #071216; overflow: hidden; border: 1px solid #91b3bb30; box-shadow: 0 16px 45px #0004; border-radius: 5px; }
+    .stage-image, .stage-video { width: 100%; height: 100%; object-fit: contain; display: block; }
+    [hidden] { display: none !important; }
+    .stage-play { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; border: 0; color: #f4f1dd; background: linear-gradient(0deg, #08121855, transparent 32%); cursor: pointer; }
+    .stage-play > span { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 50%; background: #0e2529c4; border: 1px solid #e5e9c987; box-shadow: 0 0 0 8px #0c1b222e, 0 4px 28px #0005; backdrop-filter: blur(8px); transition: transform 220ms, box-shadow 220ms, background 220ms; }
+    .stage-play:hover > span { transform: scale(1.08); background: #244a43dc; box-shadow: 0 0 30px #afdfc34d; }
+    .stage-play :global(svg) { width: 30px; height: 30px; margin-left: 3px; }
+    .media-caption { position: absolute; left: 16px; bottom: 15px; padding: 4px 8px; border-radius: 3px; font-size: 11px; color: #f1eacb; background: #091b23a3; pointer-events: none; letter-spacing: .1em; }
+    .stage-video:not([hidden]) ~ .media-caption { display: none; }
+    .expand-button { position: absolute; right: 12px; top: 12px; width: 34px; height: 34px; border: 1px solid #dee6d347; border-radius: 4px; color: #f2f1dc; background: #0a192980; display: grid; place-items: center; cursor: pointer; }
+    .expand-button :global(svg) { width: 16px; height: 16px; }
+    .gallery-stage:fullscreen { width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; }
+    .media-dialog { width: min(1400px, calc(100vw - 36px)); max-height: calc(100dvh - 36px); border: 1px solid #8ba8a75c; border-radius: 6px; padding: 12px; margin: auto; background: #0a171e; color: #d8e5dc; box-shadow: 0 20px 80px #0009; }
+    .media-dialog::backdrop { background: #030c13e8; backdrop-filter: blur(9px); }
+    .dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 10px; }
+    .dialog-heading h2 { margin: 0; font: inherit; font-size: 13px; }
+    .dialog-heading button { display: grid; place-items: center; width: 40px; height: 40px; background: #253b42; border: 1px solid #698b8740; color: inherit; border-radius: 4px; cursor: pointer; }
+    .media-dialog > img, .media-dialog > video { display: block; width: 100%; max-height: calc(100dvh - 124px); object-fit: contain; background: #040b10; }
+    :global(html:has([data-media-dialog][open])) { overflow: hidden; }
+    .gallery-controls { display: flex; align-items: stretch; gap: 7px; margin-top: 12px; }
+    .gallery-arrow { flex-shrink: 0; width: 27px; display: grid; place-items: center; padding: 0; border: 1px solid #8ba5b81b; background: #1a2b36; color: #c0d0d5; border-radius: 3px; cursor: pointer; }
+    .gallery-arrow:hover { background: #2d444e; }
+    .gallery-arrow--prev :global(svg) { transform: rotate(180deg); }
+    .gallery-arrow :global(svg) { width: 14px; height: 14px; }
+    .media-thumbnails { display: flex; gap: 8px; overflow-x: auto; padding: 3px 2px 9px; scrollbar-width: thin; scrollbar-color: #536a72 #0f1d24; min-width: 0; }
+    .media-thumbnails button { position: relative; flex: 0 0 120px; aspect-ratio: 16/9; padding: 0; overflow: hidden; border: 1px solid transparent; background: #0b161b; border-radius: 3px; cursor: pointer; }
+    .media-thumbnails button[aria-selected="true"] { border-color: #c9dfb5; box-shadow: 0 0 0 1px #c9dfb567; }
+    .media-thumbnails img { width: 100%; height: 100%; object-fit: cover; opacity: .65; transition: opacity 180ms; }
+    .media-thumbnails button[aria-selected="true"] img, .media-thumbnails button:hover img { opacity: 1; }
+    .thumbnail-label { position: absolute; inset: auto 0 0; padding: 12px 5px 4px; font-size: 10px; color: #fff; background: linear-gradient(transparent,#08141de6); text-align: left; }
+    .thumbnail-play { position: absolute; top: 5px; left: 6px; color: white; filter: drop-shadow(0 1px 3px #000); }
+    .thumbnail-play :global(svg) { width: 14px; height: 14px; }
+    .game-summary { min-width: 0; }
+    .summary-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; border: 1px solid var(--store-line); }
+    .game-intro { margin: 15px 0 18px; font-size: 13px; line-height: 1.95; color: #c4d0d4; }
+    .game-facts { font-size: 12px; margin: 0; }
+    .game-facts div { display: flex; gap: 18px; margin: 8px 0; }
+    .game-facts dt { width: 52px; flex-shrink: 0; color: #7d98a5; }
+    .game-facts dd { margin: 0; color: #bdcdd1; }
+    .game-facts a { text-decoration: none; color: #bdddcf; }
+    .game-tags { display: flex; gap: 6px; margin: 17px 0 20px; flex-wrap: wrap; }
+    .game-tags span { padding: 4px 8px; background: #223842; color: #a3bfc4; font-size: 10px; border-radius: 2px; }
+    .play-cta { position: relative; display: flex; align-items: center; justify-content: center; gap: 11px; min-height: 51px; color: #152e29; background: linear-gradient(110deg,#d0e8b7,#a7d0ad); border: 1px solid #d2e7b5; box-shadow: 0 3px 18px #accb9c13; border-radius: 3px; font-size: 14px; font-weight: 700; text-decoration: none; padding: 12px 43px 12px 20px; transition: box-shadow 200ms, filter 200ms; }
+    .play-cta:hover { filter: brightness(1.08); box-shadow: 0 0 28px #b5d8ad38; }
+    .play-cta :global(svg) { width: 18px; height: 18px; }
+    .sprite--lantern { position: absolute; right: 9px; top: -8px; width: 45px; height: 54px; background-size: 155px 155px; background-position: 82% bottom; transform: rotate(7deg); filter: drop-shadow(0 0 8px #e3dc9a70); transition: filter 200ms, transform 200ms; }
+    .play-cta:hover .sprite--lantern { transform: rotate(-4deg); filter: drop-shadow(0 0 18px #f6e6a2); }
+    .browser-play { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 7px; padding: 8px; min-height: 36px; color: #a3b9c0; font-size: 12px; text-decoration: none; }
+    .browser-play:hover { color: #dce8d4; }
+    .browser-play :global(svg) { width: 15px; height: 15px; }
+    .store-details { display: grid; grid-template-columns: minmax(0,1fr) 318px; gap: 50px; margin: 50px 0 38px; align-items: start; }
+    .about-game h2 { display: flex; align-items: center; gap: 20px; font-size: 17px; font-weight: 500; margin: 0 0 22px; color: #dce7e2; letter-spacing: .05em; }
+    .about-game h2 span { height: 1px; flex: 1; background: linear-gradient(90deg,#93b4b74a,transparent); }
+    .game-motto { color: var(--gold); font-size: 20px; font-family: var(--font-display); letter-spacing: .06em; margin: 0 0 17px; }
+    .official-copy :global(p) { font-size: 14px; line-height: 2.05; color: #adbfc6; margin: 0 0 16px; }
+    .source-link { display: inline-flex; color: #89a9ab; text-decoration: none; font-size: 11px; margin-top: 6px; padding: 4px 0; }
+    .source-link:hover { color: var(--mint); }
+    .creator-note { position: relative; padding: 25px 24px 20px; margin-top: 13px; background: linear-gradient(135deg,#29413f77,#1c30384a); border: 1px solid #aac3ab26; border-radius: 5px; }
+    .creator-note h2 { margin: 0 0 17px; font-size: 14px; font-weight: 500; color: #d1dfcc; }
+    .creator-note p { position: relative; margin: 0; color: #b6c7c3; font-size: 13px; line-height: 1.95; }
+    .note-signature { display: block; margin-top: 16px; text-align: right; color: #829d98; font-size: 10px; }
+    .sprite--xiaoye { position: absolute; top: -82px; right: -1px; width: 86px; height: 116px; background-size: 188px 188px; background-position: right top; filter: drop-shadow(0 3px 4px #061b2459); }
+    .journey-banner { margin: 0; overflow: hidden; border-radius: 5px; border: 1px solid #6f8d9a35; box-shadow: 0 15px 40px #0002; }
+    .journey-banner img { display: block; width: 100%; height: auto; }
+    .store-footer { display: flex; justify-content: space-between; gap: 15px; align-items: center; padding: 25px 0 32px; font-size: 11px; color: #6e8995; }
+    .store-footer a { text-decoration: none; color: #a9bdbf; padding: 10px 0; }
+    .fireflies { pointer-events: none; position: absolute; z-index: -1; inset: 0 0 auto; height: 750px; overflow: hidden; }
+    .fireflies i { position: absolute; width: 3px; height: 3px; background: #e5d9a1; border-radius: 50%; box-shadow: 0 0 13px 3px #e5d9a14d; opacity: 0; animation: firefly calc(7s + var(--i) * .35s) ease-in-out infinite; animation-delay: calc(var(--i) * -.9s); }
+    @keyframes firefly { 0%,100% { opacity: 0; transform: translate(0,0); } 35% { opacity: .75; } 65% { opacity: .2; } 80% { opacity: .5; transform: translate(16px,-42px); } }
+    @keyframes moth-drift { 0%,100% { transform: translate(0,0) rotate(-5deg); } 50% { transform: translate(-8px,-8px) rotate(4deg); } }
+    [data-effects="off"] .fireflies { display: none; }
+    [data-effects="off"] .heading-moth { animation: none; }
+    @media (prefers-reduced-motion: reduce) { .fireflies { display: none; } .heading-moth { animation: none; } .puguang-store :global(*) { transition: none !important; scroll-behavior: auto !important; } }
+    @media (min-width: 1600px) { .store-shell { width: min(1280px, calc(100% - 120px)); } .store-top { grid-template-columns: minmax(0,1fr) 350px; } .store-details { grid-template-columns: minmax(0,1fr) 350px; } }
+    @media (max-width: 1000px) { .store-shell { width: calc(100% - 48px); } .store-top { grid-template-columns: minmax(0,1fr) 280px; gap: 20px; } .store-details { grid-template-columns: minmax(0,1fr) 280px; gap: 30px; } .game-intro { font-size: 12px; margin-top: 12px; } .media-thumbnails button { flex-basis: 105px; } }
+    @media (max-width: 760px) { .store-shell { width: calc(100% - 36px); padding-top: calc(var(--header-height) + 22px); } .store-heading { margin-top: 20px; gap: 12px; } .game-icon { width: 47px; height: 47px; border-radius: 10px; } .store-heading h1 { font-size: 22px; gap: 8px; } .store-heading p { font-size: 11px; } .heading-moth { display: none; } .store-top { display: flex; flex-direction: column; gap: 24px; } .gallery,.game-summary { width: 100%; } .game-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; } .summary-cover { grid-column: 1; grid-row: 1 / 3; } .game-intro { grid-column: 2; margin: 0 0 12px; } .game-facts { grid-column: 2; } .game-tags { grid-column: 1 / -1; margin: 15px 0; } .play-cta,.browser-play { grid-column: 1 / -1; } .store-details { grid-template-columns: 1fr; gap: 65px; margin-top: 35px; } .creator-note { margin-top: 0; } .sprite--xiaoye { right: 10px; } .store-breadcrumb { font-size: 11px; gap: 8px; } .effect-toggle { width: 34px; height: 34px; } .store-footer { flex-wrap: wrap; } }
+    @media (max-width: 460px) { .store-shell { width: calc(100% - 28px); } .store-heading h1 { font-size: 20px; } .edition { font-size: 9px; padding: 2px 5px; } .store-heading p { letter-spacing: .025em; } .game-summary { display: block; } .summary-cover { display: none; } .game-intro { font-size: 13px; margin: 0 0 16px; } .stage-play > span { width: 50px; height: 50px; } .stage-play :global(svg) { width: 24px; height: 24px; } .media-thumbnails button { flex-basis: 103px; } .gallery-arrow { width: 24px; } .gallery-controls { gap: 5px; } .game-tags { margin-bottom: 20px; } .game-motto { font-size: 18px; } .official-copy :global(p) { font-size: 13px; } .journey-banner img { min-height: 150px; object-fit: cover; object-position: 68% center; } }
+</style>

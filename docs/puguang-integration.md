@@ -1,36 +1,37 @@
-# 《扑光：今夜回家》作品集接入
+# 《扑光：今夜回家》游戏展示页
 
-2026-10-29。对应任务：Dot /「整合游戏作品集」。
+2026-10-29，按最新反馈改为 Steam 游戏页式布局。
 
-## 页面与内容
+## 内容来源
 
-- `/portfolio/` 新增中英文项目卡片，并在 CollectionPage 的 ItemList 中登记详情页。
-- `/portfolio/puguang/` 沿用 Content Collections 与现有 `[slug].astro` 详情模板，包含玩法、20 关设计、视觉方向、交互迭代和 GameJam 复盘。
-- 新增可选英文元数据；只有提供英文标题的案例显示语言按钮，沿用 `zq-language` 与 `zq-language-change`。旧案例内容未修改。
-- 试玩入口来自 Sites 账户中已存在的《扑光》项目，浏览器确认标题为 v1.0.3，菜单显示 20 STOPS。未推送本地游戏新版。
-- 正文明确区分宣传插画与游戏截图、本地 v1.1.1 与公网版本，并保留真实手机触屏未验证的说明。
+正文只保留 TapTap 游戏介绍和「创作者的话」原文；不再展示长篇开发复盘。原文于本次工作中从 https://www.taptap.cn/app/991431?os=pc 读取。
 
-## 素材来源
+页面使用独立的 `src/pages/portfolio/puguang.astro`，仍从现有 Portfolio Content Collection 读取标题、简介与正文。动态案例路由只增加排除该静态页面的条件，其他案例不做改造。项目卡片继续保留中英文，中文采用 TapTap 简介。
 
-来源均为已有本地 `gamejam` 项目，未重新生成或改画。仅等比缩小并转为 WebP。
+## 媒体来源
 
-| 网站文件 | 原始文件，相对于 gamejam | 尺寸 | 字节 |
-| --- | --- | --- | --- |
-| `public/media/portfolio/puguang/cover.webp` | `07_图标与海报/游戏库封面_虚化背景_完整LOGO_20261021_v1/扑光_游戏库封面_完整LOGO_3840x2160.png` | 1920 × 1080 | 177912 |
-| `public/media/portfolio/puguang/hero.webp` | `07_图标与海报/横屏纤细手指_20261021_v1/横屏无LOGO_纤细手指_3840x2160.png` | 1920 × 1080 | 260148 |
-| `public/media/portfolio/puguang/gameplay.webp` | `03_验证与截图/v1.1.1_全景精修_20261023/layout-1366x768-game.png` | 1366 × 768 | 146898 |
-| `public/media/portfolio/puguang/result.webp` | `03_验证与截图/v1.1.1_全景精修_20261023/retry-result-1366x768.png` | 1366 × 768 | 46828 |
+| 网站文件 | 原始来源 |
+| --- | --- |
+| cover.webp | 用户指定：gamejam/07_图标与海报/宣传图+横板海报4.png |
+| wallpaper.webp | 用户指定：gamejam/07_图标与海报/Gemini_Generated_Image_1u8tv81u8tv81u8t.jpg |
+| icon.webp | 用户指定：gamejam/07_图标与海报/扑光-图标.png |
+| sprites.webp | 用户指定：gamejam/07_图标与海报/10abd304e77d021efd309e93dcb7d712.png，保留透明通道，使用 CSS 取景 |
+| taptap-01.webp | TapTap 图集：market/images/b7b86c8528800b9af0832bcad21f69df.jpg |
+| taptap-02.webp | TapTap 图集：market/images/4e6cf5786517de058932ac80521935ca.jpg |
+| taptap-03.webp | TapTap 图集：market/images/eab2698b35de6b8707a601f63ac3a807.jpg |
+| taptap-04.webp | TapTap 图集：market/images/59cecfa2577429df5a4b1c94814d0aa9.jpg |
+| trailer.mp4 | gamejam/02_分享与试玩/扑光_发布视频_20261020_v2/05_宣传片_导演版.mp4 |
+| gameplay.mp4 | 同目录 01_游戏实机录屏.mp4 |
 
-四张图片总计 631786 字节，约 617 KiB。封面保留完整标题 Logo；头图使用无字插画以避免与页面标题重复。
+截图来自 TapTap 原图集，未用新版截图替代。两支视频使用已有本地发布素材，转为 1280×720 / 30fps H.264 + AAC，保留原内容与音轨，无自动播放；预览版视频共约 22.2 MiB，仅在用户播放或打开放大预览时载入。
 
-## 验证记录
+## 交互与验证
 
-- `npm run build` 通过。
-- 构建产物本地预览：项目卡片进入详情页，详情页返回作品集，均可正常访问。
-- 中英文切换覆盖标题、类别、简介、正文和图注；刷新后及返回作品集后保持语言选择。
-- 浏览器确认四张图片全部加载；游戏截图可通过 Enter 打开放大预览并关闭。
-- 320 × 568、390 × 844、844 × 390、1366 × 768 下检查，无整页横向溢出。320 宽度下既有主导航保留自身滚动。
-- 网站移动排版检查不代表游戏真机触屏验收。
-- 开发服务器的依赖扫描遇到目录访问权限错误；使用成功构建的静态产物完成浏览器检查。
+- `npm run build` 通过；静态页面、媒体链接及 VideoGame 结构化数据检查通过。
+- 图集包含宣传片、实机录屏及四张截图；支持缩略图、前后按钮与左右方向键切换。
+- 两支视频在浏览器中实际解码播放，切换到图片时停止；页面内放大预览支持 Esc 关闭及焦点返回，关闭后停止放大播放器。
+- 飞蛾漂浮、光点与提灯辉光使用 CSS；提供动效开关，并遵循 `prefers-reduced-motion`。
+- 320、390、1366 像素宽度检查，无整页横向溢出。窄屏改为单列；既有 320 宽度导航保留自身滚动。
+- 浏览器试玩链接沿用现有公网游戏；TapTap 主按钮使用用户指定链接。不修改游戏版本或发布线上作品集。
 
-本地 `test/puguang-qa/` 保存预览截图与检查报告，属于忽略的验证材料，不进入网站发布。原有城堡演示、package.json 与锁文件的未提交修改不纳入本次提交。
+本地验证材料保存在被忽略的 `test/puguang-qa/`。原有城堡演示、package.json 和锁文件的未提交修改不纳入 PR。
