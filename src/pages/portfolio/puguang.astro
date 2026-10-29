@@ -60,10 +60,10 @@ const structuredData = {
                 <aside class="game-summary">
                     <img class="summary-cover" src={asset("cover.webp")} alt="扑光：今夜回家正式宣传图" width="1672" height="941" />
                     <p class="game-intro">{item.data.description}</p>
-                    <dl class="game-facts"><div><dt>主要开发</dt><dd>ZQ / YYS</dd></div><div><dt>参加活动</dt><dd>TapTap GameJam</dd></div><div><dt>游戏状态</dt><dd>先行服 · 试玩 DEMO</dd></div></dl>
+                    <dl class="game-facts"><div><dt>开发人员</dt><dd>ZQ / YYS</dd></div><div><dt>参加活动</dt><dd>TapTap GameJam</dd></div><div><dt>游戏状态</dt><dd>先行服 · 试玩 DEMO</dd></div></dl>
                     <div class="game-tags"><span>光影引导</span><span>解谜</span><span>二十段夜路</span></div>
                     <a class="play-cta" href={tapUrl} target="_blank" rel="noopener noreferrer"><Icon name="play" /><span>前往 TapTap 试玩</span><span class="sprite sprite--lantern" aria-hidden="true"></span></a>
-                    <a class="browser-play" href="https://puguang-home-zq.openelf5.chatgpt.site" target="_blank" rel="noopener noreferrer">浏览器直接试玩 <Icon name="arrow" /></a>
+                    <a class="browser-play" href={withBase("/play/puguang/")} target="_blank" rel="noopener noreferrer">浏览器直接试玩 <Icon name="arrow" /></a>
                 </aside>
             </section>
             <section class="store-details" aria-labelledby="about-game">
