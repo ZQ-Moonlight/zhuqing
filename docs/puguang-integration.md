@@ -67,3 +67,5 @@
 线上 `/media/portfolio/puguang/wallpaper.webp` 返回 `200 text/html` 和 `CF-Cache-Status: HIT`，内容为首页；同一正式部署的 `pages.dev` 地址返回正确的 WebP（129,190 字节，SHA-256 `d6ed1a936c37449f486bef1fb670c7e5da597a524a987c86682bdf8908e525a5`）。这是自定义域名上的错误缓存，图片源文件和部署文件都完整。
 
 将同一图片作为 `src/assets/portfolio/puguang-wallpaper.webp` 导入，由构建器生成带内容指纹的 `/_astro/` 地址。页面背景、预加载与底部宣传图统一使用该地址，避开旧缓存。原图内容不变。
+
+正式部署后，裸的指纹地址也命中了首页 HTML 缓存。对比源站与自定义域名，加入 `?v=ef8d7b0` 后自定义域名返回 `200 image/webp`、129,190 字节，SHA-256 与原图一致；页面统一采用这个已验证的缓存键。

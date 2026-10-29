@@ -8,7 +8,8 @@ const item = await getEntry("portfolio", "puguang");
 if (!item) throw new Error("Missing Puguang content");
 const { Content } = await render(item);
 const asset = (name: string) => withBase(`/media/portfolio/puguang/${name}`);
-const wallpaperUrl = withBase(wallpaper.src);
+// The custom domain cached fallback HTML at the bare URL; use a verified fresh cache key.
+const wallpaperUrl = `${withBase(wallpaper.src)}?v=ef8d7b0`;
 const tapUrl = "https://www.taptap.cn/app/991431?os=pc";
 const media = [
     { label: "宣传片", image: "cover.webp", video: "trailer.mp4" },
