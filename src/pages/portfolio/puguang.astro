@@ -22,7 +22,7 @@ const structuredData = {
     description: item.data.description, url: pageUrl,
     image: new URL(asset("cover.webp"), pageUrl).toString(),
     inLanguage: "zh-CN", genre: "解谜", gamePlatform: "Web browser",
-    publisher: { "@type": "Organization", name: "yes的工作室1" }, sameAs: tapUrl,
+    creator: [{ "@type": "Person", name: "ZQ" }, { "@type": "Person", name: "YYS" }], sameAs: tapUrl,
 };
 ---
 
@@ -60,7 +60,7 @@ const structuredData = {
                 <aside class="game-summary">
                     <img class="summary-cover" src={asset("cover.webp")} alt="扑光：今夜回家正式宣传图" width="1672" height="941" />
                     <p class="game-intro">{item.data.description}</p>
-                    <dl class="game-facts"><div><dt>开发者</dt><dd><a href="https://www.taptap.cn/developer/461636" target="_blank" rel="noopener noreferrer">yes的工作室1 ↗</a></dd></div><div><dt>游戏状态</dt><dd>先行服 · 试玩 DEMO</dd></div></dl>
+                    <dl class="game-facts"><div><dt>主要开发</dt><dd>ZQ / YYS</dd></div><div><dt>参加活动</dt><dd>TapTap GameJam</dd></div><div><dt>游戏状态</dt><dd>先行服 · 试玩 DEMO</dd></div></dl>
                     <div class="game-tags"><span>光影引导</span><span>解谜</span><span>二十段夜路</span></div>
                     <a class="play-cta" href={tapUrl} target="_blank" rel="noopener noreferrer"><Icon name="play" /><span>前往 TapTap 试玩</span><span class="sprite sprite--lantern" aria-hidden="true"></span></a>
                     <a class="browser-play" href="https://puguang-home-zq.openelf5.chatgpt.site" target="_blank" rel="noopener noreferrer">浏览器直接试玩 <Icon name="arrow" /></a>
@@ -68,7 +68,7 @@ const structuredData = {
             </section>
             <section class="store-details" aria-labelledby="about-game">
                 <article class="about-game"><h2 id="about-game">关于这款游戏<span></span></h2><p class="game-motto">借一束光，送它们回家。</p><div class="official-copy"><Content /></div><a class="source-link" href={tapUrl} target="_blank" rel="noopener noreferrer">TapTap 游戏主页 ↗</a></article>
-                <aside class="creator-note"><span class="sprite sprite--xiaoye" aria-hidden="true"></span><h2>创作者的话</h2><p>偷偷给大家递个小提示：游戏里的制作人名单别着急划走！我们在里面埋了个神秘小彩蛋，期待你们的发现~</p><span class="note-signature">yes的工作室1</span></aside>
+                <aside class="creator-note"><span class="sprite sprite--xiaoye" aria-hidden="true"></span><h2>开发者的话</h2><p>偷偷给大家递个小提示：游戏里的制作人名单别着急划走！我们在里面埋了个神秘小彩蛋，期待你们的发现~</p><p class="jam-note">这也是我第一次参加 TapTap GameJam，和 YYS 一起把这个小小的想法做成了可以试玩的游戏。</p><span class="note-signature">ZQ</span></aside>
             </section>
             <figure class="journey-banner"><img src={asset("wallpaper.webp")} alt="小叶提着灯，与绒蝶一起走过夜色中的小路" width="2400" height="758" loading="lazy" /></figure>
             <footer class="store-footer"><a href={withBase("/portfolio/")}>← 返回作品集</a><span>© 2026 祝庆 Zhu Qing</span></footer>
@@ -178,7 +178,7 @@ const structuredData = {
     .edition { font-size: 11px; color: #b9dacb; background: #29443c; border: 1px solid #729b8040; padding: 3px 8px; border-radius: 3px; letter-spacing: .08em; font-weight: 500; }
     .store-heading p { margin: 6px 0 0; font-size: 13px; color: #adbdc4; letter-spacing: .09em; }
     .sprite { display: block; background-image: var(--sprite-sheet); background-repeat: no-repeat; pointer-events: none; }
-    .sprite--moth { width: 76px; height: 52px; background-size: 152px 152px; background-position: left bottom; }
+    .sprite--moth { width: 86px; height: 57px; flex-shrink: 0; background-size: 152px 152px; background-position: left bottom; }
     .heading-moth { margin-left: auto; opacity: .9; filter: drop-shadow(0 0 12px #f5d99744); animation: moth-drift 7s ease-in-out infinite; }
     .store-top { display: grid; grid-template-columns: minmax(0, 1fr) 318px; gap: 26px; align-items: start; }
     .gallery { min-width: 0; }
@@ -242,6 +242,7 @@ const structuredData = {
     .creator-note { position: relative; padding: 25px 24px 20px; margin-top: 13px; background: linear-gradient(135deg,#29413f77,#1c30384a); border: 1px solid #aac3ab26; border-radius: 5px; }
     .creator-note h2 { margin: 0 0 17px; font-size: 14px; font-weight: 500; color: #d1dfcc; }
     .creator-note p { position: relative; margin: 0; color: #b6c7c3; font-size: 13px; line-height: 1.95; }
+    .creator-note .jam-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--store-line); }
     .note-signature { display: block; margin-top: 16px; text-align: right; color: #829d98; font-size: 10px; }
     .sprite--xiaoye { position: absolute; top: -82px; right: -1px; width: 86px; height: 116px; background-size: 188px 188px; background-position: right top; filter: drop-shadow(0 3px 4px #061b2459); }
     .journey-banner { margin: 0; overflow: hidden; border-radius: 5px; border: 1px solid #6f8d9a35; box-shadow: 0 15px 40px #0002; }
