@@ -61,3 +61,9 @@
 - 最终构建逐文件扫描，最大文件为 `media/portfolio/ue-cinematics-pipeline/images/animated/early-blockout.gif`，19,797,474 字节（约 19.8 MB），没有超过 25 MB 的部署文件。
 
 原文中“构建目录中的六个游戏文件与原始一致”是拆分前验证；现在源发布包仍逐字节保留，部署副本只调整素材传输方式。
+
+## 宣传图缓存修复
+
+线上 `/media/portfolio/puguang/wallpaper.webp` 返回 `200 text/html` 和 `CF-Cache-Status: HIT`，内容为首页；同一正式部署的 `pages.dev` 地址返回正确的 WebP（129,190 字节，SHA-256 `d6ed1a936c37449f486bef1fb670c7e5da597a524a987c86682bdf8908e525a5`）。这是自定义域名上的错误缓存，图片源文件和部署文件都完整。
+
+将同一图片作为 `src/assets/portfolio/puguang-wallpaper.webp` 导入，由构建器生成带内容指纹的 `/_astro/` 地址。页面背景、预加载与底部宣传图统一使用该地址，避开旧缓存。原图内容不变。

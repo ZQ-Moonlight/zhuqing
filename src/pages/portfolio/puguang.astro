@@ -3,10 +3,12 @@ import { getEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/PuguangIcon.astro";
 import { withBase } from "../../lib/paths";
+import wallpaper from "../../assets/portfolio/puguang-wallpaper.webp";
 const item = await getEntry("portfolio", "puguang");
 if (!item) throw new Error("Missing Puguang content");
 const { Content } = await render(item);
 const asset = (name: string) => withBase(`/media/portfolio/puguang/${name}`);
+const wallpaperUrl = withBase(wallpaper.src);
 const tapUrl = "https://www.taptap.cn/app/991431?os=pc";
 const media = [
     { label: "宣传片", image: "cover.webp", video: "trailer.mp4" },
@@ -26,9 +28,9 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title="扑光：今夜回家 | 祝庆 Zhu Qing" description={item.data.description} activePath="/portfolio" image={asset("cover.webp")} preloadImage={asset("wallpaper.webp")} structuredData={structuredData}>
+<BaseLayout title="扑光：今夜回家 | 祝庆 Zhu Qing" description={item.data.description} activePath="/portfolio" image={asset("cover.webp")} preloadImage={wallpaperUrl} structuredData={structuredData}>
     <div class="puguang-store" data-puguang-store data-effects="on" style={`--sprite-sheet: url('${asset("sprites.webp")}')`}>
-        <div class="store-backdrop" aria-hidden="true"><img src={asset("wallpaper.webp")} alt="" width="2400" height="758" fetchpriority="high" /></div>
+        <div class="store-backdrop" aria-hidden="true"><img src={wallpaperUrl} alt="" width="2400" height="758" fetchpriority="high" /></div>
         <div class="fireflies" aria-hidden="true">{Array.from({length: 14}, (_, i) => <i style={`--i:${i};left:${(i * 37 + 7) % 97}%;top:${(i * 17 + 11) % 85}%`}></i>)}</div>
         <main class="store-shell">
             <div class="store-breadcrumb"><a href={withBase("/portfolio/")}>作品集</a><span>/</span><span>扑光：今夜回家</span><button class="effect-toggle" type="button" aria-label="关闭光点效果" aria-pressed="true" title="光点效果" data-effects-toggle><Icon name="spark" /></button></div>
@@ -70,7 +72,7 @@ const structuredData = {
                 <article class="about-game"><h2 id="about-game">关于这款游戏<span></span></h2><p class="game-motto">借一束光，送它们回家。</p><div class="official-copy"><Content /></div><a class="source-link" href={tapUrl} target="_blank" rel="noopener noreferrer">TapTap 游戏主页 ↗</a></article>
                 <aside class="creator-note"><span class="sprite sprite--xiaoye" aria-hidden="true"></span><h2>开发者的话</h2><p>偷偷给大家递个小提示：游戏里的制作人名单别着急划走！我们在里面埋了个神秘小彩蛋，期待你们的发现~</p><p class="jam-note">这也是我第一次参加 TapTap GameJam，和 YYS 一起把这个小小的想法做成了可以试玩的游戏。</p><span class="note-signature">ZQ</span></aside>
             </section>
-            <figure class="journey-banner"><img src={asset("wallpaper.webp")} alt="小叶提着灯，与绒蝶一起走过夜色中的小路" width="2400" height="758" loading="lazy" /></figure>
+            <figure class="journey-banner"><img src={wallpaperUrl} alt="小叶提着灯，与绒蝶一起走过夜色中的小路" width="2400" height="758" loading="lazy" /></figure>
             <footer class="store-footer"><a href={withBase("/portfolio/")}>← 返回作品集</a><span>© 2026 祝庆 Zhu Qing</span></footer>
         </main>
         <dialog class="media-dialog" aria-labelledby="large-media-title" data-media-dialog>
