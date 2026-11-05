@@ -36,6 +36,28 @@
         table.replaceWith(wrap);
         wrap.append(table);
     });
+    // CommonMark leaves some punctuation-ending Chinese bold labels as literal text.
+    document.querySelectorAll(".study-prose article p, .study-prose article li, .study-prose article td").forEach((paragraph) => {
+        const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        for (const node of nodes) {
+            if (node.parentElement.closest("pre, code")) continue;
+            const text = node.textContent;
+            const matches = [...text.matchAll(/\*\*([^*\n]+[：:，,；;。.!?！？])\*\*(?=[\p{L}\p{N}])/gu)];
+            if (!matches.length) continue;
+            const fragment = document.createDocumentFragment();
+            let offset = 0;
+            for (const match of matches) {
+                const strong = document.createElement("strong");
+                strong.textContent = match[1];
+                fragment.append(text.slice(offset, match.index), strong);
+                offset = match.index + match[0].length;
+            }
+            fragment.append(text.slice(offset));
+            node.replaceWith(fragment);
+        }
+    });
     window.addEventListener("message", (event) => {
         if (event.source !== window.parent || event.origin !== location.origin) return;
         if (event.data?.type === "study-theme") document.documentElement.dataset.theme = event.data.theme;
