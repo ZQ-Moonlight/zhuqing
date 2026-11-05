@@ -150,7 +150,7 @@ export function createApp({pages=registry,fetcher=fetch,now=()=>Date.now()}={}) 
     return {status:202,body:{code:'pending_review',id:saved.id,notification:await subscribeToComment(env,saved,email,id.network,quota,fetcher,now())}};
   }
   async function contact(req,env,data,ip) {
-    assert(emailOK(data.email)&&uuid(data.requestId),400,'invalid_input');const email=data.email.trim(),body=text(data.body,5000);
+    assert(emailOK(data.email),400,'invalid_email');assert(uuid(data.requestId),400,'invalid_request');const email=data.email.trim(),body=text(data.body,5000);
     assert(env.RESEND_API_KEY&&emailOK(env.MAIL_FROM),503,'mail_unconfigured');
     const payloadHash=await hmac(env.ABUSE_SECRET,JSON.stringify([email,body]));
     const existing=await q(env,'SELECT * FROM messages WHERE request_id=?',data.requestId).first();

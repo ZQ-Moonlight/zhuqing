@@ -8,8 +8,45 @@ function apiRoot(raw:string|undefined){try{const u=new URL(raw||'');if(u.protoco
 async function post(api:string,path:string,data:unknown){const res=await fetch(api+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),credentials:'omit',signal:AbortSignal.timeout(25000)});const v=await res.json();if(!res.ok||!v.ok)throw Error(v.code||'unavailable');return v;}
 function visitor(){let id;try{id=localStorage.getItem('zq-anonymous-visitor');if(!id){id=crypto.randomUUID();localStorage.setItem('zq-anonymous-visitor',id);}}catch{throw Error('storage_required');}return id;}
 function loadVerification(){if(window.turnstile)return Promise.resolve();return loader??=new Promise<void>((resolve,reject)=>{const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';s.async=true;const timer=setTimeout(()=>{loader=undefined;s.remove();reject(Error('verification_unavailable'));},15000);s.onload=()=>{clearTimeout(timer);window.turnstile?resolve():reject(Error('verification_unavailable'));};s.onerror=()=>{clearTimeout(timer);loader=undefined;s.remove();reject(Error('verification_unavailable'));};document.head.append(s);});}
-async function verify(container:HTMLElement,key:string,action:string){await loadVerification();const dialog=container.closest('dialog');if(dialog&&!dialog.open)throw Error('verification_cancelled');let state=widgets.get(container);if(!state){state={};widgets.set(container,state);}const current=state;return new Promise<string>((resolve,reject)=>{current.resolve=resolve;current.reject=reject;current.timer=setTimeout(()=>reject(Error('verification_required')),180000);const success=(token:string)=>{clearTimeout(current.timer);current.resolve?.(token);};const fail=()=>{clearTimeout(current.timer);current.reject?.(Error('verification_failed'));};if(current.id!==undefined)window.turnstile!.reset(current.id);else current.id=window.turnstile!.render(container,{sitekey:key,action,theme:'auto',callback:success,'expired-callback':fail,'error-callback':fail});});}
-function errorText(status:HTMLElement,error:unknown){const code=error instanceof Error?error.message:'';if(code==='verification_cancelled'){status.textContent='';return;}if(code==='rate_limited')notify(status,'操作频繁，请稍后重试','Too many requests. Try later');else if(code==='blocked')notify(status,'暂时无法提交','Submissions restricted');else if(code.endsWith('_disabled'))notify(status,'暂未开放','Currently unavailable');else if(code==='storage_required')notify(status,'请允许浏览器存储','Allow browser storage to continue');else if(code.startsWith('verification'))notify(status,'验证失败，请重试','Verification failed. Retry');else notify(status,'暂未确认，请重试','Unconfirmed. Please retry');}
+async function verify(container:HTMLElement,key:string,action:string){
+ await loadVerification();
+ const dialog=container.closest('dialog');
+ if(dialog&&!dialog.open)throw Error('verification_cancelled');
+ let state=widgets.get(container);
+ if(!state){state={};widgets.set(container,state);}
+ const current=state;
+ return new Promise<string>((resolve,reject)=>{
+  current.resolve=resolve;current.reject=reject;
+  current.timer=setTimeout(()=>reject(Error('verification_required')),180000);
+  const success=(token:string)=>{clearTimeout(current.timer);current.resolve?.(token);};
+  const fail=()=>{clearTimeout(current.timer);current.reject?.(Error('verification_failed'));};
+  if(current.id!==undefined)window.turnstile!.reset(current.id);
+  else current.id=window.turnstile!.render(container,{
+   sitekey:key,action,theme:'auto',appearance:'interaction-only',
+   callback:success,'expired-callback':fail,'error-callback':fail,
+  });
+ });
+}
+function errorText(status:HTMLElement,error:unknown){
+ const code=error instanceof Error?error.message:'';
+ status.dataset.errorCode=code;
+ if(code==='verification_cancelled'){status.textContent='';return;}
+ const messages:Record<string,[string,string]>={
+  rate_limited:['操作频繁，请稍后重试','Too many requests. Try later'],
+  blocked:['暂时无法提交','Submissions restricted'],
+  storage_required:['请允许浏览器存储','Allow browser storage to continue'],
+  invalid_email:['请检查邮箱地址','Check your email address'],
+  invalid_input:['请检查填写内容','Check the form fields'],
+  forbidden:['请从正式网站提交','Submit from the official website'],
+  mail_unconfigured:['邮件暂不可用','Email unavailable'],
+  mail_failed:['邮件发送失败，请重试','Email failed. Retry'],
+  request_conflict:['内容已变更，请重新提交','Content changed. Submit again'],
+ };
+ if(messages[code])notify(status,...messages[code]);
+ else if(code.endsWith('_disabled'))notify(status,'暂未开放','Currently unavailable');
+ else if(code.startsWith('verification'))notify(status,'验证失败，请重试','Verification failed. Retry');
+ else notify(status,'暂未确认，请重试','Unconfirmed. Please retry');
+}
 
 document.querySelectorAll<HTMLElement>('[data-site-interactions]').forEach(root=>{
  const api=apiRoot(root.dataset.api),key=root.dataset.siteKey||'',page=root.dataset.page!,status=root.querySelector<HTMLElement>('[data-interaction-status]')!,like=root.querySelector<HTMLButtonElement>('[data-like]')!,more=root.querySelector<HTMLButtonElement>('[data-more-comments]')!;
@@ -167,7 +204,7 @@ document.querySelectorAll<HTMLElement>('[data-site-interactions]').forEach(root=
  if(v.globalCommentsCount===undefined&&v.commentsCount===undefined)root.querySelector('[data-comments]')!.textContent=String(v.comments.length);
  next=v.nextBefore;more.hidden=!next;root.querySelector<HTMLButtonElement>('[data-comment-form] button[type="submit"]')!.disabled=!v.commentsEnabled||!key;}catch(e){errorText(status,e);}}
  void load();more.onclick=()=>{more.disabled=true;void load(true).finally(()=>more.disabled=false);};
- like.onclick=async()=>{if(like.disabled)return;like.disabled=true;likeDialog?.showModal();notify(status,'请完成验证','Complete verification');try{const id=visitor(),token=await verify(root.querySelector('[data-like-challenge]')!,key,'like');if(likeDialog&&!likeDialog.open)throw Error('verification_cancelled');const v=await post(api,'/api/public/like',{page,visitor:id,token,website:''});liked=true;counts(v);notify(status,'已点赞','Liked');likeDialog?.close();}catch(e){if(!(e instanceof Error&&e.message==='verification_cancelled'))errorText(status,e);like.disabled=false;}};
+ like.onclick=async()=>{if(like.disabled)return;like.disabled=true;likeDialog?.showModal();notify(status,'处理中…','Processing…');try{const id=visitor(),token=await verify(root.querySelector('[data-like-challenge]')!,key,'like');if(likeDialog&&!likeDialog.open)throw Error('verification_cancelled');const v=await post(api,'/api/public/like',{page,visitor:id,token,website:''});liked=true;counts(v);notify(status,'已点赞','Liked');likeDialog?.close();}catch(e){if(!(e instanceof Error&&e.message==='verification_cancelled'))errorText(status,e);like.disabled=false;}};
  let viewTimer:ReturnType<typeof setTimeout>|undefined;let recorded=false;
  const viewKey='zq-view:'+new Date().toISOString().slice(0,10)+':'+page;
  try{recorded=sessionStorage.getItem(viewKey)==='1';}catch{}
@@ -178,7 +215,7 @@ document.querySelectorAll<HTMLElement>('[data-site-interactions]').forEach(root=
 function wireForm(form:HTMLFormElement,api:string,key:string,action:'comment'|'contact',page?:string){
  let busy=false,last='',requestId='';const status=form.querySelector<HTMLElement>('[data-form-status]')!,button=form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
  if(!api||!key){button.disabled=true;return;}
- form.addEventListener('submit',async event=>{event.preventDefault();if(busy||!form.reportValidity()||button.disabled)return;const d=new FormData(form),body=String(d.get('body')||'').trim();if(!body)return;let payload:any;try{payload=action==='comment'?{page:form.dataset.replyPage||page,nickname:String(d.get('nickname')||'').trim(),body,visitor:visitor(),email:String(d.get('email')||'').trim(),...(form.dataset.replyToId?{replyToId:form.dataset.replyToId}:{})}:{email:String(d.get('email')||'').trim(),body};}catch(e){errorText(status,e);return;}const signature=JSON.stringify(payload);if(signature!==last){requestId=crypto.randomUUID();last=signature;}busy=true;button.disabled=true;form.setAttribute('aria-busy','true');form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea').forEach(n=>n.readOnly=true);notify(status,'请完成验证','Complete verification');
+ form.addEventListener('submit',async event=>{event.preventDefault();if(busy||!form.reportValidity()||button.disabled)return;const d=new FormData(form),body=String(d.get('body')||'').trim();if(!body)return;let payload:any;try{payload=action==='comment'?{page:form.dataset.replyPage||page,nickname:String(d.get('nickname')||'').trim(),body,visitor:visitor(),email:String(d.get('email')||'').trim(),...(form.dataset.replyToId?{replyToId:form.dataset.replyToId}:{})}:{email:String(d.get('email')||'').trim(),body};}catch(e){errorText(status,e);return;}const signature=JSON.stringify(payload);if(signature!==last){requestId=crypto.randomUUID();last=signature;}busy=true;button.disabled=true;form.setAttribute('aria-busy','true');form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea').forEach(n=>n.readOnly=true);notify(status,'处理中…','Processing…');
  try{const token=await verify(form.querySelector('[data-challenge]')!,key,action);const v=await post(api,action==='contact'?'/api/contact':'/api/public/comment',{...payload,token,requestId,website:String(d.get('website')||'')});if(action==='contact'&&v.code==='accepted')notify(status,'已提交','Submitted');else if(action==='comment'&&v.code==='pending_review'){
     const notices:Record<string,string>={verification_sent:' 请验证邮箱。',enabled:'',unavailable:' 提醒暂不可用。'};
     notify(status,'已提交，待审核。'+(notices[v.notification]||''),'Pending review.'+(v.notification==='verification_sent'?' Verify your email.':v.notification==='unavailable'?' Notifications unavailable.':''));
