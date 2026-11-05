@@ -1,0 +1,24 @@
+---
+const api=import.meta.env.PUBLIC_INTERACTIONS_API||'';
+const siteKey=import.meta.env.PUBLIC_TURNSTILE_SITE_KEY||'';
+const enabled=Boolean(api&&siteKey);
+---
+<div data-private-contact data-api={api} data-site-key={siteKey}>
+  {!enabled&&<p data-i18n-cn="请直接发邮件" data-i18n-en="Please email directly">请直接发邮件</p>}
+  <form data-contact-form>
+    <label><span data-i18n-cn="你的邮箱" data-i18n-en="Your email">你的邮箱</span><input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com" /></label>
+    <label><span data-i18n-cn="留言" data-i18n-en="Message">留言</span><textarea name="body" rows="5" maxlength="5000" required></textarea></label>
+    <label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+    <div data-challenge></div>
+    <button type="submit" disabled={!enabled} data-i18n-cn="发送" data-i18n-en="Send">发送</button>
+    <p data-form-status role="status" aria-live="polite" tabindex="-1"></p>
+  </form>
+  <details><summary data-i18n-cn="隐私" data-i18n-en="Privacy">隐私</summary><p data-i18n-cn="私密发送至站长邮箱，后台保留 30 天。" data-i18n-en="Sent privately to the owner. Stored in the admin inbox for 30 days.">私密发送至站长邮箱，后台保留 30 天。</p></details>
+  <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>
+  <noscript><p>请直接通过上述邮箱联系。</p></noscript>
+</div>
+<script>import '../scripts/site-interactions';</script>
+<style>
+  details{margin:12px 0;font-size:.75rem;color:var(--text-muted)}summary{cursor:pointer}
+  form,label{display:grid;gap:9px}form{gap:16px;margin:18px 0}p{color:var(--text-muted);line-height:1.7;font-size:.9rem}input,textarea,button{box-sizing:border-box;font:inherit;border:1px solid var(--border);border-radius:7px;padding:12px;background:var(--bg-panel);color:var(--text-main);max-width:100%}input,textarea{width:100%}textarea{resize:vertical}button{cursor:pointer;background:var(--accent);color:white}button:disabled{opacity:.5;cursor:not-allowed}a{color:var(--accent);overflow-wrap:anywhere}input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}[data-form-status]:empty{display:none}
+</style>

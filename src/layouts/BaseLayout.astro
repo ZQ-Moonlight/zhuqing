@@ -1,4 +1,5 @@
 ---
+import SiteInteractions from "../components/SiteInteractions.astro";
 import AmbientBackground from "../components/AmbientBackground.astro";
 import FilmGrain from "../components/FilmGrain.astro";
 import Header from "../components/Header.astro";
@@ -102,6 +103,7 @@ const structuredDataItems = structuredData ? (Array.isArray(structuredData) ? st
         <AmbientBackground variant={backgroundVariant} />
         <Header activePath={activePath} />
         <slot />
+        {!noindex && (/^\/(portfolio|blog)(\/|$)/.test(Astro.url.pathname) || Astro.url.pathname === "/me/") && <SiteInteractions page={decodeURI(Astro.url.pathname)} title={title} />}
 
         <script is:inline>
             const header = document.querySelector("[data-site-header]");

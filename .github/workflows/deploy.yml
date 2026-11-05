@@ -42,6 +42,8 @@ jobs:
       - name: Build with Astro
         run: npm run build
         env:
+          PUBLIC_INTERACTIONS_API: ${{ vars.PUBLIC_INTERACTIONS_API }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
           SITE_URL: https://zhuqing.tech
           BASE_PATH: /
           PUBLIC_PDF_MAX_BYTES: 20000000

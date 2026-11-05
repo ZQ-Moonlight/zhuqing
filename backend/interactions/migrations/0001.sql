@@ -1,0 +1,15 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE pages (path TEXT PRIMARY KEY, title TEXT NOT NULL, views INTEGER NOT NULL DEFAULT 0 CHECK(views>=0), comments_enabled INTEGER NOT NULL DEFAULT 1, likes_enabled INTEGER NOT NULL DEFAULT 1, views_enabled INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE comments (id TEXT PRIMARY KEY, page TEXT NOT NULL REFERENCES pages(path), nickname TEXT NOT NULL, body TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','approved','rejected')), reply TEXT NOT NULL DEFAULT '', actor TEXT NOT NULL, network TEXT NOT NULL, request_id TEXT NOT NULL UNIQUE, payload_hash TEXT NOT NULL, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL);
+CREATE INDEX comments_public ON comments(page,status,created_at,id);
+CREATE INDEX comments_moderation ON comments(status,created_at,id);
+CREATE TABLE likes (page TEXT NOT NULL REFERENCES pages(path), actor TEXT NOT NULL, network TEXT, created_at INTEGER NOT NULL, PRIMARY KEY(page,actor), UNIQUE(page,network));
+CREATE TABLE view_keys (page TEXT NOT NULL REFERENCES pages(path), visitor_day TEXT NOT NULL, expires_at INTEGER NOT NULL, PRIMARY KEY(page,visitor_day));
+CREATE INDEX view_expiry ON view_keys(expires_at);
+CREATE TRIGGER increment_views AFTER INSERT ON view_keys BEGIN UPDATE pages SET views=views+1 WHERE path=NEW.page; END;
+CREATE TABLE quotas (key TEXT PRIMARY KEY, count INTEGER NOT NULL, expires_at INTEGER NOT NULL);
+CREATE INDEX quota_expiry ON quotas(expires_at);
+CREATE TABLE bans (kind TEXT NOT NULL CHECK(kind IN ('actor','network')), value TEXT NOT NULL, expires_at INTEGER NOT NULL, PRIMARY KEY(kind,value));
+CREATE TABLE messages (id TEXT PRIMARY KEY, request_id TEXT NOT NULL UNIQUE, payload_hash TEXT NOT NULL, email TEXT NOT NULL, body TEXT NOT NULL, state TEXT NOT NULL CHECK(state IN ('sending','accepted','unknown','failed')), provider_id TEXT, handled_at INTEGER, created_at INTEGER NOT NULL);
+CREATE INDEX message_time ON messages(created_at,id);
+CREATE TABLE audit (id TEXT PRIMARY KEY, admin TEXT NOT NULL, action TEXT NOT NULL, target TEXT NOT NULL, created_at INTEGER NOT NULL);

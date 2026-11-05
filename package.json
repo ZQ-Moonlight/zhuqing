@@ -7,10 +7,12 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/prepare-large-pdf-downloads.mjs",
-    "build:cloudflare": "astro build && node scripts/prepare-large-pdf-downloads.mjs && node scripts/remove-cloudflare-large-assets.mjs",
+    "build": "astro build && node scripts/prepare-large-pdf-downloads.mjs && npm run interactions:registry",
+    "build:cloudflare": "astro build && node scripts/prepare-large-pdf-downloads.mjs && node scripts/remove-cloudflare-large-assets.mjs && npm run interactions:registry",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:interactions": "node --test backend/interactions/worker.test.mjs",
+    "interactions:registry": "node scripts/generate-interaction-pages.mjs"
   },
   "dependencies": {
     "astro": "^6.3.3",

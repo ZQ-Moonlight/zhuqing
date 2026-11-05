@@ -1,0 +1,105 @@
+---
+import PrivateContact from './PrivateContact.astro';
+const { page, title, compact = false } = Astro.props;
+const ContentTag = compact ? 'dialog' : 'div';
+const ChallengeTag = compact ? 'dialog' : 'div';
+const api = import.meta.env.PUBLIC_INTERACTIONS_API || '';
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
+const enabled = Boolean(api && siteKey);
+const faces = ['(｡･ω･｡)ﾉ', '(≧▽≦)', '(๑•̀ㅂ•́)و✧', '( ˘͈ ᵕ ˘͈ )', '( •̀ ω •́ )✧', '(つ´ω`)つ', '٩(ˊᗜˋ*)و', '(・∀・)'];
+---
+<section id="site-interactions" class:list={['site-interactions', { 'home-interactions': compact }]} data-site-interactions data-page={page} data-page-title={title} data-api={api} data-site-key={siteKey} aria-label="网站互动">
+  <header class="interaction-header">
+    {!compact && <h2 data-i18n-cn="全站评论" data-i18n-en="Community comments">全站评论</h2>}
+    <div class="counts">
+      <span class="metric view-count" title="估算浏览量">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+        <b data-views>—</b><span class="sr-only" data-i18n-cn="次估算浏览" data-i18n-en="estimated views">次估算浏览</span>
+      </span>
+      <button class="metric like-button" type="button" data-like disabled={!enabled} aria-label="喜欢这个页面" data-aria-cn="喜欢这个页面" data-aria-en="Like this page" title="喜欢这个页面">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+        <b data-likes>—</b>
+      </button>
+      <button class="metric comment-count" type="button" data-comment-focus aria-label="写评论" data-aria-cn="写评论" data-aria-en="Write a comment" title="全站公开评论">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-3 2 2-6a8.5 8.5 0 1 1 18-4.5Z"/></svg>
+        <b data-comments>—</b>
+      </button>
+    </div>
+  </header>
+  <ChallengeTag class="like-panel" data-like-panel aria-label="点赞验证">
+    {compact && <button type="button" class="panel-close" data-panel-close aria-label="关闭验证">×</button>}
+    <div data-like-challenge></div><p data-interaction-status role="status" aria-live="polite"></p>
+  </ChallengeTag>
+  <ContentTag class="conversation-panel" data-conversation-panel aria-label="留言给我">
+    {compact && <><button type="button" class="panel-close" data-panel-close aria-label="关闭留言窗口" data-aria-cn="关闭留言窗口" data-aria-en="Close message window">×</button><h2 data-i18n-cn="给我留言" data-i18n-en="Send me a message">给我留言</h2></>}
+    {compact && <div class="contact-modes" aria-label="沟通方式"><button type="button" data-contact-mode="public" aria-pressed="true"><strong data-i18n-cn="公开留言" data-i18n-en="Leave a comment">公开留言</strong></button><button type="button" data-contact-mode="email" aria-pressed="false"><strong data-i18n-cn="邮件联系" data-i18n-en="Email me">邮件联系</strong></button></div>}
+    <div data-public-message>
+    {!enabled && <p data-i18n-cn="请通过邮件联系" data-i18n-en="Please email me">请通过邮件联系</p>}
+    <form data-comment-form class="composer">
+      <div class="reply-context" data-reply-context hidden><span data-reply-label></span><button type="button" data-reply-cancel data-i18n-cn="取消回复" data-i18n-en="Cancel reply">取消回复</button></div>
+      <label class="name-field"><span class="sr-only" data-i18n-cn="昵称" data-i18n-en="Name">昵称</span><input name="nickname" required maxlength="40" autocomplete="nickname" placeholder="昵称" data-placeholder-cn="昵称" data-placeholder-en="Name" /></label>
+      <label><span class="sr-only" data-i18n-cn="你的评论" data-i18n-en="Your comment">你的评论</span><textarea name="body" rows="3" maxlength="2000" required placeholder="说点什么…" data-placeholder-cn="说点什么…" data-placeholder-en="Write a comment…"></textarea></label>
+      <details class="email-option"><summary data-i18n-cn="回复提醒" data-i18n-en="Reply notifications">回复提醒</summary><label><span class="sr-only">Email</span><input type="email" name="email" maxlength="254" autocomplete="email" placeholder="邮箱（选填）" data-placeholder-cn="邮箱（选填）" data-placeholder-en="Email (optional)" /></label></details>
+      <label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+      <div data-challenge></div>
+      <div class="composer-toolbar">
+        <details class="emoticons"><summary aria-label="插入颜文字" data-aria-cn="插入颜文字" data-aria-en="Insert an emoticon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 14c1 4 7 4 8 0M8 8v2m8-2v2"/></svg></summary><div class="emoticon-grid">{faces.map(face => <button type="button" data-emoticon={face}>{face}</button>)}</div></details>
+        <span class="composer-note" data-i18n-cn="审核后公开" data-i18n-en="Shown after review">审核后公开</span>
+        <button class="submit-comment" type="submit" disabled={!enabled} data-i18n-cn="发布评论" data-i18n-en="Post comment">发布评论</button>
+      </div>
+      <p data-form-status role="status" aria-live="polite" tabindex="-1"></p>
+    </form>
+    <ol data-comment-list aria-label="已公开的留言"></ol>
+    <p class="empty-comments" data-comment-empty hidden data-i18n-cn="暂无评论" data-i18n-en="No comments yet">暂无评论</p>
+    <button class="more-comments" type="button" data-more-comments hidden data-i18n-cn="查看更多" data-i18n-en="Load earlier comments">查看更多</button>
+    <details class="my-comments" data-my-comments><summary data-i18n-cn="我的留言" data-i18n-en="My comments">我的留言</summary><p data-i18n-cn="仅此浏览器" data-i18n-en="This browser only">仅此浏览器</p><div data-my-list></div><button type="button" data-my-more hidden>查看更多</button></details>
+    <div class="interaction-options">
+  <details class="privacy"><summary data-i18n-cn="隐私说明" data-i18n-en="Privacy">隐私说明</summary><p data-i18n-cn="昵称和评论公开。邮箱用于回复提醒，可退订。可在此浏览器删除自己的留言。" data-i18n-en="Names and comments are public. Email is used for reply alerts with an unsubscribe option. Delete your comments from this browser.">昵称和评论公开。邮箱用于回复提醒，可退订。可在此浏览器删除自己的留言。</p></details>
+      {!compact && <details class="private-mail"><summary data-i18n-cn="邮件联系" data-i18n-en="Email me">邮件联系</summary><PrivateContact /></details>}
+    </div>
+    </div>
+    {compact && <div data-formal-message hidden><PrivateContact /></div>}
+  </ContentTag>
+  {compact && <dialog data-email-confirmation aria-label="邮箱提醒确认"><button class="panel-close" type="button" data-panel-close aria-label="关闭">×</button><h2 data-email-heading>确认回复提醒</h2><button class="submit-comment" type="button" data-email-confirm>确认</button><p data-email-result role="status"></p></dialog>}
+</section>
+<script>import '../scripts/site-interactions';</script>
+<style>
+  .site-interactions{scroll-margin-top:120px;position:relative;z-index:2;box-sizing:border-box;width:min(100% - 48px,880px);margin:48px auto 64px;padding-top:24px;border-top:1px solid var(--border);color:var(--text-main)}
+  .interaction-header,.counts,.composer-toolbar{display:flex;align-items:center;gap:18px}.interaction-header{justify-content:space-between;margin-bottom:22px}
+  h2{font:700 1.15rem var(--font-display);margin:0}.counts{gap:18px;color:var(--text-muted)}
+  svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  .metric{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-variant-numeric:tabular-nums;min-height:36px}.metric b{font-weight:500}
+  button,input,textarea{font:inherit;color:inherit;box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+  .metric,.more-comments,.panel-close{padding:0;border:0;background:none;color:var(--text-muted)}.metric:hover,.more-comments:hover{color:var(--accent)}.like-button[aria-pressed=true]{color:var(--accent)}.like-button[aria-pressed=true] svg{fill:currentColor}
+  p{line-height:1.7;font-size:.87rem;color:var(--text-muted)}
+  .composer{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--bg-panel);transition:border-color .2s}.composer:focus-within{border-color:var(--text-dim)}
+  label{display:block}.name-field{max-width:240px;margin-bottom:9px}.composer input,.composer textarea{display:block;width:100%;max-width:100%;border:0;background:none;padding:5px 0;font-size:.9rem;line-height:1.65}.composer textarea{resize:vertical;min-height:82px}.composer input::placeholder,.composer textarea::placeholder{color:var(--text-dim)}
+  .composer-note{line-height:1.5}
+  .reply-context{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;padding:9px 11px;border-radius:6px;background:var(--bg-panel-strong);font-size:.78rem;color:var(--text-muted)}
+  .reply-context button{border:0;background:none;color:var(--accent);white-space:nowrap;font-size:.75rem}
+  ol :global(.comment-actions){display:flex;gap:16px;margin-top:10px}ol :global(.comment-actions button){border:0;background:none;color:var(--text-dim);padding:4px 0;font-size:.75rem;cursor:pointer}ol :global(.comment-actions button:hover){color:var(--accent)}
+  ol :global(.comment-replies){margin:12px 0 0;padding-left:12px;border-left:1px solid var(--border)}ol :global(.comment-replies li){padding:14px 0;border:0}ol :global(.comment-replies .comment-avatar){width:25px;height:25px;font-size:.7rem}
+  ol :global(.reply-target){color:var(--text-dim);font-size:.75rem;margin:6px 0}
+  .contact-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}.contact-modes button{display:grid;gap:6px;text-align:left;padding:15px 14px;border:1px solid var(--border);border-radius:9px;background:var(--bg-panel);color:var(--text-main)}.contact-modes button[aria-pressed=true]{border-color:var(--accent)}.contact-modes strong{font-size:.95rem}
+  .email-option{margin-top:6px;color:var(--text-dim);font-size:.75rem}.email-option input{max-width:320px}
+  .my-comments{margin-top:24px;color:var(--text-muted);font-size:.8rem}.my-comments p{font-size:.76rem}.my-comments article{padding:14px 0;border-bottom:1px solid var(--border)}.my-comments button{border:1px solid var(--border);border-radius:6px;padding:6px 10px;background:var(--bg-panel);color:var(--text-muted);font-size:.76rem}.my-comments [data-delete-challenge]{margin:10px 0}
+  .composer-toolbar{gap:10px;padding-top:10px}.composer-note{font-size:.72rem;color:var(--text-dim)}
+  .submit-comment{margin-left:auto;border:0;border-radius:7px;padding:9px 15px;background:var(--accent);color:white;font-size:.82rem;font-weight:600;white-space:nowrap}
+  button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .emoticons{position:relative}.emoticons summary{display:flex;padding:5px;cursor:pointer;color:var(--text-muted);list-style:none}.emoticons summary::-webkit-details-marker{display:none}
+  .emoticon-grid{position:absolute;bottom:40px;left:-5px;z-index:5;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;width:min(280px,72vw);padding:8px;border:1px solid var(--border);border-radius:10px;background:var(--bg-base);box-shadow:0 8px 30px #0003}
+  .emoticon-grid button{border:0;border-radius:6px;background:none;padding:9px 5px;font-size:.85rem}.emoticon-grid button:hover{background:var(--bg-panel-strong);color:var(--accent)}
+  ol{list-style:none;margin:24px 0 0;padding:0}ol:empty{display:none}ol :global(li){display:flex;gap:12px;padding:20px 0;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
+  ol :global(.comment-avatar){display:grid;place-items:center;width:32px;height:32px;flex-shrink:0;border-radius:50%;background:var(--bg-panel-strong);color:var(--text-muted);font-size:.8rem}
+  ol :global(.comment-content){flex:1;min-width:0}ol :global(.comment-meta){display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}ol :global(strong){font-size:.85rem;font-weight:600}ol :global(time){font-size:.72rem;color:var(--text-dim)}ol :global(p){white-space:pre-wrap;margin:8px 0 0;line-height:1.75;color:var(--text-main);font-size:.9rem}
+  ol :global(.comment-source){display:flex;align-items:baseline;gap:6px;margin-top:5px;font-size:.73rem;line-height:1.6;color:var(--text-dim)}ol :global(.comment-source a){color:var(--text-muted);text-decoration:none;text-underline-offset:3px}ol :global(.comment-source a:hover){color:var(--accent);text-decoration:underline}
+  ol :global(.admin-reply){background:var(--bg-panel);border-radius:8px;padding:10px 13px;margin-top:12px;color:var(--text-muted);font-size:.85rem}ol :global(.reply-label){display:block;color:var(--accent);font-size:.75rem;margin-bottom:4px}
+  .empty-comments{padding:24px 0 14px;text-align:center;font-size:.8rem;color:var(--text-dim)}.more-comments{display:block;margin:20px auto;font-size:.82rem}
+  .interaction-options{margin-top:20px;display:flex;gap:20px;flex-wrap:wrap}.privacy,.private-mail{font-size:.76rem;color:var(--text-dim)}.privacy[open],.private-mail[open]{flex-basis:100%}summary{cursor:pointer}.private-mail :global([data-private-contact]){max-width:560px;padding-top:12px}
+  .trap,.sr-only{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}[data-form-status]:empty,[data-interaction-status]:empty{display:none}[hidden]{display:none!important}
+  .home-interactions{display:inline-flex;width:auto;margin:0;padding:0;border:0;z-index:auto}.home-interactions .interaction-header{display:contents}.home-interactions .counts{width:auto;gap:0}.home-interactions .view-count,.home-interactions .comment-count{display:none}.home-interactions .like-button{padding:8px 4px;color:var(--text-dim);gap:5px;min-height:40px}.home-interactions .like-button:hover,.home-interactions .like-button[aria-pressed=true]{color:var(--accent)}
+  .home-interactions dialog{position:fixed;inset:0;box-sizing:border-box;width:min(600px,calc(100% - 28px));max-height:calc(100dvh - 40px);margin:auto;padding:30px 24px;overflow:auto;overscroll-behavior:contain;border:1px solid var(--border);border-radius:12px;background:var(--bg-base);color:var(--text-main);box-shadow:0 28px 90px #0006}
+  .home-interactions dialog::backdrop{background:#0009;backdrop-filter:blur(8px)}.home-interactions dialog:not([open]){display:none}.home-interactions .like-panel{width:min(380px,calc(100% - 28px));padding-top:52px}.home-interactions h2{padding-right:30px;margin-bottom:24px}.panel-close{position:absolute;right:14px;top:12px;font-size:24px;line-height:1;padding:6px 10px}
+  :global(body:has(.home-interactions dialog[open])){overflow:hidden}
+  @media(max-width:550px){.site-interactions{width:calc(100% - 32px);margin:32px auto;padding-top:20px}.counts{gap:14px}.composer{padding:12px}.composer-note{font-size:.65rem}.submit-comment{padding:9px 11px}.home-interactions{width:auto;margin:0;padding:0}.home-interactions dialog{padding:28px 18px}.home-interactions .like-panel{padding-top:52px}}
+</style>

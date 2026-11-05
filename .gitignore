@@ -52,3 +52,9 @@ src/content/blog/**/*.synctex.gz
 
 # duplicate exported PDFs kept locally, not needed for the site archive
 src/content/blog/**/main_副本*.pdf
+
+# Private backend development data
+.dev.vars*
+.env.*
+!.env.example
+.wrangler/
