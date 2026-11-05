@@ -18,7 +18,7 @@ const context = vm.createContext({
         clients: { matchAll: async () => restoreData ? [{ url: "https://study.test/blog/study/production/", postMessage: (message, ports) => ports[0].postMessage(restoreData) }] : [] },
         addEventListener: (name, callback) => { listeners[name] = callback; },
     },
-    crypto: globalThis.crypto, URL, Response, Headers, TextDecoder, TextEncoder, Uint8Array, MessageChannel, setTimeout, clearTimeout,
+    crypto: globalThis.crypto, URL, Response, Headers, TextDecoder, TextEncoder, Uint8Array, ReadableStream, MessageChannel, setTimeout, clearTimeout,
     fetch: async (url) => {
         const file = path.join(root, "public", decodeURIComponent(new URL(url).pathname));
         return new Response(await readFile(file));

@@ -2,6 +2,15 @@
     const theme = window.parent.document.documentElement.dataset.theme || "dark";
     document.documentElement.dataset.theme = theme;
     document.body.classList.add("study-frame");
+    document.addEventListener("click", (event) => {
+        const locator = event.target.closest?.(".locate[data-media]");
+        if (!locator) return;
+        const video = document.getElementById("visual-" + locator.dataset.media);
+        if (video?.tagName === "VIDEO" && video.readyState === 0) {
+            video.preload = "metadata";
+            video.load();
+        }
+    }, { capture: true });
     const contents = document.querySelector(".prose-toc");
     if (contents) {
         const details = document.createElement("details");

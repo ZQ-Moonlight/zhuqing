@@ -118,6 +118,27 @@ async function readBytes(state, entry, start, end) {
     return output;
 }
 
+function rangeStream(state, entry, start, end) {
+    let index = 0;
+    let offset = 0;
+    return new ReadableStream({
+        async pull(controller) {
+            while (index < entry.chunks.length) {
+                const chunk = entry.chunks[index++];
+                const first = offset;
+                offset += chunk.size;
+                if (offset <= start) continue;
+                const bytes = await decryptChunk(state, chunk.name);
+                controller.enqueue(bytes.subarray(Math.max(0, start - first), Math.min(chunk.size, end - first + 1)));
+                if (offset > end || index === entry.chunks.length) controller.close();
+                return;
+            }
+            controller.close();
+        },
+        cancel() { index = entry.chunks.length; },
+    });
+}
+
 function protectedHeaders() {
     return new Headers({
         "Cache-Control": "no-store, private",
@@ -151,12 +172,17 @@ async function serveContent(request) {
     headers.set("Accept-Ranges", "bytes");
     if (download) headers.set("Content-Disposition", `attachment; filename*=UTF-8''${encodeURIComponent(relative.split("/").pop())}`);
     if (range.partial) headers.set("Content-Range", `bytes ${range.start}-${range.end}/${entry.size}`);
+    if (!isHtml) {
+        headers.set("Content-Length", String(range.end - range.start + 1));
+        return new Response(request.method === "HEAD" ? null : rangeStream(state, entry, range.start, range.end), { status: range.partial ? 206 : 200, headers });
+    }
     let bytes = await readBytes(state, entry, range.start, range.end);
     if (isHtml) {
         const assets = `<link rel="stylesheet" href="${scopePath}frame.css"><script defer src="${scopePath}frame.js"></script>`;
         let html = decoder.decode(bytes);
         html = /<\/head>/i.test(html) ? html.replace(/<\/head>/i, assets + "</head>") : html.replace(/<!doctype html>/i, "<!doctype html>" + assets);
         html = html.replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy"');
+        html = html.replace(/(<video\b[^>]*\bpreload=)["']metadata["']/gi, '$1"none"');
         bytes = new TextEncoder().encode(html);
     }
     headers.set("Content-Length", String(bytes.byteLength));
