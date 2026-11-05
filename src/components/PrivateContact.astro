@@ -11,7 +11,7 @@ const enabled=Boolean(api&&siteKey);
     <label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
     <div data-challenge></div>
     <button type="submit" disabled={!enabled} data-i18n-cn="发送" data-i18n-en="Send">发送</button>
-    <p data-form-status role="status" aria-live="polite" tabindex="-1"></p>
+    <p data-form-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
   </form>
   <details><summary data-i18n-cn="隐私" data-i18n-en="Privacy">隐私</summary><p data-i18n-cn="私密发送至站长邮箱，后台保留 30 天。" data-i18n-en="Sent privately to the owner. Stored in the admin inbox for 30 days.">私密发送至站长邮箱，后台保留 30 天。</p></details>
   <a href="mailto:zq_eugene@qq.com">zq_eugene@qq.com</a>

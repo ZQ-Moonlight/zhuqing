@@ -47,7 +47,7 @@ const faces = ['(｡･ω･｡)ﾉ', '(≧▽≦)', '(๑•̀ㅂ•́)و✧', 
         <span class="composer-note" data-i18n-cn="审核后公开" data-i18n-en="Shown after review">审核后公开</span>
         <button class="submit-comment" type="submit" disabled={!enabled} data-i18n-cn="发布评论" data-i18n-en="Post comment">发布评论</button>
       </div>
-      <p data-form-status role="status" aria-live="polite" tabindex="-1"></p>
+      <p data-form-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
     </form>
     <ol data-comment-list aria-label="已公开的留言"></ol>
     <p class="empty-comments" data-comment-empty hidden data-i18n-cn="暂无评论" data-i18n-en="No comments yet">暂无评论</p>

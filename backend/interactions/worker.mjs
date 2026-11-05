@@ -254,7 +254,10 @@ export function createApp({pages=registry,fetcher=fetch,now=()=>Date.now()}={}) 
       assert((await env.PUBLIC_LIMITER.limit({key:await hmac(env.ABUSE_SECRET,`rate:${ip}`)})).success,429,'rate_limited');
       assert((await env.GLOBAL_LIMITER.limit({key:'public-all'})).success,429,'rate_limited');
       const res=await publicRoute(req,env,url);return new Response(JSON.stringify({ok:true,...res.body}),{status:res.status,headers});
-    }catch(e){return new Response(JSON.stringify({ok:false,code:e instanceof HttpError?e.code:'temporarily_unavailable'}),{status:e instanceof HttpError?e.status:503,headers});}
+    }catch(e){
+      const code=e instanceof HttpError?e.code:'temporarily_unavailable';
+      return new Response(JSON.stringify({ok:false,code}),{status:e instanceof HttpError?e.status:503,headers});
+    }
   };
   const cleanup=async env=>env.DB.batch([
     q(env,'DELETE FROM quotas WHERE expires_at<?',now()),q(env,'DELETE FROM view_keys WHERE expires_at<?',now()),q(env,'DELETE FROM bans WHERE expires_at<?',now()),

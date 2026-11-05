@@ -1,4 +1,5 @@
 import { withBase } from '../lib/paths';
+import '../styles/submission-status.css';
 type Widget={resolve?:(s:string)=>void;reject?:(e:Error)=>void;id?:string;timer?:ReturnType<typeof setTimeout>};
 declare global{interface Window{turnstile?:{render:(n:HTMLElement,o:Record<string,unknown>)=>string;reset:(id:string)=>void}}}
 let loader:Promise<void>|undefined;const widgets=new WeakMap<HTMLElement,Widget>();
@@ -30,7 +31,8 @@ async function verify(container:HTMLElement,key:string,action:string){
 function errorText(status:HTMLElement,error:unknown){
  const code=error instanceof Error?error.message:'';
  status.dataset.errorCode=code;
- if(code==='verification_cancelled'){status.textContent='';return;}
+ status.dataset.state='error';
+ if(code==='verification_cancelled'){notify(status,'','');delete status.dataset.state;return;}
  const messages:Record<string,[string,string]>={
   rate_limited:['操作频繁，请稍后重试','Too many requests. Try later'],
   blocked:['暂时无法提交','Submissions restricted'],
@@ -215,12 +217,17 @@ document.querySelectorAll<HTMLElement>('[data-site-interactions]').forEach(root=
 function wireForm(form:HTMLFormElement,api:string,key:string,action:'comment'|'contact',page?:string){
  let busy=false,last='',requestId='';const status=form.querySelector<HTMLElement>('[data-form-status]')!,button=form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
  if(!api||!key){button.disabled=true;return;}
- form.addEventListener('submit',async event=>{event.preventDefault();if(busy||!form.reportValidity()||button.disabled)return;const d=new FormData(form),body=String(d.get('body')||'').trim();if(!body)return;let payload:any;try{payload=action==='comment'?{page:form.dataset.replyPage||page,nickname:String(d.get('nickname')||'').trim(),body,visitor:visitor(),email:String(d.get('email')||'').trim(),...(form.dataset.replyToId?{replyToId:form.dataset.replyToId}:{})}:{email:String(d.get('email')||'').trim(),body};}catch(e){errorText(status,e);return;}const signature=JSON.stringify(payload);if(signature!==last){requestId=crypto.randomUUID();last=signature;}busy=true;button.disabled=true;form.setAttribute('aria-busy','true');form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea').forEach(n=>n.readOnly=true);notify(status,'处理中…','Processing…');
+ form.addEventListener('input',()=>{
+  if(!busy&&status.dataset.state==='success'){
+   notify(status,'','');delete status.dataset.state;
+  }
+ });
+ form.addEventListener('submit',async event=>{event.preventDefault();if(busy||!form.reportValidity()||button.disabled)return;const d=new FormData(form),body=String(d.get('body')||'').trim();if(!body)return;let payload:any;try{payload=action==='comment'?{page:form.dataset.replyPage||page,nickname:String(d.get('nickname')||'').trim(),body,visitor:visitor(),email:String(d.get('email')||'').trim(),...(form.dataset.replyToId?{replyToId:form.dataset.replyToId}:{})}:{email:String(d.get('email')||'').trim(),body};}catch(e){errorText(status,e);return;}const signature=JSON.stringify(payload);if(signature!==last){requestId=crypto.randomUUID();last=signature;}busy=true;button.disabled=true;status.dataset.state='pending';delete status.dataset.errorCode;form.setAttribute('aria-busy','true');form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea').forEach(n=>n.readOnly=true);notify(status,'处理中…','Processing…');
  try{const token=await verify(form.querySelector('[data-challenge]')!,key,action);const v=await post(api,action==='contact'?'/api/contact':'/api/public/comment',{...payload,token,requestId,website:String(d.get('website')||'')});if(action==='contact'&&v.code==='accepted')notify(status,'已提交','Submitted');else if(action==='comment'&&v.code==='pending_review'){
     const notices:Record<string,string>={verification_sent:' 请验证邮箱。',enabled:'',unavailable:' 提醒暂不可用。'};
-    notify(status,'已提交，待审核。'+(notices[v.notification]||''),'Pending review.'+(v.notification==='verification_sent'?' Verify your email.':v.notification==='unavailable'?' Notifications unavailable.':''));
+    notify(status,'已提交 · 待审核'+(notices[v.notification]||''),'Submitted · Pending review'+(v.notification==='verification_sent'?' Verify your email.':v.notification==='unavailable'?' Notifications unavailable.':''));
     form.dispatchEvent(new Event('comment-saved'));
-   }else throw Error('unconfirmed');form.reset();last='';requestId='';}
+   }else throw Error('unconfirmed');form.reset();status.dataset.state='success';last='';requestId='';}
  catch(e){errorText(status,e);}finally{busy=false;button.disabled=false;form.removeAttribute('aria-busy');form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea').forEach(n=>n.readOnly=false);status.focus();}
  });
 }
