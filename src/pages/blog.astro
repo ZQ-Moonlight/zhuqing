@@ -4,7 +4,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getReferenceGroups } from "../lib/contentArchive";
 import { withBase } from "../lib/paths";
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft && !data.privateArchive)).sort(
+const posts = [
+    ...(await getCollection("blog", ({ data }) => !data.draft && !data.privateArchive)),
+    {
+        id: "study",
+        data: {
+            title: "学习资料：游戏设计与研发",
+            description: "关卡设计、动画特效、研发协作与独立开发，六个专题集中阅读。",
+            pubDate: new Date("2026-10-26"),
+            tags: ["游戏设计", "关卡策划", "研发协作"],
+        },
+    },
+].sort(
     (a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0)
 );
 
@@ -69,12 +80,6 @@ const groupedPosts = posts.reduce((groups, post) => {
             <span class="eyebrow">笔记 / 流程 / 研究</span>
             <h1>档案 Archive</h1>
         </header>
-
-        <a class="study-collection" href={withBase("/blog/study/")}>
-            <span class="study-collection__label">学习资料</span>
-            <span class="study-collection__body"><strong>游戏设计与研发</strong><small>关卡设计、动画特效、研发协作与独立开发，六个专题集中阅读。</small></span>
-            <span class="study-collection__arrow" aria-hidden="true">↗</span>
-        </a>
 
         <section class="archive-section" aria-labelledby="articles-title">
             <div class="archive-section__head" data-reveal>
@@ -225,15 +230,6 @@ const groupedPosts = posts.reduce((groups, post) => {
 </BaseLayout>
 
 <style>
-    .study-collection { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 26px 28px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-panel); color: var(--text-main); text-decoration: none; transition: border-color 180ms; }
-    .study-collection:hover { border-color: var(--accent); }
-    .study-collection__label { color: var(--accent); font-size: .82rem; }
-    .study-collection__body { display: grid; gap: 7px; }
-    .study-collection__body strong { font: 500 1.25rem/1.5 var(--font-display); }
-    .study-collection__body small { color: var(--text-muted); font-size: .83rem; line-height: 1.8; }
-    .study-collection__arrow { color: var(--accent); font-size: 1.6rem; }
-    @media (max-width: 700px) { .study-collection { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 22px; } .study-collection__label { grid-column: 1 / -1; } }
-
     .archive-page {
         max-width: 1120px;
     }
