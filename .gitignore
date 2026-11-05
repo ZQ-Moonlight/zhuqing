@@ -20,6 +20,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Local source location and password for the encrypted study library
+.private-study/
+
 # macOS-specific files
 .DS_Store
 

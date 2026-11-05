@@ -1,0 +1,100 @@
+:root {
+    --reading-bg: #111110;
+    --reading-panel: #191918;
+    --reading-text: #e7e4de;
+    --reading-muted: #aba69e;
+    --reading-line: #34332f;
+    --reading-accent: #f49563;
+    --ink: var(--reading-text);
+    --muted: var(--reading-muted);
+    --paper: var(--reading-bg);
+    --white: var(--reading-panel);
+    --line: var(--reading-line);
+    --green: var(--reading-accent);
+    --accent: var(--reading-accent);
+    --warm: var(--reading-accent);
+    --navy: #1b1b19;
+    --lime: #f3b387;
+    color-scheme: dark;
+}
+:root[data-theme="light"] {
+    --reading-bg: #f7f5ef;
+    --reading-panel: #fffdf8;
+    --reading-text: #292824;
+    --reading-muted: #69665f;
+    --reading-line: #dedbd3;
+    --reading-accent: #aa461b;
+    color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body.study-frame {
+    margin: 0;
+    color: var(--reading-text);
+    background: var(--reading-bg);
+    font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+a { color: var(--reading-accent); text-underline-offset: 4px; }
+img, video { max-width: 100%; }
+button, input, select { font: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--reading-accent); outline-offset: 4px; }
+.study-prose .prose-grid { display: grid; grid-template-columns: 190px minmax(0, 760px); gap: 44px; max-width: 1100px; margin: auto; padding: 42px 32px 100px; }
+.study-prose article { min-width: 0; }
+.study-prose h1, .study-prose h2, .study-prose h3 { font-family: "Noto Serif SC", "Songti SC", serif; color: var(--reading-text); line-height: 1.5; }
+.study-prose h1 { font-size: clamp(26px, 3vw, 38px); margin: 0 0 30px; }
+.study-prose h2 { font-size: 24px; margin: 54px 0 22px; padding-top: 22px; border-top: 1px solid var(--reading-line); }
+.study-prose h3 { font-size: 20px; margin: 34px 0 14px; }
+.study-prose p, .study-prose li { line-height: 2; }
+.study-prose p { margin: 0 0 20px; }
+.study-prose li { margin: 8px 0; }
+.study-prose blockquote { margin: 28px 0; padding: 16px 22px; border-left: 3px solid var(--reading-accent); background: var(--reading-panel); }
+.prose-toc { position: sticky; top: 26px; align-self: start; max-height: calc(100dvh - 52px); overflow: auto; font-size: 12px; line-height: 1.65; }
+.prose-toc strong { display: block; margin-bottom: 18px; color: var(--reading-muted); font-weight: 500; }
+.prose-toc summary { margin-bottom: 18px; color: var(--reading-muted); cursor: pointer; }
+.prose-toc details:not([open]) summary { margin-bottom: 0; }
+.prose-toc a { display: block; margin: 0 0 12px; color: var(--reading-muted); text-decoration: none; }
+.prose-toc a:hover { color: var(--reading-accent); }
+.table-wrap { width: 100%; overflow: auto; }
+.study-prose table { border-collapse: collapse; width: 100%; font-size: 14px; line-height: 1.8; min-width: 580px; }
+.study-prose th, .study-prose td { padding: 14px 16px; border: 1px solid var(--reading-line); text-align: left; vertical-align: top; }
+.study-prose th { background: var(--reading-panel); }
+.study-prose pre { padding: 20px; overflow: auto; }
+.study-prose code { font-size: .88em; }
+.study-frame .case, .study-frame .resource, .study-frame .short, .study-frame .controls, .study-frame .table-wrap, .study-frame article, .study-frame section { border-color: var(--reading-line); }
+.study-frame .case, .study-frame .resource, .study-frame .short, .study-frame figure, .study-frame article { background: var(--reading-panel); color: var(--reading-text); }
+.study-frame figcaption, .study-frame .read-guide, .study-frame .cue, .study-frame .route, .study-frame th { background: var(--reading-panel); color: var(--reading-text); }
+.study-frame input:not([type="checkbox"]), .study-frame select, .study-frame button, .study-frame .button { background: var(--reading-panel); color: var(--reading-text); border-color: var(--reading-line); }
+.study-frame .toolbar { background: var(--reading-bg); }
+.study-frame .intro .deck, .study-frame .read-guide, .study-frame .read-guide b, .study-frame small { color: var(--reading-muted); }
+.study-frame aside { background: #1b1b19; }
+.study-frame aside a b, .study-frame aside h3, .study-frame aside .subbrand { color: #c6b5a7; }
+.study-frame .case-id { background: #3a2b22; color: #f4bd93; }
+.study-frame .wrap { max-width: 1240px; padding-left: 32px; padding-right: 32px; }
+.study-frame .hero { padding-top: 38px; padding-bottom: 36px; }
+.study-frame .hero h1 { font-size: clamp(34px, 4vw, 54px); font-family: "Noto Serif SC", "Songti SC", serif; }
+.study-frame .masthead { display: none; }
+.study-frame .section-no { display: none; }
+.study-frame .stats { gap: 28px; }
+.study-frame .badge { background: transparent; color: var(--reading-muted); border-color: var(--reading-line); }
+.study-frame .badge.new, .study-frame .badge.must { background: transparent; color: var(--reading-accent); border-color: var(--reading-line); }
+.study-frame header:not(:has(.hero)), .study-frame section:has(.view) { background: var(--reading-panel); color: var(--reading-text); }
+@media (max-width: 1000px) {
+    .study-prose .prose-grid { grid-template-columns: minmax(0, 1fr); max-width: 820px; gap: 26px; }
+    .prose-toc { position: static; max-height: 200px; border-bottom: 1px solid var(--reading-line); padding-bottom: 15px; }
+    .study-frame .shortlist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+    body.study-frame { font-size: 15px; }
+    .study-prose .prose-grid { padding: 26px 20px 70px; }
+    .study-frame .wrap { padding-left: 20px; padding-right: 20px; }
+    .study-frame .grid, .study-frame .routes, .study-frame .media-grid, .study-frame .explain-grid { grid-template-columns: minmax(0, 1fr); }
+    .study-frame .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .study-frame .case { padding: 18px; }
+    .study-frame section:has(.view) { margin: 14px 8px; padding: 14px; }
+    .study-frame .toolbar { flex-wrap: wrap; }
+    .study-frame .toolbar input { min-width: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

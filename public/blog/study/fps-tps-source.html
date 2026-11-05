@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="给 FPS/TPS 新人关卡设计师的 40 项精选学习资料：经典方法与近两年开发案例，包含中文导读、原始来源、学习路径与练习。"><title>FPS / TPS 关卡设计学习地图 · 2026</title>
+<style>
+:root{--ink:#172b37;--muted:#52636d;--paper:#f5f3ed;--white:#fffefa;--line:#d5ded9;--green:#006959;--lime:#d9f681;--navy:#112a35;--blue:#dcecf0;--orange:#9b4e19;--shadow:0 9px 26px #112a3507}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;color:var(--ink);background:var(--paper);font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;font-size:15px;line-height:1.75}a{color:var(--green);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}button,input,select,textarea{font:inherit}button,select,input[type=checkbox]{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #b56226;outline-offset:4px}.wrap{max-width:1320px;margin:auto;padding:0 42px}.masthead{display:flex;justify-content:space-between;padding-top:22px;padding-bottom:22px;font-size:12px;letter-spacing:1.5px;font-weight:700}.masthead span:last-child{color:var(--muted);letter-spacing:0}header{background:var(--navy);color:#f8fbf1;overflow:hidden;position:relative}header:after{content:"";position:absolute;inset:0 0 0 54%;background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:44px 44px;pointer-events:none}.hero{padding-top:62px;padding-bottom:52px;position:relative;z-index:1}.eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--lime);margin:0 0 22px}h1{font-size:clamp(38px,5vw,65px);line-height:1.18;letter-spacing:-1.5px;margin:0 0 24px;font-weight:750}h1 em{font-style:normal;color:var(--lime)}.hero-text{max-width:735px;color:#d1dfdf;font-size:17px;line-height:1.9;margin-bottom:32px}.hero-links{display:flex;gap:12px;flex-wrap:wrap}.hero-links a{padding:10px 18px;border:1px solid #78928f;border-radius:5px;color:#edf6ed;text-decoration:none;font-size:14px}.hero-links a:first-child{background:var(--lime);border-color:var(--lime);color:var(--navy);font-weight:700}.stats{display:flex;gap:42px;border-top:1px solid #ffffff26;margin-top:42px;padding-top:24px;flex-wrap:wrap}.stat strong{display:block;font-size:28px;line-height:1.3;color:var(--lime)}.stat span{font-size:12px;color:#c3d4d4}.intro-note{border-bottom:1px solid var(--line);padding:24px 0;font-size:13px;color:var(--muted)}.intro-note strong{color:var(--ink)}.section{padding-top:58px}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px}.section-no{font-size:12px;color:var(--green);font-weight:800;letter-spacing:2px;margin-bottom:6px}h2{font-size:28px;line-height:1.4;letter-spacing:-.5px;margin:0}p{margin:0 0 14px}.section-sub{color:var(--muted);max-width:730px}.shortlist{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.short{background:var(--white);border:1px solid var(--line);padding:18px;display:block;text-decoration:none;color:var(--ink);border-radius:6px;box-shadow:var(--shadow)}.short:hover{border-color:var(--green);transform:translateY(-2px)}.short .idx{font-size:12px;color:var(--green);font-weight:800}.short strong{display:block;line-height:1.5;margin:8px 0;font-size:15px}.short small{display:block;font-size:12px;color:var(--muted);line-height:1.7}.table-wrap{overflow:auto;background:var(--white);border:1px solid var(--line);border-radius:7px}table{border-collapse:collapse;width:100%;min-width:710px;text-align:left;font-size:14px}th{background:#e9eee7;font-size:12px;letter-spacing:.4px}td,th{padding:17px 20px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}td:first-child{font-weight:700;width:16%}.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}.route{background:#eaf0eb;padding:22px;border-radius:7px}.route h3{font-size:17px;margin:0 0 10px}.route p{font-size:13px;color:var(--muted)}.route .path{color:var(--green);font-weight:700;font-size:14px}.route a{white-space:nowrap}.controls{padding:22px;background:var(--white);border:1px solid var(--line);border-radius:8px;margin-bottom:18px}.search-row{display:flex;gap:12px}.search-row input{flex:1;min-width:0;padding:12px 14px;border:1px solid #a6b8b0;background:#fafcf7;border-radius:5px}.btn{border:1px solid var(--green);background:var(--green);color:white;padding:10px 16px;border-radius:5px;font-size:13px;font-weight:600}.btn.secondary{background:transparent;color:var(--green)}.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.filters label{font-size:12px;color:var(--muted)}.filters select{display:block;width:100%;margin-top:5px;padding:8px 9px;border:1px solid #bdcac3;border-radius:4px;background:var(--white);color:var(--ink)}.filter-end{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:var(--muted)}.filter-end label{margin-right:16px}.result-count{font-weight:700;color:var(--green)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.resource{padding:26px;background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);scroll-margin-top:22px;display:flex;flex-direction:column;min-width:0}.resource:target{outline:3px solid var(--green);outline-offset:3px}.resource.hidden{display:none}.card-top{display:flex;align-items:center;gap:9px;margin-bottom:20px}.number{font-size:19px;font-weight:800;margin-right:3px;color:#6a7e79;font-variant-numeric:tabular-nums}.badge{font-size:11px;border:1px solid #bfcfc7;background:#f2f5ee;border-radius:20px;padding:2px 9px;white-space:nowrap}.badge.new{background:#dcefe8;color:#005947;border-color:#a2cebd}.badge.must{background:#f1f5cc;border-color:#c9d37c;color:#516013}.read{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}.read input{accent-color:var(--green);vertical-align:middle}.resource.completed{border-color:#98c4b3}.format{font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px}.format span{font-weight:400;color:var(--muted)}h3{font-size:21px;line-height:1.5;margin:0 0 8px;letter-spacing:-.3px}.original{font-size:12px;line-height:1.5;color:var(--muted);min-height:18px;margin-bottom:14px;overflow-wrap:anywhere}.meta{font-size:12px;color:var(--muted);line-height:1.85}.meta span{color:#6b797a}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.tags span{font-size:11px;padding:2px 8px;background:#eaf0ef;border-radius:3px}.summary{font-size:14px;line-height:1.85}.guide{border-left:3px solid #b7d7c5;padding-left:14px;margin:4px 0 16px}.guide p{font-size:13px;margin:0 0 10px}.guide p:last-child{margin-bottom:0}.guide b{display:block;font-size:11px;letter-spacing:1px;color:var(--green);margin-bottom:3px}details{font-size:12px;color:var(--muted);margin-bottom:18px}summary{cursor:pointer;color:#526a63;font-weight:600}details p{margin:10px 0 0}.access{color:#745724}.links{display:flex;gap:8px 16px;flex-wrap:wrap;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}.links a{font-size:12px;font-weight:650;line-height:1.8;overflow-wrap:anywhere}.empty{display:none;padding:40px;border:1px dashed var(--line);text-align:center}.week-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.week{border-top:3px solid var(--green);padding:18px;background:var(--white)}.week strong{font-size:12px;color:var(--green)}.week h3{font-size:18px;margin-top:7px}.week p{font-size:13px;color:var(--muted)}.week .deliver{color:var(--ink);font-weight:600}.template{margin-top:22px;background:var(--navy);color:#e1ece6;padding:28px;border-radius:7px}.template h3{color:var(--lime)}.template p{font-size:13px;color:#c2d3ce}.template textarea{display:block;width:100%;height:285px;background:#0c222b;border:1px solid #466269;color:#e1ece6;padding:18px;resize:vertical;font-family:inherit;font-size:13px;line-height:1.85;border-radius:5px;margin:15px 0}.template .btn{background:var(--lime);color:var(--navy);border-color:var(--lime)}.copy-status{font-size:12px;margin-left:12px;color:var(--lime)}.method{display:grid;grid-template-columns:1fr 1fr;gap:22px}.method>div{background:#e9eee8;padding:24px;border-radius:7px}.method h3{font-size:17px}.method p,.method li{font-size:13px;color:var(--muted)}.method ul{padding-left:18px;margin:12px 0 0}.glossary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}.glossary div{padding:15px;border:1px solid var(--line);border-radius:5px;font-size:12px;color:var(--muted)}.glossary b{display:block;color:var(--ink);margin-bottom:3px}footer{margin-top:55px;border-top:1px solid var(--line);padding:28px 0 40px;display:flex;justify-content:space-between;gap:20px;font-size:12px;color:var(--muted)}.top-link{white-space:nowrap}.noscript{padding:18px;background:#fff0d3}.js-only{display:none}body.js .js-only{display:block}body.js .controls.js-only{display:block}.print-date{display:none}@media(min-width:1500px){.wrap{max-width:1420px}}@media(max-width:1050px){.shortlist{grid-template-columns:repeat(3,1fr)}.week-grid{grid-template-columns:repeat(2,1fr)}.routes{grid-template-columns:1fr}.glossary{grid-template-columns:repeat(2,1fr)}.wrap{padding:0 26px}.hero{padding-top:44px;padding-bottom:40px}}@media(max-width:680px){.wrap{padding-left:18px;padding-right:18px}.masthead{font-size:10px;letter-spacing:.7px}.masthead span:last-child{font-size:10px}.hero{padding-top:38px;padding-bottom:32px}.hero-text{font-size:15px}h1{font-size:38px;letter-spacing:-1px}.stats{gap:20px 28px}.stat strong{font-size:25px}.shortlist{grid-template-columns:repeat(2,1fr)}.short{padding:14px}.section{padding-top:40px}h2{font-size:24px}.section-head{display:block}.section-head p{margin-top:12px}.grid,.method{grid-template-columns:1fr}.resource{padding:21px}.filters{grid-template-columns:1fr 1fr}.search-row{flex-wrap:wrap}.search-row input{flex-basis:100%}.week-grid{grid-template-columns:1fr}.template{padding:21px}.glossary{grid-template-columns:1fr 1fr}footer{display:block}.top-link{display:block;margin-top:12px}}@media print{body{background:white;font-size:10pt;color:#111}.wrap{max-width:none;padding:0}.masthead,.hero-links,.controls,.read,.copy-controls,.top-link{display:none!important}header{background:white;color:#111}header:after{display:none}.hero{padding:0 0 18px}h1{font-size:28pt;color:#111}h1 em,.hero-text,.eyebrow,.stat strong,.stat span{color:#111}.stats{margin-top:15px;padding-top:10px;gap:35px}.hero-text{font-size:11pt;margin-bottom:10px}.stat strong{font-size:19pt}.intro-note{padding:12px 0}.section{padding-top:25px}.section-head{margin-bottom:14px}h2{font-size:18pt}h3{font-size:13pt}.shortlist{grid-template-columns:repeat(5,1fr);gap:6px}.short{padding:9px}.short strong{font-size:9pt}.short small{font-size:8pt}.grid{display:block}.resource{display:block;break-inside:avoid;margin-bottom:16px;padding:15px;border-radius:0;box-shadow:none}.resource.hidden{display:block}.card-top{margin-bottom:8px}.meta br{display:none}.original{min-height:0}.summary,.guide p{font-size:9pt}.links a{font-size:8pt}.resource details>*{display:block}.resource details summary{display:none}.resource details{margin-bottom:9px}.resource .links a:after{content:' [' attr(href) ']';font-weight:400;overflow-wrap:anywhere}.routes{grid-template-columns:repeat(3,1fr)}.route{padding:12px}.week-grid{grid-template-columns:repeat(2,1fr)}.week,.method>div,.template{break-inside:avoid}.template{background:#f4f4f4;color:#111}.template h3,.template p{color:#111}.template textarea{background:white;color:#111;border:1px solid #999;height:350px}.glossary{grid-template-columns:repeat(4,1fr)}.print-date{display:block;font-size:9pt}footer{margin-top:22px}.badge{border:1px solid #888!important;background:white!important;color:#111!important}a{color:#111}.section-sub{font-size:9pt}header .eyebrow{color:#111}}
+</style><link rel="stylesheet" href="./frame.css"><script defer src="./frame.js"></script></head><body id="top">
+<div class="wrap masthead"><span>FIELD NOTES / LEVEL DESIGN</span><span>中文导读 · 核验于 2026.10.26</span></div>
+<header><div class="wrap hero"><p class="eyebrow">FIRST PERSON / THIRD PERSON SHOOTERS</p><h1>FPS / TPS<br>关卡设计<em>学习地图</em></h1><p class="hero-text">从第一张俯视布局，到能解释、能测试的战斗空间。<br>为刚入行的关卡设计师整理：经典方法、近两年开发案例，以及 COD、大逃杀与搜打撤的专项阅读路径。</p><nav class="hero-links" aria-label="页面导航"><a href="#start">从十项优先资料开始</a><a href="#library">浏览全部 40 项</a><a href="#practice">四周练习与文档模板</a><a href="#method">来源与筛选说明</a></nav><div class="stats"><div class="stat"><strong>40</strong><span>精选资料项</span></div><div class="stat"><strong>15</strong><span>近两年 · 有明确日期</span></div><div class="stat"><strong>10</strong><span>优先阅读</span></div><div class="stat"><strong>8+</strong><span>资料形式</span></div></div></div></header>
+<main class="wrap"><div class="intro-note"><strong>时间口径：</strong>“近两年”严格指 <strong>2024-10-26—2026-10-26</strong>，按资料发表日期判断。旧演讲重新上传、游戏发售时间、网页版权年份均不自动算作新资料。持续更新或日期不明的内容列为“常备参考”。<br><strong>阅读口径：</strong>中文导读与练习为本次整理；卡片中的链接指向资料原页。官方地图攻略和宣传预览会标明其用途，不作为开发过程的直接证据。</div>
+<section class="section" id="start"><div class="section-head"><div><div class="section-no">01 / START HERE</div><h2>先读这十项，边看边做</h2></div><p class="section-sub">顺序按新人成长路径安排。<br>不必一次看完：每读一项，留下一个可检查的小产出。</p></div><div class="shortlist"><a class="short jump" href="#r01"><span class="idx">01 / 资料 01</span><strong>建立工作流</strong><small>先学尺寸、白盒、战斗与测试之间的关系。</small></a><a class="short jump" href="#r02"><span class="idx">02 / 资料 02</span><strong>读懂多人布局</strong><small>用节点、路径、交战区和目标区思考。</small></a><a class="short jump" href="#r03"><span class="idx">03 / 资料 03</span><strong>形成评审问题</strong><small>把直觉转成能解释的设计判断。</small></a><a class="short jump" href="#r04"><span class="idx">04 / 资料 04</span><strong>做清晰的引导</strong><small>从可见的形状、开口和地标入手。</small></a><a class="short jump" href="#r08"><span class="idx">05 / 资料 08</span><strong>学习真实生产流程</strong><small>看提案如何经过灰盒测试变成地图。</small></a><a class="short jump" href="#r19"><span class="idx">06 / 资料 19</span><strong>第一次拆 COD 地图</strong><small>用 Hideout 的模式图层和分区练习。</small></a><a class="short jump" href="#r25"><span class="idx">07 / 资料 25</span><strong>进入大逃杀空间</strong><small>城市高差、转移与无位移角色的选择。</small></a><a class="short jump" href="#r30"><span class="idx">08 / 资料 30</span><strong>读中文核心分享</strong><small>从半开放 PvP 理解大地图设计。</small></a><a class="short jump" href="#r31"><span class="idx">09 / 资料 31</span><strong>理解搜打撤闭环</strong><small>把奖励、威胁与撤离放在一张图里。</small></a><a class="short jump" href="#r05"><span class="idx">10 / 资料 05</span><strong>理解不同玩家</strong><small>最后回头检验地图究竟服务谁。</small></a></div></section>
+<section class="section" id="routes"><div class="section-head"><div><div class="section-no">02 / PICK A QUESTION</div><h2>带着设计问题选择资料</h2></div></div><div class="table-wrap"><table><thead><tr><th>你的方向</th><th>优先解决的空间问题</th><th>建议阅读组合</th><th>迁移时要重测</th></tr></thead><tbody><tr><td>COD 小规模 PvP</td><td>交战节奏、出生安全、绕行与回防、目标模式</td><td><a class="jump" href="#r02">02 布局基础</a> → <a class="jump" href="#r19">19 Hideout</a> → <a class="jump" href="#r05">05 受众与测试</a></td><td>移动速度、击杀耗时、连杀奖励、出生规则</td></tr><tr><td>大逃杀</td><td>落点承载、POI 连通、转移速度、第三方介入、终圈</td><td><a class="jump" href="#r25">25 城市高差</a> → <a class="jump" href="#r26">26 初版网络</a> → <a class="jump" href="#r28">28 网络改版</a></td><td>缩圈规则、队伍密度、载具和英雄位移能力</td></tr><tr><td>搜打撤 / PvPvE</td><td>出生到热点、任务与奖励分布、AI 威胁、信息与撤离</td><td><a class="jump" href="#r30">30 三角洲</a> → <a class="jump" href="#r31">31 ARC 测试复盘</a> → <a class="jump" href="#r34">34–35 Hunt 机制与反馈</a></td><td>死亡成本、战利品价值、撤离条件与局内时间</td></tr><tr><td>FPS 战役 / TPS</td><td>战斗阅读、掩体、镜头、引导、压力与恢复节奏</td><td><a class="jump" href="#r04">04 引导</a> → <a class="jump" href="#r09">09 原型</a> → <a class="jump" href="#r14">14 TPS 战斗区</a></td><td>相机位置、可见与可射的差异、敌人行为与玩家能力</td></tr></tbody></table></div><div class="routes"><div class="route"><h3>想做 COD 地图作品集</h3><p class="path">基础 → 官方拆图 → 可玩白盒</p><p>读 01、02、08、19。选择一个目标模式，从一张小地图开始；先说明出生、关键路线和交战意图，再展示效果。</p><a href="#practice">进入四周练习 ↓</a></div><div class="route"><h3>想理解大型地图的节奏</h3><p class="path">局部 POI → 转移网络 → 全局节奏</p><p>读 25、26、27、28、29。重点比较同一地图的前后版本，用“多久到下一场战斗”连接尺度与体验。</p><a class="jump" href="#r25">从城市大逃杀设计开始 ↓</a></div><div class="route"><h3>想做搜打撤据点</h3><p class="path">设计目标 → 风险与收益 → 撤离与反馈</p><p>读 30、31、34、35、36。先做一个据点和周边接近路径，允许低风险玩家绕开，也让高收益目标带来相遇。</p><a class="jump" href="#r30">从中文大规模关卡分享开始 ↓</a></div></div></section>
+<section class="section" id="library"><div class="section-head"><div><div class="section-no">03 / RESOURCE LIBRARY</div><h2>40 项资料库</h2></div><p class="section-sub">13 项经典标杆 · 15 项近两年 · 12 项常备参考<br>每项包含形式、日期、来源、导读、练习和使用边界。</p></div><noscript><p class="noscript">当前未启用脚本，全部资料仍可阅读；搜索、筛选和已读记录需要启用 JavaScript。</p></noscript><div class="controls js-only"><div class="search-row"><input id="search" type="search" aria-label="搜索资料" placeholder="搜索游戏、作者、主题……例如：COD、出生、撤离、白盒、热力图"><button class="btn secondary" id="reset" type="button">重置筛选</button><button class="btn" id="print" type="button">打印 / 存为 PDF</button></div><div class="filters"><label>时间分类<select id="era" aria-label="时间分类"><option value="">全部时间</option><option>经典标杆</option><option>近两年</option><option>常备参考</option></select></label><label>游戏 / 设计方向<select id="topic" aria-label="游戏 / 设计方向"><option value="">全部方向</option><option>COD</option><option>大逃杀</option><option>搜打撤</option><option>多人竞技</option><option>单人战斗</option><option>TPS</option><option>通用基础</option></select></label><label>资料形式<select id="format" aria-label="资料形式"><option value="">全部形式</option><option>视频</option><option>PDF</option><option>文章</option><option>图文</option><option>书籍</option><option>作品集</option><option>交互地图</option><option>工具</option><option>文档</option><option>版本说明</option></select></label><label>学习阶段<select id="level" aria-label="学习阶段"><option value="">全部阶段</option><option>入门</option><option>进阶</option><option>实践工具</option></select></label></div><div class="filter-end"><div><label><input type="checkbox" id="priority"> 只看优先阅读</label><label><input type="checkbox" id="unread"> 只看未读</label></div><span id="count" class="result-count" role="status" aria-live="polite"></span></div></div><p class="section-sub js-only" style="font-size:12px">已读记录保存在当前浏览器本地。页面可离线浏览，原始资料需联网访问。打印会包含全部 40 项及来源网址。</p><div class="grid" id="resources"><article class="resource" id="r01" data-id="01">
+<div class="card-top"><span class="number">01</span><span class="badge ">常备参考</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="01"> 已读</label></div>
+<p class="format">在线书 / 文档 <span>／ 入门</span></p>
+<h3>The Level Design Book：关卡设计全流程</h3><p class="original" lang="en">The Level Design Book</p>
+<p class="meta">Robert Yang 等贡献者<br><span>持续更新；不计近两年</span></p>
+<div class="tags"><span>通用基础</span><span>多人竞技</span><span>单人战斗</span></div>
+<p class="summary">把目标、布局、战斗、白盒和试玩串成完整流程。优先读 Overview、Metrics、Blockout、Combat 与 Map balance，建立空间设计的共同语言。</p>
+<div class="guide"><p><b>重点看什么</b>先确认玩家能力和体验目标，再用可玩的白盒验证；尺寸数据是起点，不能代替体验判断。</p><p><b>看完做一件事</b>搭一个尺寸测试场：门、窗、楼梯、半身掩体、跳跃缺口各做三个版本，并记录实际通行体验。</p></div>
+<details><summary>使用边界与访问说明</summary><p>跨游戏通用参考；书中的示例尺寸不能直接当成 COD 或你项目的官方标准。</p><p class="access">免费；英文；正文可读</p></details>
+<div class="links"><a href="https://book.leveldesignbook.com/" target="_blank" rel="noopener noreferrer">在线书 <span aria-hidden="true">↗</span></a><a href="https://book.leveldesignbook.com/process/overview" target="_blank" rel="noopener noreferrer">工作流 <span aria-hidden="true">↗</span></a><a href="https://book.leveldesignbook.com/process/blockout/metrics" target="_blank" rel="noopener noreferrer">尺寸 <span aria-hidden="true">↗</span></a><a href="https://book.leveldesignbook.com/process/combat/balance" target="_blank" rel="noopener noreferrer">地图平衡 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r02" data-id="02">
+<div class="card-top"><span class="number">02</span><span class="badge ">经典标杆</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="02"> 已读</label></div>
+<p class="format">PDF / 设计指南 <span>／ 入门</span></p>
+<h3>Ben 的写实多人关卡设计小圣经</h3><p class="original" lang="en">Ben’s Small Bible of Realistic Multiplayer Level Design</p>
+<p class="meta">Benjamin Bauer<br><span>2004</span></p>
+<div class="tags"><span>多人竞技</span><span>COD</span></div>
+<p class="summary">从战略路线图讲到战斗区、任务区、通道、出生点、导航和声画信息。图示密集，适合第一次系统学习多人射击地图。</p>
+<div class="guide"><p><b>重点看什么</b>重点读战略平衡、战术元素、出生点，以及回合制与增援制的区别。</p><p><b>看完做一件事</b>把一张熟悉的爆破地图简化为节点和连线，标明双方出生、交战区与目标区。</p></div>
+<details><summary>使用边界与访问说明</summary><p>主要面向固定出生点的团队玩法；作者明确说明随机出生的 DM/TDM 不在本文核心范围。</p><p class="access">免费；英文；40 页 PDF 可读</p></details>
+<div class="links"><a href="https://benb-design.net/Articles/benb_article02.pdf" target="_blank" rel="noopener noreferrer">作者原始 PDF <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r03" data-id="03">
+<div class="card-top"><span class="number">03</span><span class="badge ">经典标杆</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="03"> 已读</label></div>
+<p class="format">视频 / 行业演讲 <span>／ 入门</span></p>
+<h3>好关卡的十条原则</h3><p class="original" lang="en">Ten Principles for Good Level Design</p>
+<p class="meta">Dan Taylor / GDC<br><span>演讲 2013；公开视频 2018-02-09</span></p>
+<div class="tags"><span>通用基础</span><span>单人战斗</span></div>
+<p class="summary">用一组原则检查引导、目标、惊喜和玩家选择。适合作为自检清单的起点，也能帮助新人把“好玩”拆成可讨论的问题。</p>
+<div class="guide"><p><b>重点看什么</b>每读一条原则，都找一个具体空间作为正例或反例。</p><p><b>看完做一件事</b>用自己的话写五条地图评审问题，逐条附截图或布局证据。</p></div>
+<details><summary>使用边界与访问说明</summary><p>通用设计原则，不能直接解决出生逻辑、武器射程或竞技平衡。</p><p class="access">免费公开视频；英文；视频标题与发布信息已核实，未逐帧审看</p></details>
+<div class="links"><a href="https://www.youtube.com/watch?v=iNEe3KhMvXM" target="_blank" rel="noopener noreferrer">GDC 官方视频 <span aria-hidden="true">↗</span></a><a href="https://www.gdcvault.com/play/1017803/Ten-Principles-for-Good-Level" target="_blank" rel="noopener noreferrer">GDC 会话档案（维护中） <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r04" data-id="04">
+<div class="card-top"><span class="number">04</span><span class="badge ">经典标杆</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="04"> 已读</label></div>
+<p class="format">PDF + 视频 / 行业演讲 <span>／ 入门</span></p>
+<h3>无形的直觉：用白盒与灯光引导玩家</h3><p class="original" lang="en">Invisible Intuition: Blockmesh and Lighting Tips to Guide Players and Set the Mood</p>
+<p class="meta">David Shaver、Robert Yang / GDC<br><span>2018</span></p>
+<div class="tags"><span>通用基础</span><span>单人战斗</span><span>TPS</span></div>
+<p class="summary">从形状、颜色、开口、地标和构图理解空间引导。很适合处理射击关卡里“玩家不知道去哪”“看不见关键入口”等问题。</p>
+<div class="guide"><p><b>重点看什么</b>先看 Shaver 的白盒视觉语言，再看 Yang 的灯光部分。</p><p><b>看完做一件事</b>在不用任务箭头的前提下，把陌生玩家引导到一扇指定门，观察其第一次选择。</p></div>
+<details><summary>使用边界与访问说明</summary><p>线性关卡的引导经验不能原样套到需要信息博弈的 PvP 地图。</p><p class="access">免费；英文；PDF 可读，YouTube 播放未验证</p></details>
+<div class="links"><a href="https://media.gdcvault.com/gdc2018/presentations/DShaver_Invisible_Intuition_GDC2018.pdf" target="_blank" rel="noopener noreferrer">Shaver 演讲 PDF <span aria-hidden="true">↗</span></a><a href="https://media.gdcvault.com/gdc2018/presentations/Yang_Robert_LevelDesignWorkshop.pdf" target="_blank" rel="noopener noreferrer">Yang 演讲 PDF <span aria-hidden="true">↗</span></a><a href="https://www.youtube.com/watch?v=09r1B9cVEQY" target="_blank" rel="noopener noreferrer">GDC 视频 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r05" data-id="05">
+<div class="card-top"><span class="number">05</span><span class="badge ">经典标杆</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="05"> 已读</label></div>
+<p class="format">PDF + 视频 / 行业演讲 <span>／ 进阶</span></p>
+<h3>多人地图的“圣杯”：休闲与竞技能否兼顾</h3><p class="original" lang="en">The Holy Grail of Multiplayer Level Design: Levels for Competitive and Casual Play</p>
+<p class="meta">Andrew Yoder / Hi-Rez Studios / GDC<br><span>2018</span></p>
+<div class="tags"><span>多人竞技</span><span>通用基础</span></div>
+<p class="summary">以 Paladins 和经典 FPS 地图为例，讨论可读性、战术深度、受众差异与公开白盒测试。很适合纠正“对称、严谨就一定受欢迎”的直觉。</p>
+<div class="guide"><p><b>重点看什么</b>比较单次扫描即可读懂与需要移动后再次扫描的战斗空间，以及不同受众的反馈。</p><p><b>看完做一件事</b>让新手和熟练玩家测试同一战斗区，分别记录迷路、有效选择和被压制体验。</p></div>
+<details><summary>使用边界与访问说明</summary><p>不是提供一张万能地图公式，而是提醒设计师先判断自己服务谁。</p><p class="access">免费；英文；96 页 PDF 可读；视频链接有旁证，抓取失败</p></details>
+<div class="links"><a href="https://media.gdcvault.com/gdc2018/presentations/Yoder_Andrew_HolyGrailOfMultiplayer.pdf" target="_blank" rel="noopener noreferrer">GDC 官方 PDF <span aria-hidden="true">↗</span></a><a href="https://www.youtube.com/watch?v=NhMDTxnzQuA" target="_blank" rel="noopener noreferrer">GDC 视频入口 <span aria-hidden="true">↗</span></a><a href="https://gdcvault.com/play/1025497/Level-Design-Workshop-The-Holy" target="_blank" rel="noopener noreferrer">会话说明（维护中） <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r06" data-id="06">
+<div class="card-top"><span class="number">06</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="06"> 已读</label></div>
+<p class="format">视频 / 行业演讲 <span>／ 进阶</span></p>
+<h3>CS:GO 竞技地图：创作者的设计与测试方法</h3><p class="original" lang="en">Community Level Design for Competitive CS:GO</p>
+<p class="meta">Shawn Snelling、Salvatore Garozzo / GDC<br><span>2015</span></p>
+<div class="tags"><span>多人竞技</span></div>
+<p class="summary">由竞技地图创作者讨论技能表达、战术选择、专家反馈，以及美术如何服务比赛。适合学习多人地图为什么需要长期迭代。</p>
+<div class="guide"><p><b>重点看什么</b>结合 Cache 等实例分析交战边界、路线和视线，而非只临摹平面轮廓。</p><p><b>看完做一件事</b>画一张地图的首轮交战边界，实测双方到达各关键点的时间。</p></div>
+<details><summary>使用边界与访问说明</summary><p>CS 的回合制、道具和低容错影响很大；不要把这些结论直接当成 COD 复活模式规律。</p><p class="access">英文；会话资料已核实；GDC 页面实测跳转维护，暂不能验证播放</p></details>
+<div class="links"><a href="https://www.gdcvault.com/play/1021868/Community-Level-Design-for-Competitive" target="_blank" rel="noopener noreferrer">GDC 原始会话（维护中） <span aria-hidden="true">↗</span></a><a href="https://book.leveldesignbook.com/process/combat/balance" target="_blank" rel="noopener noreferrer">配套可读资料：地图平衡 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r07" data-id="07">
+<div class="card-top"><span class="number">07</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="07"> 已读</label></div>
+<p class="format">文章 / 制作复盘 <span>／ 入门</span></p>
+<h3>Dust 2 制作回顾：经典布局如何形成</h3><p class="original" lang="en">The Making Of: Dust 2</p>
+<p class="meta">Dave Johnston（地图原作者）<br><span>2003-01-29；页面更新 2019-07-01</span></p>
+<div class="tags"><span>多人竞技</span></div>
+<p class="summary">地图原作者回顾主题延续、近远程战斗空间和布局落地过程。能看到经典作品来自具体限制与取舍，而非先有一套完美理论。</p>
+<div class="guide"><p><b>重点看什么</b>比较纸面计划、可玩空间和出生点、目标位置调整之间的关系。</p><p><b>看完做一件事</b>给熟悉地图设计一个改版，只改一条连接，并写下对转点与防守的预期影响。</p></div>
+<details><summary>使用边界与访问说明</summary><p>讲述早期 Counter-Strike 的创作历史，不是现版 CS2 的完整设计规范。</p><p class="access">免费；英文；作者正文可读</p></details>
+<div class="links"><a href="https://www.johnsto.co.uk/design/making_dust2/" target="_blank" rel="noopener noreferrer">作者制作回顾 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r08" data-id="08">
+<div class="card-top"><span class="number">08</span><span class="badge ">经典标杆</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="08"> 已读</label></div>
+<p class="format">文章 / 官方开发复盘 <span>／ 入门</span></p>
+<h3>Ascent 的诞生：从提案、灰盒到美术交付</h3><p class="original" lang="en">The Birth of Ascent</p>
+<p class="meta">Chris Carney、Salvatore Garozzo / Riot Games<br><span>2020-07-20</span></p>
+<div class="tags"><span>多人竞技</span><span>通用基础</span></div>
+<p class="summary">完整解释 VALORANT 地图孵化、灰盒、Block-in 与美术生产。把视线、交战距离、开口宽度和角色辨识关联起来，是很好的生产流程样本。</p>
+<div class="guide"><p><b>重点看什么</b>特别读灰盒阶段的频繁测试，以及美术细节如何避开关键识别区域。</p><p><b>看完做一件事</b>写一页地图提案：体验目标、约束、一个独特机制、三项测试问题。</p></div>
+<details><summary>使用边界与访问说明</summary><p>开发阶段和周期取决于团队；文中时间不是行业统一排期标准。</p><p class="access">免费；英文；官方正文可读</p></details>
+<div class="links"><a href="https://playvalorant.com/en-us/news/dev/the-birth-of-ascent/" target="_blank" rel="noopener noreferrer">Riot 原文 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r09" data-id="09">
+<div class="card-top"><span class="number">09</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="09"> 已读</label></div>
+<p class="format">视频 / 行业演讲 <span>／ 入门</span></p>
+<h3>Titanfall 2：用 Action Blocks 找到好玩的关卡点子</h3><p class="original" lang="en">Designing Unforgettable Titanfall Single Player Levels with Action Blocks</p>
+<p class="meta">Christopher Dionne / Respawn / GDC<br><span>2018</span></p>
+<div class="tags"><span>单人战斗</span><span>通用基础</span></div>
+<p class="summary">以小型可玩原型探索机制和关卡体验，再筛选值得扩展的点子。适合练习 FPS 战役里“一个有记忆点的段落”如何开始。</p>
+<div class="guide"><p><b>重点看什么</b>先验证玩法片段，再讨论如何组成完整任务。</p><p><b>看完做一件事</b>用两天做一个可玩战斗片段，只验证一种穿越或战斗创意。</p></div>
+<details><summary>使用边界与访问说明</summary><p>重点是原型流程；Titanfall 的机动能力不能直接作为写实 FPS 尺寸依据。</p><p class="access">英文；标题与视频地址经作者演讲 PDF 引用核实；视频抓取失败，GDC 维护</p></details>
+<div class="links"><a href="https://www.youtube.com/watch?v=CkHGuHd9BgU" target="_blank" rel="noopener noreferrer">GDC 视频入口 <span aria-hidden="true">↗</span></a><a href="https://www.gdcvault.com/play/1025105/Designing-Unforgettable-Titanfall-Single-Player" target="_blank" rel="noopener noreferrer">GDC 会话（维护中） <span aria-hidden="true">↗</span></a><a href="https://www.davidshaver.net/DShaver_Invisible_Intuition_DirectorsCut.pdf" target="_blank" rel="noopener noreferrer">一手引用：Shaver 扩展讲义 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r10" data-id="10">
+<div class="card-top"><span class="number">10</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="10"> 已读</label></div>
+<p class="format">视频 / 行业演讲 <span>／ 进阶</span></p>
+<h3>DOOM：推进式战斗如何影响空间</h3><p class="original" lang="en">Embracing Push Forward Combat in DOOM</p>
+<p class="meta">Kurt Loudy、Jake Campbell / id Software / GDC<br><span>2018</span></p>
+<div class="tags"><span>单人战斗</span></div>
+<p class="summary">理解围绕主动进攻、速度与资源获取组织战斗的思路。阅读时关注机制怎样要求玩家离开安全位，并改变战斗场的组织。</p>
+<div class="guide"><p><b>重点看什么</b>把战斗空间、敌人压力与资源循环一起看。</p><p><b>看完做一件事</b>给一个小型竞技场安排敌人和补给，观察玩家是否愿意换位。</p></div>
+<details><summary>使用边界与访问说明</summary><p>属于战斗设计与关卡设计的交叉；不适合照搬到强调保命和撤离的搜打撤。</p><p class="access">英文；会话简介已核实；视频播放未验证，GDC 可能维护；附官方替代文章</p></details>
+<div class="links"><a href="https://www.gdcvault.com/play/1024940/Embracing-Push-Forward-Combat-in" target="_blank" rel="noopener noreferrer">GDC 会话入口 <span aria-hidden="true">↗</span></a><a href="https://bethesda.net/en-ZA/news/discovering-the-essence-of-doom" target="_blank" rel="noopener noreferrer">Bethesda 官方设计说明与视频 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r11" data-id="11">
+<div class="card-top"><span class="number">11</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="11"> 已读</label></div>
+<p class="format">PDF / 技术设计演讲 <span>／ 进阶</span></p>
+<h3>Left 4 Dead：AI Director 与战斗节奏</h3><p class="original" lang="en">The AI Systems of Left 4 Dead</p>
+<p class="meta">Michael Booth / Valve<br><span>2009</span></p>
+<div class="tags"><span>单人战斗</span><span>搜打撤</span></div>
+<p class="summary">学习敌人系统、导演系统与紧张节奏如何配合。对有 PvE 压力的射击关卡尤其有启发，帮助你理解静态布局之外的动态体验。</p>
+<div class="guide"><p><b>重点看什么</b>优先关注节奏与导演系统；算法细节可以后读。</p><p><b>看完做一件事</b>画一个三段式战斗节奏图，标出高压区、恢复区与可能的敌人入口。</p></div>
+<details><summary>使用边界与访问说明</summary><p>L4D 是合作射击；迁移到 PvPvE 时还必须考虑玩家队伍互相介入。</p><p class="access">免费；英文；Valve 官方托管 PDF 可读</p></details>
+<div class="links"><a href="https://cdn.akamai.steamstatic.com/apps/valve/2009/ai_systems_of_l4d_mike_booth.pdf" target="_blank" rel="noopener noreferrer">Valve 演讲 PDF <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r12" data-id="12">
+<div class="card-top"><span class="number">12</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="12"> 已读</label></div>
+<p class="format">图文教程 <span>／ 入门</span></p>
+<h3>如何画俯视布局：三种工作方式</h3><p class="original" lang="en">3 Workflow Techniques — How to Draw Top-Down Level Design Map Layouts</p>
+<p class="meta">AlexG / World of Level Design<br><span>未标明；不计近两年</span></p>
+<div class="tags"><span>通用基础</span><span>多人竞技</span></div>
+<p class="summary">学习用俯视图组织路线、战斗空间和布局草稿。适合还不知道如何从空白纸开始的新手。</p>
+<div class="guide"><p><b>重点看什么</b>把布局当作可修改的设计草案，并准备在白盒测试后调整。</p><p><b>看完做一件事</b>同一个主题画三个布局方案，每版只花二十分钟，再选一个搭白盒。</p></div>
+<details><summary>使用边界与访问说明</summary><p>这是作者的教学方法，俯视图无法完整表达高差与实际射击体验。</p><p class="access">免费；英文；正文可读</p></details>
+<div class="links"><a href="https://www.worldofleveldesign.com/categories/csgo-tutorials/csgo-how-to-draw-top-down-layouts.php" target="_blank" rel="noopener noreferrer">原始教程 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r13" data-id="13">
+<div class="card-top"><span class="number">13</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="13"> 已读</label></div>
+<p class="format">图文教程 <span>／ 入门</span></p>
+<h3>多人地图的六条卡口设计原则</h3><p class="original" lang="en">6 Principles of Choke Point Level Design for Multiplayer Maps as Seen in CS:GO</p>
+<p class="meta">AlexG / World of Level Design<br><span>未标明；不计近两年</span></p>
+<div class="tags"><span>多人竞技</span><span>COD</span></div>
+<p class="summary">用 CS:GO 实例理解路线汇合和战斗发生的位置。适合和出生到交战点的时间测量一起学习。</p>
+<div class="guide"><p><b>重点看什么</b>观察入口、掩体和路线怎样共同塑造交火机会。</p><p><b>看完做一件事</b>选三个卡口，分别标明进攻进入角度、守方优势和退路。</p></div>
+<details><summary>使用边界与访问说明</summary><p>卡口原则只是一部分；开放大地图还需要考虑绕行、载具和远程干预。</p><p class="access">免费；英文；正文可读</p></details>
+<div class="links"><a href="https://www.worldofleveldesign.com/categories/csgo-tutorials/csgo-principles-choke-point-level-design.php" target="_blank" rel="noopener noreferrer">原始教程 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r14" data-id="14">
+<div class="card-top"><span class="number">14</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="14"> 已读</label></div>
+<p class="format">图文教程 / 案例分析 <span>／ 入门</span></p>
+<h3>Alan Wake：第三人称单人战斗区设计</h3><p class="original" lang="en">Designing Single Player Combat Areas — Level Design for 3rd Person Shooters Games as Seen in Alan Wake</p>
+<p class="meta">AlexG / World of Level Design<br><span>未标明；不计近两年</span></p>
+<div class="tags"><span>TPS</span><span>单人战斗</span></div>
+<p class="summary">从第三人称视角研究战斗区、空间组织和遭遇战体验。可补足只看 FPS 多人地图时容易忽略的镜头和战斗阅读问题。</p>
+<div class="guide"><p><b>重点看什么</b>把可移动区域、敌人压力和玩家看到的信息分开标注。</p><p><b>看完做一件事</b>用同一个白盒切换第一、第三人称相机，记录转角和障碍后的视野差异。</p></div>
+<details><summary>使用边界与访问说明</summary><p>作者对作品的外部分析，不是 Remedy 内部设计文档。</p><p class="access">免费；英文；正文可读</p></details>
+<div class="links"><a href="https://www.worldofleveldesign.com/categories/level_design_tutorials/alan-wake-combat.php" target="_blank" rel="noopener noreferrer">原始教程 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r15" data-id="15">
+<div class="card-top"><span class="number">15</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="15"> 已读</label></div>
+<p class="format">书籍 / 生产指南 <span>／ 进阶</span></p>
+<h3>从理论到生产：系统性的关卡设计工具书</h3><p class="original" lang="en">A Practical Guide to Level Design: From Theory to Practice, Diplomacy and Production</p>
+<p class="meta">Benjamin Bauer / CRC Press<br><span>2023</span></p>
+<div class="tags"><span>通用基础</span><span>单人战斗</span><span>多人竞技</span></div>
+<p class="summary">覆盖愿景、布局、连接空间、掩体、引导、脚本和团队协作。适合入职后理解怎样让设计进入真实生产，而不只停留在个人练习。</p>
+<div class="guide"><p><b>重点看什么</b>先读高层布局、连接空间与 Cover / Flow / Player Leading 相关章节。</p><p><b>看完做一件事</b>为白盒写一份交接说明，明确设计意图、尺寸约束与尚未验证的问题。</p></div>
+<details><summary>使用边界与访问说明</summary><p>付费书籍；本次核对出版社简介与目录，未获取或审阅全书。</p><p class="access">英文；出版社页面免费；全书通常需购买或借阅</p></details>
+<div class="links"><a href="https://www.routledge.com/A-Practical-Guide-to-Level-Design-From-Theory-to-Practice-Diplomacy-and-Production/Bauer/p/book/9781032230894" target="_blank" rel="noopener noreferrer">出版社介绍、目录与预览入口 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r16" data-id="16">
+<div class="card-top"><span class="number">16</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="16"> 已读</label></div>
+<p class="format">作品集 / 制作说明 <span>／ 入门</span></p>
+<h3>Black Ops II：Suffer With Me 的路线差异化</h3><p class="original" lang="en">Call of Duty: Black Ops 2 — Suffer With Me</p>
+<p class="meta">Ryan Smith（参与关卡制作）<br><span>资料未标明；游戏 2012；不计近两年</span></p>
+<div class="tags"><span>COD</span><span>单人战斗</span></div>
+<p class="summary">创作者介绍自己负责的贫民区段落，说明多条路线怎样通过敌人片段、攻击位置和事件形成不同体验。</p>
+<div class="guide"><p><b>重点看什么</b>重点看从预演白盒到 First Playable 的职责；区分本人工作和其他成员贡献。</p><p><b>看完做一件事</b>给一个战役战斗区做三条体验不同的路线，并写出每条的一个专属事件。</p></div>
+<details><summary>使用边界与访问说明</summary><p>回顾性作品集，缺少完整测试数据；不是整关内部设计案。</p><p class="access">免费；英文；作者正文可读</p></details>
+<div class="links"><a href="https://www.rsmithleveldesign.com/call-of-duty-bo2" target="_blank" rel="noopener noreferrer">创作者原始说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r17" data-id="17">
+<div class="card-top"><span class="number">17</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="17"> 已读</label></div>
+<p class="format">作品集 / 生产回顾 <span>／ 入门</span></p>
+<h3>Vanguard：关卡后期打磨到底在做什么</h3><p class="original" lang="en">Call of Duty: Vanguard</p>
+<p class="meta">Drew Busch（关卡设计实习参与者）<br><span>资料未标明；项目工作 2021；不计近两年</span></p>
+<div class="tags"><span>COD</span><span>单人战斗</span></div>
+<p class="summary">介绍碰撞、翻越、AI 掩体行为、载具路径、目标与试玩问题修复。适合新人了解关卡设计师的日常交付并不只有画图。</p>
+<div class="guide"><p><b>重点看什么</b>关注观察玩家卡住、困惑后，如何讨论改法并再次验证。</p><p><b>看完做一件事</b>给自己的白盒做一次通行和目标清晰度检查，按复现步骤记录五个问题。</p></div>
+<details><summary>使用边界与访问说明</summary><p>作者参与的是特定制作阶段与段落，不能代表整个 COD 团队流程。</p><p class="access">免费；英文；作者正文可读</p></details>
+<div class="links"><a href="https://www.drewbusch.com/callofdutyvanguard" target="_blank" rel="noopener noreferrer">创作者原始说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r18" data-id="18">
+<div class="card-top"><span class="number">18</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="18"> 已读</label></div>
+<p class="format">作品集 / 地图索引 <span>／ 入门</span></p>
+<h3>Black Ops 6：地图作者与官方地图指南索引</h3><p class="original" lang="en">Call of Duty: Black Ops 6 (2024)</p>
+<p class="meta">Bernard Hwang / Treyarch<br><span>页面未标明；游戏 2024-10-25；不计近两年</span></p>
+<div class="tags"><span>COD</span><span>多人竞技</span></div>
+<p class="summary">列出作者参与的 Subsonic、Rewind、Hideout 等地图，并连接官方地图指南。适合沿着具体作者和地图持续做案例收集。</p>
+<div class="guide"><p><b>重点看什么</b>把地图规模、模式与空间特征做横向对比。</p><p><b>看完做一件事</b>从其中挑两张不同尺度的地图，比较交战距离和路线转换方式。</p></div>
+<details><summary>使用边界与访问说明</summary><p>作者页面以职责和作品列表为主，详细方法较少；发布日期未明。</p><p class="access">免费；英文；作者正文可读</p></details>
+<div class="links"><a href="https://bernardhwang.com/portfolio/codbo6" target="_blank" rel="noopener noreferrer">地图作者页面 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r19" data-id="19">
+<div class="card-top"><span class="number">19</span><span class="badge new">近两年</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="19"> 已读</label></div>
+<p class="format">官方地图指南 / 交互地图 <span>／ 入门</span></p>
+<h3>Hideout：一张 COD 地图的完整拆图入口</h3><p class="original" lang="en">Black Ops 6 Multiplayer Map Guide — Hideout</p>
+<p class="meta">Dan Noel / Call of Duty<br><span>2024-11-13</span></p>
+<div class="tags"><span>COD</span><span>多人竞技</span></div>
+<p class="summary">包含分区、主要出生区域、关键视线以及不同目标模式的地图图层。很适合作为第一次系统拆解 COD 多人地图的底图。</p>
+<div class="guide"><p><b>重点看什么</b>比较桥梁高位、巴士遮挡和建筑内外路线怎样形成相互制约。</p><p><b>看完做一件事</b>分别叠加据点、爆破与出生图层，推测三个模式的热点差异，再实战验证。</p></div>
+<details><summary>使用边界与访问说明</summary><p>面向玩家的攻略；页面标出的出生点不是完整出生算法，设计意图需自行验证。</p><p class="access">免费；英文；正文与图层控件可读，交互需要浏览器</p></details>
+<div class="links"><a href="https://www.callofduty.com/guides/blackops6/multiplayer-maps/call-of-duty-guides-black-ops-6-multiplayer-map-guide-hideout" target="_blank" rel="noopener noreferrer">官方指南与地图 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r20" data-id="20">
+<div class="card-top"><span class="number">20</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="20"> 已读</label></div>
+<p class="format">文章 / 官方地图改版案例 <span>／ 进阶</span></p>
+<h3>Verdansk 重建：保留熟悉感时怎样改善通行</h3><p class="original" lang="en">Return to Verdansk: Massive Intel Drop Ahead of Warzone Season 03</p>
+<p class="meta">Call of Duty Staff / Activision<br><span>2025-03-26</span></p>
+<div class="tags"><span>COD</span><span>大逃杀</span></div>
+<p class="summary">通过旧新对比说明坡地、建筑通行、海岸和视觉细节的调整。适合学习经典大逃杀地图怎样在保留识别度的前提下改版。</p>
+<div class="guide"><p><b>重点看什么</b>只精读重建与地图调整部分，活动、武器和奖励可略读。</p><p><b>看完做一件事</b>选三处调整，写出其对移动、暴露时间和交火位置的可能影响。</p></div>
+<details><summary>使用边界与访问说明</summary><p>官方介绍包含宣传内容；没有公开全部设计评审和匹配数据。</p><p class="access">免费；英文；官方正文可读</p></details>
+<div class="links"><a href="https://www.callofduty.com/blog/2025/03/call-of-duty-warzone-verdansk-map-return-intel-drop" target="_blank" rel="noopener noreferrer">官方重建案例 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r21" data-id="21">
+<div class="card-top"><span class="number">21</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="21"> 已读</label></div>
+<p class="format">视频 / 官方开发幕后 <span>／ 入门</span></p>
+<h3>Verdansk 重建幕后：视频版</h3><p class="original" lang="en">How We Rebuilt Verdansk From the Ground Up — Intel Drop</p>
+<p class="meta">Call of Duty 官方频道 / Beenox<br><span>2025-03-24</span></p>
+<div class="tags"><span>COD</span><span>大逃杀</span></div>
+<p class="summary">从开发团队视角了解 Verdansk 重建，适合和上条图文对照，观察画面、性能与保留原地图体验的目标。</p>
+<div class="guide"><p><b>重点看什么</b>暂停画面对照具体空间；把视觉升级与影响玩法的结构变化分开记录。</p><p><b>看完做一件事</b>选一个 POI 做一页旧新版对照图，标出看起来变了与实际走法变了的部分。</p></div>
+<details><summary>使用边界与访问说明</summary><p>与上条属于同一案例的不同媒介，非独立设计方法；视频内容依据官方简介，未完整播放。</p><p class="access">免费公开视频；英文；官方搜索索引核实，直连抓取失败</p></details>
+<div class="links"><a href="https://www.youtube.com/watch?v=dje9tXNgT2g" target="_blank" rel="noopener noreferrer">官方视频 <span aria-hidden="true">↗</span></a><a href="https://www.callofduty.com/blog/2025/03/call-of-duty-warzone-verdansk-map-return-intel-drop" target="_blank" rel="noopener noreferrer">可读配套图文 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r22" data-id="22">
+<div class="card-top"><span class="number">22</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="22"> 已读</label></div>
+<p class="format">文章 + 视频片段 / 官方机制案例 <span>／ 进阶</span></p>
+<h3>MW4：移动能力与动态地图的新案例</h3><p class="original" lang="en">Modern Warfare 4 Multiplayer: Movement, Gunplay, Modes, &amp; Maps</p>
+<p class="meta">Call of Duty Staff / Infinity Ward<br><span>2026-08-21</span></p>
+<div class="tags"><span>COD</span><span>多人竞技</span></div>
+<p class="summary">官方介绍移动、模式、地图与会改变布局和视线的 Kill Block。可研究地图不再固定时，连接和模式适配需要怎样重新验证。</p>
+<div class="guide"><p><b>重点看什么</b>优先读 Movement、Kill Block 与 Maps；其他系统按需跳过。</p><p><b>看完做一件事</b>用三个小区块拼出四个布局，检查每版出生、目标可达性和直通视线。</p></div>
+<details><summary>使用边界与访问说明</summary><p>发布时的官方功能介绍，缺少系统性设计复盘；不能凭宣传判断所有组合都平衡。</p><p class="access">免费；英文；2026 官方正文可读</p></details>
+<div class="links"><a href="https://www.callofduty.com/blog/2026/08/call-of-duty-modern-warfare-4-next-highlights-multiplayer-gameplay-systems" target="_blank" rel="noopener noreferrer">官方机制与地图介绍 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r23" data-id="23">
+<div class="card-top"><span class="number">23</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="23"> 已读</label></div>
+<p class="format">文章 / 官方玩法与场景案例 <span>／ 进阶</span></p>
+<h3>MW4 DMZ：把探索、任务和升级压力放入地图</h3><p class="original" lang="en">Modern Warfare 4 DMZ: Explore the Hajin Exclusion Zone</p>
+<p class="meta">Call of Duty Staff / Infinity Ward<br><span>2026-06-06</span></p>
+<div class="tags"><span>COD</span><span>搜打撤</span></div>
+<p class="summary">介绍 Hajin、任务、动态行动、玩家交互与局外准备。可用来梳理搜打撤地图为什么需要承接多种目标和可变化的风险。</p>
+<div class="guide"><p><b>重点看什么</b>优先看区域设置、探索和 PvP 信息暴露；把局内空间需求从局外成长中抽出来。</p><p><b>看完做一件事</b>画一条“进入—任务—可选高风险目标—撤离”的路线，给每步标一个退出选择。</p></div>
+<details><summary>使用边界与访问说明</summary><p>是玩法介绍，未公开完整关卡设计过程；2026 年 6 月文章不代表所有上线细节。</p><p class="access">免费；英文；官方长文与发布日期已核实</p></details>
+<div class="links"><a href="https://www.callofduty.com/blog/2026/06/call-of-duty-modern-warfare-4-dmz-deep-dive" target="_blank" rel="noopener noreferrer">官方 DMZ 深入介绍 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r24" data-id="24">
+<div class="card-top"><span class="number">24</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="24"> 已读</label></div>
+<p class="format">交互地图 / 官方玩家参考 <span>／ 进阶</span></p>
+<h3>Hajin：官方交互地图与威胁信息</h3><p class="original" lang="en">Hajin DMZ Tac Map</p>
+<p class="meta">Call of Duty / Infinity Ward<br><span>页面无明确发布日期；2026-10-20 官方文章已链接；不计近两年数量</span></p>
+<div class="tags"><span>COD</span><span>搜打撤</span></div>
+<p class="summary">用官方地图入口理解 POI 威胁标识、探索与撤离；可与 DMZ 玩法介绍搭配做区域和路线标注。</p>
+<div class="guide"><p><b>重点看什么</b>区别 AI 威胁提示和人类玩家带来的风险，两者不能混作同一张风险图。</p><p><b>看完做一件事</b>绘制 AI 威胁、潜在人流和撤离路线三层草图，标明哪些只是你的假设。</p></div>
+<details><summary>使用边界与访问说明</summary><p>地图依赖脚本；本次可读到说明和控件，未完整验证所有地图标记。</p><p class="access">免费；英文；说明正文可读，交互需 JavaScript</p></details>
+<div class="links"><a href="https://www.callofduty.com/guides/modernwarfare4/dmz-maps/hajin" target="_blank" rel="noopener noreferrer">官方地图入口 <span aria-hidden="true">↗</span></a><a href="https://news.xbox.com/en-us/2026/10/20/call-of-duty-modern-warfare-4-how-to-get-started-operator-dmz/" target="_blank" rel="noopener noreferrer">官方引用旁证（2026-10-20） <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r25" data-id="25">
+<div class="card-top"><span class="number">25</span><span class="badge new">近两年</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="25"> 已读</label></div>
+<p class="format">文章 / 官方开发者访谈 <span>／ 入门</span></p>
+<h3>E-District：城市大逃杀地图的设计者深度访谈</h3><p class="original" lang="en">ALGS Championship 2025: E-District Deep Dive</p>
+<p class="meta">EA / Garrett Metcalf、Ed Agostini、Chris Pipher<br><span>2025-01-28</span></p>
+<div class="tags"><span>大逃杀</span></div>
+<p class="summary">讨论密集城区的高差、屋顶与街面战斗，以及有无位移能力的角色怎样获得应对选择。非常贴近大型 PvP 地图的空间难题。</p>
+<div class="guide"><p><b>重点看什么</b>比较宏观区域连接和微观多层建筑的不同职责。</p><p><b>看完做一件事</b>给一个屋顶优势位设计两条不依赖英雄位移技能的反制路径。</p></div>
+<details><summary>使用边界与访问说明</summary><p>地图在 2024 年推出，但本篇访谈发表于 2025 年，因此按资料日期计入近两年。</p><p class="access">免费；英文；官方访谈正文可读</p></details>
+<div class="links"><a href="https://www.ea.com/en-gb/amp/news/apex-edistrict-deep-dive" target="_blank" rel="noopener noreferrer">EA 官方设计访谈 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r26" data-id="26">
+<div class="card-top"><span class="number">26</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="26"> 已读</label></div>
+<p class="format">文章 / 官方地图设计说明 <span>／ 入门</span></p>
+<h3>Broken Moon 初版：大型 POI 与转移网络</h3><p class="original" lang="en">Welcome to Broken Moon</p>
+<p class="meta">Randolph Stayer / Respawn / EA<br><span>2022-10（地图随 2022-11-01 赛季推出）</span></p>
+<div class="tags"><span>大逃杀</span></div>
+<p class="summary">地图主设计师介绍大型 POI、多队落点与 Zip Rails。可研究“大地图里更快找到下一场战斗”怎样影响队伍转移和局部空间。</p>
+<div class="guide"><p><b>重点看什么</b>对照大型落点、中央优势位、绕行与逃生连接。</p><p><b>看完做一件事</b>画三个 POI 与转移边，模拟三支队伍落地后第一分钟的路径。</p></div>
+<details><summary>使用边界与访问说明</summary><p>是初版历史案例；请与 2024、2026 改版配对，避免把旧网络当现状。</p><p class="access">免费；英文；官方作者正文可读</p></details>
+<div class="links"><a href="https://www.ea.com/en-gb/inside-ea/news/broken-moon" target="_blank" rel="noopener noreferrer">官方初版说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r27" data-id="27">
+<div class="card-top"><span class="number">27</span><span class="badge ">经典标杆</span><label class="read"><input type="checkbox" data-read="27"> 已读</label></div>
+<p class="format">文章 / 官方地图改版案例 <span>／ 进阶</span></p>
+<h3>Broken Moon 2024：中央瓶颈与区域差异化改版</h3><p class="original" lang="en">New Updates Coming with Apex Legends: Upheaval — Map Update</p>
+<p class="meta">Respawn / EA<br><span>2024-05-03；早于本次近两年范围</span></p>
+<div class="tags"><span>大逃杀</span></div>
+<p class="summary">介绍 Promenade 被 Quarantine Zone 替代、新 POI 与转移路线调整。适合与初版比较，理解地图上线后的结构性迭代。</p>
+<div class="guide"><p><b>重点看什么</b>只读 Map Update: Broken Moon，关注区域玩法区别和路线选择。</p><p><b>看完做一件事</b>用两张节点图比较改版前后中央区域的通过方式和外部介入方向。</p></div>
+<details><summary>使用边界与访问说明</summary><p>属于近期前置案例，明确不计入近两年；页面地区外壳为西语，正文为英文。</p><p class="access">免费；英文正文；官方页面可读</p></details>
+<div class="links"><a href="https://www.ea.com/es/games/apex-legends/apex-legends/news/upheaval-game-updates" target="_blank" rel="noopener noreferrer">官方改版说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r28" data-id="28">
+<div class="card-top"><span class="number">28</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="28"> 已读</label></div>
+<p class="format">版本说明 / 官方设计注释 <span>／ 进阶</span></p>
+<h3>Apex 2026：减少跨 POI 快速转移的设计理由</h3><p class="original" lang="en">Apex Legends: Overclocked Patch Notes — Maps</p>
+<p class="meta">Respawn / EA<br><span>2026-05-04</span></p>
+<div class="tags"><span>大逃杀</span></div>
+<p class="summary">官方解释移除部分载具、削减跨 POI Zip Rails、保留局部战斗轨道的原因。是研究转移速度、第三方劝架与角色能力关系的好材料。</p>
+<div class="guide"><p><b>重点看什么</b>直接定位 Maps 的 Dev note；与 2022 初版目标对照。</p><p><b>看完做一件事</b>在同一节点图里删掉两条高速连接，预测增援时间和第三方介入变化。</p></div>
+<details><summary>使用边界与访问说明</summary><p>版本说明只代表当时的设计决策；是否改善体验仍需后续数据。</p><p class="access">免费；英文；官方正文与日期可读</p></details>
+<div class="links"><a href="https://www.ea.com/games/apex-legends/apex-legends/news/overclocked-patch-notes" target="_blank" rel="noopener noreferrer">EA 官方版本说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r29" data-id="29">
+<div class="card-top"><span class="number">29</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="29"> 已读</label></div>
+<p class="format">版本说明 / 官方地图改版案例 <span>／ 进阶</span></p>
+<h3>PUBG Sanhok：可破坏环境改变战斗底图</h3><p class="original" lang="en">Patch Notes — Update 33.1: World / Sanhok</p>
+<p class="meta">PUBG: BATTLEGROUNDS Team / KRAFTON<br><span>2024-12-03</span></p>
+<div class="tags"><span>大逃杀</span><span>TPS</span></div>
+<p class="summary">介绍 Sanhok 可破坏建筑、地形、材质差异与区域修改。适合思考掩体、视线和安全路线在对局中变化时怎样设计。</p>
+<div class="guide"><p><b>重点看什么</b>精读 World: Sanhok 和开发者注释；不必通读活动与平衡部分。</p><p><b>看完做一件事</b>同一个房区画“完好 / 部分破坏”两张视线图，检查是否产生无法反制的长线。</p></div>
+<details><summary>使用边界与访问说明</summary><p>是功能与改版记录，不是完整方法课；不同模式与平台的规则以对应版本为准。</p><p class="access">免费；英文；官方正文可读</p></details>
+<div class="links"><a href="https://pubg.com/en-asia/news/7988" target="_blank" rel="noopener noreferrer">官方 33.1 说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r30" data-id="30">
+<div class="card-top"><span class="number">30</span><span class="badge new">近两年</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="30"> 已读</label></div>
+<p class="format">图文讲稿 / 行业演讲整理 <span>／ 入门</span></p>
+<h3>三角洲行动：大规模关卡设计的中文一手分享</h3><p class="original" lang="en">GDC 2025｜《三角洲行动》中的大规模关卡设计</p>
+<p class="meta">董海阳 / 天美 J3 关卡主策划；腾讯游戏学堂，GameRes 刊载<br><span>2025-03-28</span></p>
+<div class="tags"><span>搜打撤</span><span>多人竞技</span></div>
+<p class="summary">解释半开放 PvP 关卡如何结合开放选择与稳定对战，涵盖辨识、掩体、地图结构和生产迭代。与本次需求最贴近的中文长文之一。</p>
+<div class="guide"><p><b>重点看什么</b>优先读设计目标、六项设计理念、流程和上线后的进化；图中标注很值得逐页看。</p><p><b>看完做一件事</b>选一个大 POI，分别画宏观引导、局部掩体和潜在交战方向，找出一处不可信的掩体。</p></div>
+<details><summary>使用边界与访问说明</summary><p>开发者署名讲稿经媒体刊载，并非内部完整设计文档；需结合本项目机制迁移。</p><p class="access">免费；中文；作者、日期与正文可读</p></details>
+<div class="links"><a href="https://www.gameres.com/911622.html" target="_blank" rel="noopener noreferrer">中文图文讲稿 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r31" data-id="31">
+<div class="card-top"><span class="number">31</span><span class="badge new">近两年</span><span class="badge must">优先读</span><label class="read"><input type="checkbox" data-read="31"> 已读</label></div>
+<p class="format">文章 / 官方测试复盘 <span>／ 进阶</span></p>
+<h3>ARC Raiders：用热力图调整风险、奖励和撤离</h3><p class="original" lang="en">Refining Risk and Reward</p>
+<p class="meta">The ARC Raiders Dev Team / Embark<br><span>2025-07-29</span></p>
+<div class="tags"><span>搜打撤</span><span>TPS</span></div>
+<p class="summary">公开测试中发现的热点、战利品与 AI 风险错配，以及安静撤离口使用超出预期的问题。把出生、战斗、搜刮和撤离放入同一个数据闭环。</p>
+<div class="guide"><p><b>重点看什么</b>比较设计者预期热点与玩家实际热点；看撤离便利性怎样削弱紧张感。</p><p><b>看完做一件事</b>给自己的地图定义五张数据图：移动、死亡、搜刮、撤离尝试和撤离成功。</p></div>
+<details><summary>使用边界与访问说明</summary><p>属于上线前 TT2 测试复盘，规则和数据反映当时版本；不是当前数值表。</p><p class="access">免费；英文；官方正文与热力图说明可读</p></details>
+<div class="links"><a href="https://arcraiders.com/news/risk-and-reward-blog" target="_blank" rel="noopener noreferrer">官方开发复盘 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r32" data-id="32">
+<div class="card-top"><span class="number">32</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="32"> 已读</label></div>
+<p class="format">图文 / 官方叙事式地图预览 <span>／ 进阶</span></p>
+<h3>ARC Raiders Riven Tides：从侦察叙述读空间</h3><p class="original" lang="en">Riven Tides: Scout Report</p>
+<p class="meta">Embark / ARC Raiders<br><span>2026-04-18</span></p>
+<div class="tags"><span>搜打撤</span><span>TPS</span></div>
+<p class="summary">以侦察报告介绍度假酒店、暴露海岸和港区的高差、掩体与空间气质。适合练习把叙事地标转换成可讨论的关卡需求。</p>
+<div class="guide"><p><b>重点看什么</b>读海滩的暴露与港区的垂直空间如何形成不同风险。</p><p><b>看完做一件事</b>为酒店—海岸—港区画一条路线，用实线标观察到的空间，用虚线标自己的推断。</p></div>
+<details><summary>使用边界与访问说明</summary><p>这是官方宣传和场景叙事素材，没有解释设计过程；不是开发方法课。</p><p class="access">免费；英文；官方图文可读</p></details>
+<div class="links"><a href="https://arcraiders.com/news/riven-tides-map-scout-report" target="_blank" rel="noopener noreferrer">官方侦察报告 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r33" data-id="33">
+<div class="card-top"><span class="number">33</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="33"> 已读</label></div>
+<p class="format">公告 / 官方地图改版案例 <span>／ 进阶</span></p>
+<h3>Hunt DeSalle 回归：据点新增路径的案例</h3><p class="original" lang="en">DeSalle and More in the Judgement of the Fool</p>
+<p class="meta">Crytek / Hunt: Showdown 1896 Team<br><span>2025-06-03</span></p>
+<div class="tags"><span>搜打撤</span></div>
+<p class="summary">说明 DeSalle 重制时对据点路径、战术机会、光照与时段系统的调整。可以作为旧地图更新的案例入口。</p>
+<div class="guide"><p><b>重点看什么</b>聚焦 Kingsnake Mine、Pearl Plantation、Fort Bolden 等据点改动。</p><p><b>看完做一件事</b>选一个据点，比较新旧进攻入口与撤退方式，注明所用版本。</p></div>
+<details><summary>使用边界与访问说明</summary><p>公告篇幅短、细节有限；要靠实际地图和前后录像补足，不能仅凭此文还原完整改版。</p><p class="access">免费；英文；官方正文可读</p></details>
+<div class="links"><a href="https://www.huntshowdown.com/news/desalle-and-more-in-the-judgement-of-the-fool" target="_blank" rel="noopener noreferrer">官方改版公告 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r34" data-id="34">
+<div class="card-top"><span class="number">34</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="34"> 已读</label></div>
+<p class="format">公告 + 视频入口 / 官方规则案例 <span>／ 进阶</span></p>
+<h3>Hunt Devil’s Trail：隐藏撤离与侦察节点</h3><p class="original" lang="en">Devil’s Trail — Live Now</p>
+<p class="meta">Crytek / Hunt: Showdown 1896 Team<br><span>2026-03-18</span></p>
+<div class="tags"><span>搜打撤</span></div>
+<p class="summary">介绍隐藏补给与撤离位置、Scout Towers 和远处可见的烧毁车队烟柱。适合分析信息获取如何成为地图上的主动目标。</p>
+<div class="guide"><p><b>重点看什么</b>关注信息节点、显眼地标与奖励热点怎样改变玩家路径。</p><p><b>看完做一件事</b>设计一个侦察塔：标出靠近、获取信息、撤退三阶段风险，并给出绕过它的选择。</p></div>
+<details><summary>使用边界与访问说明</summary><p>规则介绍，不能直接证明实际人流或平衡；请和下一条调查复盘配对阅读。</p><p class="access">免费；英文；官方正文可读，内嵌视频未验证</p></details>
+<div class="links"><a href="https://www.huntshowdown.com/news/devil-s-trail-live-now" target="_blank" rel="noopener noreferrer">官方规则与预告 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r35" data-id="35">
+<div class="card-top"><span class="number">35</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="35"> 已读</label></div>
+<p class="format">文章 / 官方调查复盘 <span>／ 进阶</span></p>
+<h3>Hunt：隐藏撤离设计上线后的反馈</h3><p class="original" lang="en">Developer Insight: Devil’s Trail Survey Results</p>
+<p class="meta">Crytek / Hunt: Showdown 1896 Team<br><span>2026-05-26</span></p>
+<div class="tags"><span>搜打撤</span></div>
+<p class="summary">包含隐藏撤离、侦察地图和事件体验的问卷反馈。把前一条规则发布与后续反馈串起来，学习如何检验地图信息机制的接受度。</p>
+<div class="guide"><p><b>重点看什么</b>直接定位 Hidden Extractions and Scouting Maps，再结合其他反馈读设计调整。</p><p><b>看完做一件事</b>给自己的撤离机制写五个中性问卷问题，并把主观感受与实际成功率分开统计。</p></div>
+<details><summary>使用边界与访问说明</summary><p>公开问卷结果不是随机对照实验；不能把认可比例解释成地图设计的普遍规律。</p><p class="access">免费；英文；官方正文可读</p></details>
+<div class="links"><a href="https://www.huntshowdown.com/news/developer-insight-devil-s-trail-survey-results" target="_blank" rel="noopener noreferrer">官方反馈复盘 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r36" data-id="36">
+<div class="card-top"><span class="number">36</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="36"> 已读</label></div>
+<p class="format">作品集 / 个人设计文档 <span>／ 入门</span></p>
+<h3>Hunt 风格港口据点：个人设计文档样本</h3><p class="original" lang="en">Harbour — Hunt Showdown Compound Level Design</p>
+<p class="meta">Paul Barbier<br><span>未标明；不计近两年</span></p>
+<div class="tags"><span>搜打撤</span></div>
+<p class="summary">展示目标、180°以上接近方向、多距离战斗簇、尺寸测试场和交互原型。适合学习作品集如何说明设计意图，而不只展示截图。</p>
+<div class="guide"><p><b>重点看什么</b>从 Intentions 到 Metrics &amp; Tools，观察文档怎样支撑白盒搭建。</p><p><b>看完做一件事</b>写一个据点 brief，制作尺寸测试场，并给每条接近路径安排一种风险。</p></div>
+<details><summary>使用边界与访问说明</summary><p>个人仿制练习，非 Crytek 官方；页面仍列有未完成项，不能当成已验证的商业设计。</p><p class="access">免费；英文；作者正文可读</p></details>
+<div class="links"><a href="https://paulbarbier.com/projects/harbour/" target="_blank" rel="noopener noreferrer">个人项目设计说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r37" data-id="37">
+<div class="card-top"><span class="number">37</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="37"> 已读</label></div>
+<p class="format">交互地图 / 社区工具 <span>／ 进阶</span></p>
+<h3>Tarkov.dev：用社区地图做搜打撤逆向分析</h3><p class="original" lang="en">Tarkov.dev — Maps</p>
+<p class="meta">tarkov.dev 开源社区<br><span>持续更新；不计近两年</span></p>
+<div class="tags"><span>搜打撤</span></div>
+<p class="summary">作为逃离塔科夫地图分析的入口，辅助研究出生、任务、奖励与撤离的空间关系。适合从 Customs 等熟悉地图开始做路线记录。</p>
+<div class="guide"><p><b>重点看什么</b>每次只保留与问题有关的图层，避免把大量标记误当成设计分析。</p><p><b>看完做一件事</b>分别画新手任务、低风险搜刮和高价值目标三条路线，标出共同必经区。</p></div>
+<details><summary>使用边界与访问说明</summary><p>社区工具，非 Battlestate 内部文档；点位可能随版本变化。本次只读取到站点说明，地图需浏览器加载。</p><p class="access">免费；英文；站点可达，需 JavaScript；未逐项验证图层</p></details>
+<div class="links"><a href="https://tarkov.dev/maps" target="_blank" rel="noopener noreferrer">社区地图入口 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r38" data-id="38">
+<div class="card-top"><span class="number">38</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="38"> 已读</label></div>
+<p class="format">官方文档 + 可下载示例工程 <span>／ 实践工具</span></p>
+<h3>UE Lyra：带玩法的射击白盒练习项目</h3><p class="original" lang="en">Lyra Sample Game</p>
+<p class="meta">Epic Games<br><span>2022 起持续更新；不计近两年</span></p>
+<div class="tags"><span>通用基础</span><span>多人竞技</span><span>TPS</span></div>
+<p class="summary">提供射击、机器人和多种模式，可查看 Control 的 Convolution 白盒与 Shooter Gym。适合在已有玩法框架上练习空间，而不从零制作射击系统。</p>
+<div class="guide"><p><b>重点看什么</b>先运行示例、确认规则，再替换一小块地图测试。</p><p><b>看完做一件事</b>修改一个据点周边的高差或连接，让两名玩家比较改动前后的推进方式。</p></div>
+<details><summary>使用边界与访问说明</summary><p>Lyra 默认体验与 COD、搜打撤不同；不应把示例移动和相机参数当目标游戏标准。</p><p class="access">文档免费；英文；下载工程需 Epic/Fab 账户与兼容引擎；未下载验证</p></details>
+<div class="links"><a href="https://dev.epicgames.com/documentation/unreal-engine/lyra-sample-game-in-unreal-engine?lang=en-US" target="_blank" rel="noopener noreferrer">官方项目文档与下载说明 <span aria-hidden="true">↗</span></a><a href="https://forums.unrealengine.com/t/new-sample-projects-lyra-starter-game-and-city-sample/512877" target="_blank" rel="noopener noreferrer">2022 官方发布说明 <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r39" data-id="39">
+<div class="card-top"><span class="number">39</span><span class="badge ">常备参考</span><label class="read"><input type="checkbox" data-read="39"> 已读</label></div>
+<p class="format">工具文档 / 编辑器教程 <span>／ 实践工具</span></p>
+<h3>CS2 Workshop Tools：在真实游戏中验证地图</h3><p class="original" lang="en">Counter-Strike 2 Workshop Tools / Level Design</p>
+<p class="meta">Valve Developer Community<br><span>持续更新；不计近两年</span></p>
+<div class="tags"><span>多人竞技</span><span>通用基础</span></div>
+<p class="summary">Source 2 / Hammer 关卡工具入口，可用于带既定规则的地图练习。与 CS 竞技地图设计讲座搭配，能更快进入实测迭代。</p>
+<div class="guide"><p><b>重点看什么</b>先完成最小可运行地图，再处理出生、目标和基础通行。</p><p><b>看完做一件事</b>做一个可开局的小型爆破白盒，测双方到同一交战点的时间。</p></div>
+<details><summary>使用边界与访问说明</summary><p>Valve 官方域名上的社区维护文档；本次直接读取返回 403，未验证最新版具体操作。</p><p class="access">文档入口经索引确认，抓取受限；工具可用条件以 Steam 当前说明为准</p></details>
+<div class="links"><a href="https://developer.valvesoftware.com/wiki/Counter-Strike_2_Workshop_Tools/Level_Design" target="_blank" rel="noopener noreferrer">Valve 文档入口（抓取受限） <span aria-hidden="true">↗</span></a></div>
+</article>
+<article class="resource" id="r40" data-id="40">
+<div class="card-top"><span class="number">40</span><span class="badge new">近两年</span><label class="read"><input type="checkbox" data-read="40"> 已读</label></div>
+<p class="format">官方工具说明 / 历史测试公告 <span>／ 实践工具</span></p>
+<h3>PUBG UGC Alpha：规则、逻辑与空间一起做原型</h3><p class="original" lang="en">PUBG UGC Alpha</p>
+<p class="meta">PUBG: BATTLEGROUNDS Team / KRAFTON<br><span>2025-07-07</span></p>
+<div class="tags"><span>大逃杀</span><span>多人竞技</span><span>TPS</span></div>
+<p class="summary">介绍 Rulesets、Devices 和 Objects 三类创作元素，并展示夺点、死斗与跑酷示例。可用来理解空间设计与模式规则的组合。</p>
+<div class="guide"><p><b>重点看什么</b>把它看作玩法原型工具的案例，而非现成完整的大逃杀地图编辑教程。</p><p><b>看完做一件事</b>为同一个小场地写死斗和夺点两套规则，预测交战热点的差异。</p></div>
+<details><summary>使用边界与访问说明</summary><p>文中是 2025 年 7—9 月 Alpha 计划，存在平台和账户权限限制；未确认 2026 年当前开放状态。</p><p class="access">公告免费；英文；正文可读；不保证目前可直接创建 UGC 房间</p></details>
+<div class="links"><a href="https://pubg.com/en/news/8865?category=notice" target="_blank" rel="noopener noreferrer">官方 Alpha 说明 <span aria-hidden="true">↗</span></a></div>
+</article></div><p class="empty" id="empty">没有符合条件的资料，请减少筛选条件或更换关键词。</p></section>
+<section class="section" id="practice"><div class="section-head"><div><div class="section-no">04 / LEARN BY MAKING</div><h2>四周：从资料到第一个可评审白盒</h2></div><p class="section-sub">以下是本次为你设计的练习建议，非任何工作室官方流程。<br>建议每周安排 4—6 小时，按自己的工作量调整。</p></div><div class="week-grid"><div class="week"><strong>WEEK 01 / 拆解</strong><h3>测量一张熟悉地图</h3><p>选 Hideout 或你能实测的一张小型射击地图。记录移动能力、交战距离、遮挡、目标和几条关键路线的时间。</p><p class="deliver">产出：一页俯视分析 + 一张尺寸与时间表。</p><a class="jump" href="#r19">搭配资料 01 / 02 / 19</a></div><div class="week"><strong>WEEK 02 / 构建</strong><h3>做一个小型空间</h3><p>明确目标模式、人数与一个体验目标。先做尺寸测试场，再搭路线和战斗区，保证能走、能看、能交火。</p><p class="deliver">产出：可玩的白盒 + 一页设计提案。</p><a class="jump" href="#r08">搭配资料 04 / 08 / 38</a></div><div class="week"><strong>WEEK 03 / 测试</strong><h3>让别人玩，记录问题</h3><p>邀请 3—5 人轮流体验；多人平衡结论需要实际多人对局。记录迷路、卡住、受压和真实交战位置，不只问喜不喜欢。</p><p class="deliver">产出：观察记录 + 三个优先修复问题。</p><a class="jump" href="#r05">搭配资料 05 / 17 / 31</a></div><div class="week"><strong>WEEK 04 / 迭代</strong><h3>只验证一个关键改动</h3><p>改一个开口、一段视线或一条连接，用相同玩法条件再测试。要做搜打撤，可增加一处高价值目标与两个不同代价的撤离点。</p><p class="deliver">产出：前后对照 + 证据 + 未解决的问题。</p><a class="jump" href="#r31">搭配资料 28 / 31 / 35</a></div></div>
+<div class="template"><h3>可直接复用：一页关卡设计提案</h3><p>这是本次整理附带的原创练习模板，不是 COD 或其他商业项目流出的内部文档。先写可验证的假设，再补观察结果。</p><textarea id="brief" aria-label="一页关卡设计提案模板" spellcheck="false">地图名 / 版本 / 日期：
+目标游戏或玩法：FPS / TPS；模式、人数、复活或撤离规则
+核心体验：玩家应感到什么？用一句话描述。
+设计约束：移动速度、相机、武器有效距离、翻越、AI、开发时间
+空间结构：出生区、主要战斗区、目标区、连接与高差（附俯视图）
+关键路线：起点→终点；实测移动时间；暴露区；绕行与撤退选择
+战斗意图：谁先获得什么信息？优势位置怎样被反制？
+【大逃杀】POI 落点容量、缩圈转移、补给与第三方介入方向
+【搜打撤】任务与奖励、AI 风险、撤离条件、低风险替代路径
+【TPS】观察点与枪口位置、左右探身、转角与近墙相机
+测试假设：我认为改变 ______ 会让 ______；用 ______ 检查
+观察记录：版本 / 参与人数 / 玩家熟练度 / 发生了什么 / 证据
+迭代决定：改什么、为什么、预期代价；下一轮只验证哪件事
+尚未解决：未知因素、样本限制、需要程序或美术协作的内容</textarea><div class="copy-controls js-only"><button id="copy" class="btn" type="button">复制模板</button><span id="copy-status" class="copy-status" role="status"></span></div></div>
+<div class="glossary"><div><b>Blockout / Greybox</b>白盒 / 灰盒：用简单几何做可玩草稿。</div><div><b>Metrics</b>尺寸与能力基准：以项目实测为准。</div><div><b>POI</b>兴趣点：能吸引玩家前往的区域或目标。</div><div><b>Sightline</b>视线：从某处能观察或交火的方向与距离。</div><div><b>Chokepoint</b>卡口：路线收束、容易形成交火的空间。</div><div><b>Rotation</b>转移 / 转点：在区域或目标之间移动。</div><div><b>Third Party</b>第三方介入：另一支队伍加入既有交火。</div><div><b>Spawn / Extract</b>出生 / 撤离：决定开局与离场的空间规则。</div></div></section>
+<section class="section" id="method"><div class="section-head"><div><div class="section-no">05 / SOURCES & SCOPE</div><h2>怎样使用这份资料库</h2></div></div><div class="method"><div><h3>筛选依据</h3><p>优先选择开发者本人、游戏官方、作者自有网站、GDC 与出版社材料。经典部分按教学价值和可迁移性推荐，不代表存在全行业统一的“必读排名”。</p><ul><li>40 是资料项数；不同媒介可能属于同一案例，Verdansk 两项已明确注明。</li><li>15 项近两年资料都有可核对日期；截至检索日，不保证覆盖所有新发布内容。</li><li>资料形式覆盖在线书、PDF、行业演讲、开发复盘、访谈、图文教程、作品集、交互地图、示例工程与版本说明。</li><li>大部分原文为英文；每项中文导读降低筛选成本。未承诺中文字幕，未核实的翻译不作默认入口。</li></ul></div><div><h3>公开资料的证据边界</h3><p>本次核对了网页正文、官方摘要、讲义或来源索引，并逐项标注访问情况。未逐帧观看全部视频，也未购买书籍、下载工程或完整测试所有交互地图。</p><ul><li>GDC Vault 部分页面实测跳转维护；保留原会话，优先附可用 PDF 或替代资料。</li><li>视频抓取失败不等于视频失效；卡片会区分“地址有依据”和“已验证播放”。</li><li>“官方地图攻略”说明地图怎样玩，不能直接证明团队为何如此设计；卡片练习和迁移建议属于整理者分析。</li><li>公开作品集、讲稿与设计指南可学习文档表达；这里没有把它们冒充商业项目完整内部设计案。</li></ul></div></div><p class="section-sub" style="font-size:13px;margin-top:22px">建议保留一个简单学习档案：来源链接 + 一个可迁移原则 + 一张空间标注 + 一次测试结果。最终需要证明的，是你的地图在具体规则下怎样影响玩家选择。</p></section>
+</main><footer class="wrap"><div>FPS / TPS 关卡设计学习地图 · 中文整理<br>检索与核验日期：2026-10-26（Asia/Shanghai） · 40 项公开学习资料</div><a class="top-link" href="#top">回到顶部 ↑</a></footer>
+<script id="resource-data" type="application/json">[{"id":"01","title":"The Level Design Book：关卡设计全流程","original":"The Level Design Book","author":"Robert Yang 等贡献者","date":"持续更新；不计近两年","era":"常备参考","type":"在线书 / 文档","topics":["通用基础","多人竞技","单人战斗"],"level":"入门","priority":true,"summary":"把目标、布局、战斗、白盒和试玩串成完整流程。优先读 Overview、Metrics、Blockout、Combat 与 Map balance，建立空间设计的共同语言。","focus":"先确认玩家能力和体验目标，再用可玩的白盒验证；尺寸数据是起点，不能代替体验判断。","exercise":"搭一个尺寸测试场：门、窗、楼梯、半身掩体、跳跃缺口各做三个版本，并记录实际通行体验。","limit":"跨游戏通用参考；书中的示例尺寸不能直接当成 COD 或你项目的官方标准。","access":"免费；英文；正文可读","links":[["在线书","https://book.leveldesignbook.com/"],["工作流","https://book.leveldesignbook.com/process/overview"],["尺寸","https://book.leveldesignbook.com/process/blockout/metrics"],["地图平衡","https://book.leveldesignbook.com/process/combat/balance"]]},{"id":"02","title":"Ben 的写实多人关卡设计小圣经","original":"Ben’s Small Bible of Realistic Multiplayer Level Design","author":"Benjamin Bauer","date":"2004","era":"经典标杆","type":"PDF / 设计指南","topics":["多人竞技","COD"],"level":"入门","priority":true,"summary":"从战略路线图讲到战斗区、任务区、通道、出生点、导航和声画信息。图示密集，适合第一次系统学习多人射击地图。","focus":"重点读战略平衡、战术元素、出生点，以及回合制与增援制的区别。","exercise":"把一张熟悉的爆破地图简化为节点和连线，标明双方出生、交战区与目标区。","limit":"主要面向固定出生点的团队玩法；作者明确说明随机出生的 DM/TDM 不在本文核心范围。","access":"免费；英文；40 页 PDF 可读","links":[["作者原始 PDF","https://benb-design.net/Articles/benb_article02.pdf"]]},{"id":"03","title":"好关卡的十条原则","original":"Ten Principles for Good Level Design","author":"Dan Taylor / GDC","date":"演讲 2013；公开视频 2018-02-09","era":"经典标杆","type":"视频 / 行业演讲","topics":["通用基础","单人战斗"],"level":"入门","priority":true,"summary":"用一组原则检查引导、目标、惊喜和玩家选择。适合作为自检清单的起点，也能帮助新人把“好玩”拆成可讨论的问题。","focus":"每读一条原则，都找一个具体空间作为正例或反例。","exercise":"用自己的话写五条地图评审问题，逐条附截图或布局证据。","limit":"通用设计原则，不能直接解决出生逻辑、武器射程或竞技平衡。","access":"免费公开视频；英文；视频标题与发布信息已核实，未逐帧审看","links":[["GDC 官方视频","https://www.youtube.com/watch?v=iNEe3KhMvXM"],["GDC 会话档案（维护中）","https://www.gdcvault.com/play/1017803/Ten-Principles-for-Good-Level"]]},{"id":"04","title":"无形的直觉：用白盒与灯光引导玩家","original":"Invisible Intuition: Blockmesh and Lighting Tips to Guide Players and Set the Mood","author":"David Shaver、Robert Yang / GDC","date":"2018","era":"经典标杆","type":"PDF + 视频 / 行业演讲","topics":["通用基础","单人战斗","TPS"],"level":"入门","priority":true,"summary":"从形状、颜色、开口、地标和构图理解空间引导。很适合处理射击关卡里“玩家不知道去哪”“看不见关键入口”等问题。","focus":"先看 Shaver 的白盒视觉语言，再看 Yang 的灯光部分。","exercise":"在不用任务箭头的前提下，把陌生玩家引导到一扇指定门，观察其第一次选择。","limit":"线性关卡的引导经验不能原样套到需要信息博弈的 PvP 地图。","access":"免费；英文；PDF 可读，YouTube 播放未验证","links":[["Shaver 演讲 PDF","https://media.gdcvault.com/gdc2018/presentations/DShaver_Invisible_Intuition_GDC2018.pdf"],["Yang 演讲 PDF","https://media.gdcvault.com/gdc2018/presentations/Yang_Robert_LevelDesignWorkshop.pdf"],["GDC 视频","https://www.youtube.com/watch?v=09r1B9cVEQY"]]},{"id":"05","title":"多人地图的“圣杯”：休闲与竞技能否兼顾","original":"The Holy Grail of Multiplayer Level Design: Levels for Competitive and Casual Play","author":"Andrew Yoder / Hi-Rez Studios / GDC","date":"2018","era":"经典标杆","type":"PDF + 视频 / 行业演讲","topics":["多人竞技","通用基础"],"level":"进阶","priority":true,"summary":"以 Paladins 和经典 FPS 地图为例，讨论可读性、战术深度、受众差异与公开白盒测试。很适合纠正“对称、严谨就一定受欢迎”的直觉。","focus":"比较单次扫描即可读懂与需要移动后再次扫描的战斗空间，以及不同受众的反馈。","exercise":"让新手和熟练玩家测试同一战斗区，分别记录迷路、有效选择和被压制体验。","limit":"不是提供一张万能地图公式，而是提醒设计师先判断自己服务谁。","access":"免费；英文；96 页 PDF 可读；视频链接有旁证，抓取失败","links":[["GDC 官方 PDF","https://media.gdcvault.com/gdc2018/presentations/Yoder_Andrew_HolyGrailOfMultiplayer.pdf"],["GDC 视频入口","https://www.youtube.com/watch?v=NhMDTxnzQuA"],["会话说明（维护中）","https://gdcvault.com/play/1025497/Level-Design-Workshop-The-Holy"]]},{"id":"06","title":"CS:GO 竞技地图：创作者的设计与测试方法","original":"Community Level Design for Competitive CS:GO","author":"Shawn Snelling、Salvatore Garozzo / GDC","date":"2015","era":"经典标杆","type":"视频 / 行业演讲","topics":["多人竞技"],"level":"进阶","priority":false,"summary":"由竞技地图创作者讨论技能表达、战术选择、专家反馈，以及美术如何服务比赛。适合学习多人地图为什么需要长期迭代。","focus":"结合 Cache 等实例分析交战边界、路线和视线，而非只临摹平面轮廓。","exercise":"画一张地图的首轮交战边界，实测双方到达各关键点的时间。","limit":"CS 的回合制、道具和低容错影响很大；不要把这些结论直接当成 COD 复活模式规律。","access":"英文；会话资料已核实；GDC 页面实测跳转维护，暂不能验证播放","links":[["GDC 原始会话（维护中）","https://www.gdcvault.com/play/1021868/Community-Level-Design-for-Competitive"],["配套可读资料：地图平衡","https://book.leveldesignbook.com/process/combat/balance"]]},{"id":"07","title":"Dust 2 制作回顾：经典布局如何形成","original":"The Making Of: Dust 2","author":"Dave Johnston（地图原作者）","date":"2003-01-29；页面更新 2019-07-01","era":"经典标杆","type":"文章 / 制作复盘","topics":["多人竞技"],"level":"入门","priority":false,"summary":"地图原作者回顾主题延续、近远程战斗空间和布局落地过程。能看到经典作品来自具体限制与取舍，而非先有一套完美理论。","focus":"比较纸面计划、可玩空间和出生点、目标位置调整之间的关系。","exercise":"给熟悉地图设计一个改版，只改一条连接，并写下对转点与防守的预期影响。","limit":"讲述早期 Counter-Strike 的创作历史，不是现版 CS2 的完整设计规范。","access":"免费；英文；作者正文可读","links":[["作者制作回顾","https://www.johnsto.co.uk/design/making_dust2/"]]},{"id":"08","title":"Ascent 的诞生：从提案、灰盒到美术交付","original":"The Birth of Ascent","author":"Chris Carney、Salvatore Garozzo / Riot Games","date":"2020-07-20","era":"经典标杆","type":"文章 / 官方开发复盘","topics":["多人竞技","通用基础"],"level":"入门","priority":true,"summary":"完整解释 VALORANT 地图孵化、灰盒、Block-in 与美术生产。把视线、交战距离、开口宽度和角色辨识关联起来，是很好的生产流程样本。","focus":"特别读灰盒阶段的频繁测试，以及美术细节如何避开关键识别区域。","exercise":"写一页地图提案：体验目标、约束、一个独特机制、三项测试问题。","limit":"开发阶段和周期取决于团队；文中时间不是行业统一排期标准。","access":"免费；英文；官方正文可读","links":[["Riot 原文","https://playvalorant.com/en-us/news/dev/the-birth-of-ascent/"]]},{"id":"09","title":"Titanfall 2：用 Action Blocks 找到好玩的关卡点子","original":"Designing Unforgettable Titanfall Single Player Levels with Action Blocks","author":"Christopher Dionne / Respawn / GDC","date":"2018","era":"经典标杆","type":"视频 / 行业演讲","topics":["单人战斗","通用基础"],"level":"入门","priority":false,"summary":"以小型可玩原型探索机制和关卡体验，再筛选值得扩展的点子。适合练习 FPS 战役里“一个有记忆点的段落”如何开始。","focus":"先验证玩法片段，再讨论如何组成完整任务。","exercise":"用两天做一个可玩战斗片段，只验证一种穿越或战斗创意。","limit":"重点是原型流程；Titanfall 的机动能力不能直接作为写实 FPS 尺寸依据。","access":"英文；标题与视频地址经作者演讲 PDF 引用核实；视频抓取失败，GDC 维护","links":[["GDC 视频入口","https://www.youtube.com/watch?v=CkHGuHd9BgU"],["GDC 会话（维护中）","https://www.gdcvault.com/play/1025105/Designing-Unforgettable-Titanfall-Single-Player"],["一手引用：Shaver 扩展讲义","https://www.davidshaver.net/DShaver_Invisible_Intuition_DirectorsCut.pdf"]]},{"id":"10","title":"DOOM：推进式战斗如何影响空间","original":"Embracing Push Forward Combat in DOOM","author":"Kurt Loudy、Jake Campbell / id Software / GDC","date":"2018","era":"经典标杆","type":"视频 / 行业演讲","topics":["单人战斗"],"level":"进阶","priority":false,"summary":"理解围绕主动进攻、速度与资源获取组织战斗的思路。阅读时关注机制怎样要求玩家离开安全位，并改变战斗场的组织。","focus":"把战斗空间、敌人压力与资源循环一起看。","exercise":"给一个小型竞技场安排敌人和补给，观察玩家是否愿意换位。","limit":"属于战斗设计与关卡设计的交叉；不适合照搬到强调保命和撤离的搜打撤。","access":"英文；会话简介已核实；视频播放未验证，GDC 可能维护；附官方替代文章","links":[["GDC 会话入口","https://www.gdcvault.com/play/1024940/Embracing-Push-Forward-Combat-in"],["Bethesda 官方设计说明与视频","https://bethesda.net/en-ZA/news/discovering-the-essence-of-doom"]]},{"id":"11","title":"Left 4 Dead：AI Director 与战斗节奏","original":"The AI Systems of Left 4 Dead","author":"Michael Booth / Valve","date":"2009","era":"经典标杆","type":"PDF / 技术设计演讲","topics":["单人战斗","搜打撤"],"level":"进阶","priority":false,"summary":"学习敌人系统、导演系统与紧张节奏如何配合。对有 PvE 压力的射击关卡尤其有启发，帮助你理解静态布局之外的动态体验。","focus":"优先关注节奏与导演系统；算法细节可以后读。","exercise":"画一个三段式战斗节奏图，标出高压区、恢复区与可能的敌人入口。","limit":"L4D 是合作射击；迁移到 PvPvE 时还必须考虑玩家队伍互相介入。","access":"免费；英文；Valve 官方托管 PDF 可读","links":[["Valve 演讲 PDF","https://cdn.akamai.steamstatic.com/apps/valve/2009/ai_systems_of_l4d_mike_booth.pdf"]]},{"id":"12","title":"如何画俯视布局：三种工作方式","original":"3 Workflow Techniques — How to Draw Top-Down Level Design Map Layouts","author":"AlexG / World of Level Design","date":"未标明；不计近两年","era":"常备参考","type":"图文教程","topics":["通用基础","多人竞技"],"level":"入门","priority":false,"summary":"学习用俯视图组织路线、战斗空间和布局草稿。适合还不知道如何从空白纸开始的新手。","focus":"把布局当作可修改的设计草案，并准备在白盒测试后调整。","exercise":"同一个主题画三个布局方案，每版只花二十分钟，再选一个搭白盒。","limit":"这是作者的教学方法，俯视图无法完整表达高差与实际射击体验。","access":"免费；英文；正文可读","links":[["原始教程","https://www.worldofleveldesign.com/categories/csgo-tutorials/csgo-how-to-draw-top-down-layouts.php"]]},{"id":"13","title":"多人地图的六条卡口设计原则","original":"6 Principles of Choke Point Level Design for Multiplayer Maps as Seen in CS:GO","author":"AlexG / World of Level Design","date":"未标明；不计近两年","era":"常备参考","type":"图文教程","topics":["多人竞技","COD"],"level":"入门","priority":false,"summary":"用 CS:GO 实例理解路线汇合和战斗发生的位置。适合和出生到交战点的时间测量一起学习。","focus":"观察入口、掩体和路线怎样共同塑造交火机会。","exercise":"选三个卡口，分别标明进攻进入角度、守方优势和退路。","limit":"卡口原则只是一部分；开放大地图还需要考虑绕行、载具和远程干预。","access":"免费；英文；正文可读","links":[["原始教程","https://www.worldofleveldesign.com/categories/csgo-tutorials/csgo-principles-choke-point-level-design.php"]]},{"id":"14","title":"Alan Wake：第三人称单人战斗区设计","original":"Designing Single Player Combat Areas — Level Design for 3rd Person Shooters Games as Seen in Alan Wake","author":"AlexG / World of Level Design","date":"未标明；不计近两年","era":"常备参考","type":"图文教程 / 案例分析","topics":["TPS","单人战斗"],"level":"入门","priority":false,"summary":"从第三人称视角研究战斗区、空间组织和遭遇战体验。可补足只看 FPS 多人地图时容易忽略的镜头和战斗阅读问题。","focus":"把可移动区域、敌人压力和玩家看到的信息分开标注。","exercise":"用同一个白盒切换第一、第三人称相机，记录转角和障碍后的视野差异。","limit":"作者对作品的外部分析，不是 Remedy 内部设计文档。","access":"免费；英文；正文可读","links":[["原始教程","https://www.worldofleveldesign.com/categories/level_design_tutorials/alan-wake-combat.php"]]},{"id":"15","title":"从理论到生产：系统性的关卡设计工具书","original":"A Practical Guide to Level Design: From Theory to Practice, Diplomacy and Production","author":"Benjamin Bauer / CRC Press","date":"2023","era":"经典标杆","type":"书籍 / 生产指南","topics":["通用基础","单人战斗","多人竞技"],"level":"进阶","priority":false,"summary":"覆盖愿景、布局、连接空间、掩体、引导、脚本和团队协作。适合入职后理解怎样让设计进入真实生产，而不只停留在个人练习。","focus":"先读高层布局、连接空间与 Cover / Flow / Player Leading 相关章节。","exercise":"为白盒写一份交接说明，明确设计意图、尺寸约束与尚未验证的问题。","limit":"付费书籍；本次核对出版社简介与目录，未获取或审阅全书。","access":"英文；出版社页面免费；全书通常需购买或借阅","links":[["出版社介绍、目录与预览入口","https://www.routledge.com/A-Practical-Guide-to-Level-Design-From-Theory-to-Practice-Diplomacy-and-Production/Bauer/p/book/9781032230894"]]},{"id":"16","title":"Black Ops II：Suffer With Me 的路线差异化","original":"Call of Duty: Black Ops 2 — Suffer With Me","author":"Ryan Smith（参与关卡制作）","date":"资料未标明；游戏 2012；不计近两年","era":"常备参考","type":"作品集 / 制作说明","topics":["COD","单人战斗"],"level":"入门","priority":false,"summary":"创作者介绍自己负责的贫民区段落，说明多条路线怎样通过敌人片段、攻击位置和事件形成不同体验。","focus":"重点看从预演白盒到 First Playable 的职责；区分本人工作和其他成员贡献。","exercise":"给一个战役战斗区做三条体验不同的路线，并写出每条的一个专属事件。","limit":"回顾性作品集，缺少完整测试数据；不是整关内部设计案。","access":"免费；英文；作者正文可读","links":[["创作者原始说明","https://www.rsmithleveldesign.com/call-of-duty-bo2"]]},{"id":"17","title":"Vanguard：关卡后期打磨到底在做什么","original":"Call of Duty: Vanguard","author":"Drew Busch（关卡设计实习参与者）","date":"资料未标明；项目工作 2021；不计近两年","era":"常备参考","type":"作品集 / 生产回顾","topics":["COD","单人战斗"],"level":"入门","priority":false,"summary":"介绍碰撞、翻越、AI 掩体行为、载具路径、目标与试玩问题修复。适合新人了解关卡设计师的日常交付并不只有画图。","focus":"关注观察玩家卡住、困惑后，如何讨论改法并再次验证。","exercise":"给自己的白盒做一次通行和目标清晰度检查，按复现步骤记录五个问题。","limit":"作者参与的是特定制作阶段与段落，不能代表整个 COD 团队流程。","access":"免费；英文；作者正文可读","links":[["创作者原始说明","https://www.drewbusch.com/callofdutyvanguard"]]},{"id":"18","title":"Black Ops 6：地图作者与官方地图指南索引","original":"Call of Duty: Black Ops 6 (2024)","author":"Bernard Hwang / Treyarch","date":"页面未标明；游戏 2024-10-25；不计近两年","era":"常备参考","type":"作品集 / 地图索引","topics":["COD","多人竞技"],"level":"入门","priority":false,"summary":"列出作者参与的 Subsonic、Rewind、Hideout 等地图，并连接官方地图指南。适合沿着具体作者和地图持续做案例收集。","focus":"把地图规模、模式与空间特征做横向对比。","exercise":"从其中挑两张不同尺度的地图，比较交战距离和路线转换方式。","limit":"作者页面以职责和作品列表为主，详细方法较少；发布日期未明。","access":"免费；英文；作者正文可读","links":[["地图作者页面","https://bernardhwang.com/portfolio/codbo6"]]},{"id":"19","title":"Hideout：一张 COD 地图的完整拆图入口","original":"Black Ops 6 Multiplayer Map Guide — Hideout","author":"Dan Noel / Call of Duty","date":"2024-11-13","iso":"2024-11-13","era":"近两年","type":"官方地图指南 / 交互地图","topics":["COD","多人竞技"],"level":"入门","priority":true,"summary":"包含分区、主要出生区域、关键视线以及不同目标模式的地图图层。很适合作为第一次系统拆解 COD 多人地图的底图。","focus":"比较桥梁高位、巴士遮挡和建筑内外路线怎样形成相互制约。","exercise":"分别叠加据点、爆破与出生图层，推测三个模式的热点差异，再实战验证。","limit":"面向玩家的攻略；页面标出的出生点不是完整出生算法，设计意图需自行验证。","access":"免费；英文；正文与图层控件可读，交互需要浏览器","links":[["官方指南与地图","https://www.callofduty.com/guides/blackops6/multiplayer-maps/call-of-duty-guides-black-ops-6-multiplayer-map-guide-hideout"]]},{"id":"20","title":"Verdansk 重建：保留熟悉感时怎样改善通行","original":"Return to Verdansk: Massive Intel Drop Ahead of Warzone Season 03","author":"Call of Duty Staff / Activision","date":"2025-03-26","iso":"2025-03-26","era":"近两年","type":"文章 / 官方地图改版案例","topics":["COD","大逃杀"],"level":"进阶","priority":false,"summary":"通过旧新对比说明坡地、建筑通行、海岸和视觉细节的调整。适合学习经典大逃杀地图怎样在保留识别度的前提下改版。","focus":"只精读重建与地图调整部分，活动、武器和奖励可略读。","exercise":"选三处调整，写出其对移动、暴露时间和交火位置的可能影响。","limit":"官方介绍包含宣传内容；没有公开全部设计评审和匹配数据。","access":"免费；英文；官方正文可读","links":[["官方重建案例","https://www.callofduty.com/blog/2025/03/call-of-duty-warzone-verdansk-map-return-intel-drop"]]},{"id":"21","title":"Verdansk 重建幕后：视频版","original":"How We Rebuilt Verdansk From the Ground Up — Intel Drop","author":"Call of Duty 官方频道 / Beenox","date":"2025-03-24","iso":"2025-03-24","era":"近两年","type":"视频 / 官方开发幕后","topics":["COD","大逃杀"],"level":"入门","priority":false,"summary":"从开发团队视角了解 Verdansk 重建，适合和上条图文对照，观察画面、性能与保留原地图体验的目标。","focus":"暂停画面对照具体空间；把视觉升级与影响玩法的结构变化分开记录。","exercise":"选一个 POI 做一页旧新版对照图，标出看起来变了与实际走法变了的部分。","limit":"与上条属于同一案例的不同媒介，非独立设计方法；视频内容依据官方简介，未完整播放。","access":"免费公开视频；英文；官方搜索索引核实，直连抓取失败","links":[["官方视频","https://www.youtube.com/watch?v=dje9tXNgT2g"],["可读配套图文","https://www.callofduty.com/blog/2025/03/call-of-duty-warzone-verdansk-map-return-intel-drop"]]},{"id":"22","title":"MW4：移动能力与动态地图的新案例","original":"Modern Warfare 4 Multiplayer: Movement, Gunplay, Modes, & Maps","author":"Call of Duty Staff / Infinity Ward","date":"2026-08-21","iso":"2026-08-21","era":"近两年","type":"文章 + 视频片段 / 官方机制案例","topics":["COD","多人竞技"],"level":"进阶","priority":false,"summary":"官方介绍移动、模式、地图与会改变布局和视线的 Kill Block。可研究地图不再固定时，连接和模式适配需要怎样重新验证。","focus":"优先读 Movement、Kill Block 与 Maps；其他系统按需跳过。","exercise":"用三个小区块拼出四个布局，检查每版出生、目标可达性和直通视线。","limit":"发布时的官方功能介绍，缺少系统性设计复盘；不能凭宣传判断所有组合都平衡。","access":"免费；英文；2026 官方正文可读","links":[["官方机制与地图介绍","https://www.callofduty.com/blog/2026/08/call-of-duty-modern-warfare-4-next-highlights-multiplayer-gameplay-systems"]]},{"id":"23","title":"MW4 DMZ：把探索、任务和升级压力放入地图","original":"Modern Warfare 4 DMZ: Explore the Hajin Exclusion Zone","author":"Call of Duty Staff / Infinity Ward","date":"2026-06-06","iso":"2026-06-06","era":"近两年","type":"文章 / 官方玩法与场景案例","topics":["COD","搜打撤"],"level":"进阶","priority":false,"summary":"介绍 Hajin、任务、动态行动、玩家交互与局外准备。可用来梳理搜打撤地图为什么需要承接多种目标和可变化的风险。","focus":"优先看区域设置、探索和 PvP 信息暴露；把局内空间需求从局外成长中抽出来。","exercise":"画一条“进入—任务—可选高风险目标—撤离”的路线，给每步标一个退出选择。","limit":"是玩法介绍，未公开完整关卡设计过程；2026 年 6 月文章不代表所有上线细节。","access":"免费；英文；官方长文与发布日期已核实","links":[["官方 DMZ 深入介绍","https://www.callofduty.com/blog/2026/06/call-of-duty-modern-warfare-4-dmz-deep-dive"]]},{"id":"24","title":"Hajin：官方交互地图与威胁信息","original":"Hajin DMZ Tac Map","author":"Call of Duty / Infinity Ward","date":"页面无明确发布日期；2026-10-20 官方文章已链接；不计近两年数量","era":"常备参考","type":"交互地图 / 官方玩家参考","topics":["COD","搜打撤"],"level":"进阶","priority":false,"summary":"用官方地图入口理解 POI 威胁标识、探索与撤离；可与 DMZ 玩法介绍搭配做区域和路线标注。","focus":"区别 AI 威胁提示和人类玩家带来的风险，两者不能混作同一张风险图。","exercise":"绘制 AI 威胁、潜在人流和撤离路线三层草图，标明哪些只是你的假设。","limit":"地图依赖脚本；本次可读到说明和控件，未完整验证所有地图标记。","access":"免费；英文；说明正文可读，交互需 JavaScript","links":[["官方地图入口","https://www.callofduty.com/guides/modernwarfare4/dmz-maps/hajin"],["官方引用旁证（2026-10-20）","https://news.xbox.com/en-us/2026/10/20/call-of-duty-modern-warfare-4-how-to-get-started-operator-dmz/"]]},{"id":"25","title":"E-District：城市大逃杀地图的设计者深度访谈","original":"ALGS Championship 2025: E-District Deep Dive","author":"EA / Garrett Metcalf、Ed Agostini、Chris Pipher","date":"2025-01-28","iso":"2025-01-28","era":"近两年","type":"文章 / 官方开发者访谈","topics":["大逃杀"],"level":"入门","priority":true,"summary":"讨论密集城区的高差、屋顶与街面战斗，以及有无位移能力的角色怎样获得应对选择。非常贴近大型 PvP 地图的空间难题。","focus":"比较宏观区域连接和微观多层建筑的不同职责。","exercise":"给一个屋顶优势位设计两条不依赖英雄位移技能的反制路径。","limit":"地图在 2024 年推出，但本篇访谈发表于 2025 年，因此按资料日期计入近两年。","access":"免费；英文；官方访谈正文可读","links":[["EA 官方设计访谈","https://www.ea.com/en-gb/amp/news/apex-edistrict-deep-dive"]]},{"id":"26","title":"Broken Moon 初版：大型 POI 与转移网络","original":"Welcome to Broken Moon","author":"Randolph Stayer / Respawn / EA","date":"2022-10（地图随 2022-11-01 赛季推出）","era":"经典标杆","type":"文章 / 官方地图设计说明","topics":["大逃杀"],"level":"入门","priority":false,"summary":"地图主设计师介绍大型 POI、多队落点与 Zip Rails。可研究“大地图里更快找到下一场战斗”怎样影响队伍转移和局部空间。","focus":"对照大型落点、中央优势位、绕行与逃生连接。","exercise":"画三个 POI 与转移边，模拟三支队伍落地后第一分钟的路径。","limit":"是初版历史案例；请与 2024、2026 改版配对，避免把旧网络当现状。","access":"免费；英文；官方作者正文可读","links":[["官方初版说明","https://www.ea.com/en-gb/inside-ea/news/broken-moon"]]},{"id":"27","title":"Broken Moon 2024：中央瓶颈与区域差异化改版","original":"New Updates Coming with Apex Legends: Upheaval — Map Update","author":"Respawn / EA","date":"2024-05-03；早于本次近两年范围","era":"经典标杆","type":"文章 / 官方地图改版案例","topics":["大逃杀"],"level":"进阶","priority":false,"summary":"介绍 Promenade 被 Quarantine Zone 替代、新 POI 与转移路线调整。适合与初版比较，理解地图上线后的结构性迭代。","focus":"只读 Map Update: Broken Moon，关注区域玩法区别和路线选择。","exercise":"用两张节点图比较改版前后中央区域的通过方式和外部介入方向。","limit":"属于近期前置案例，明确不计入近两年；页面地区外壳为西语，正文为英文。","access":"免费；英文正文；官方页面可读","links":[["官方改版说明","https://www.ea.com/es/games/apex-legends/apex-legends/news/upheaval-game-updates"]]},{"id":"28","title":"Apex 2026：减少跨 POI 快速转移的设计理由","original":"Apex Legends: Overclocked Patch Notes — Maps","author":"Respawn / EA","date":"2026-05-04","iso":"2026-05-04","era":"近两年","type":"版本说明 / 官方设计注释","topics":["大逃杀"],"level":"进阶","priority":false,"summary":"官方解释移除部分载具、削减跨 POI Zip Rails、保留局部战斗轨道的原因。是研究转移速度、第三方劝架与角色能力关系的好材料。","focus":"直接定位 Maps 的 Dev note；与 2022 初版目标对照。","exercise":"在同一节点图里删掉两条高速连接，预测增援时间和第三方介入变化。","limit":"版本说明只代表当时的设计决策；是否改善体验仍需后续数据。","access":"免费；英文；官方正文与日期可读","links":[["EA 官方版本说明","https://www.ea.com/games/apex-legends/apex-legends/news/overclocked-patch-notes"]]},{"id":"29","title":"PUBG Sanhok：可破坏环境改变战斗底图","original":"Patch Notes — Update 33.1: World / Sanhok","author":"PUBG: BATTLEGROUNDS Team / KRAFTON","date":"2024-12-03","iso":"2024-12-03","era":"近两年","type":"版本说明 / 官方地图改版案例","topics":["大逃杀","TPS"],"level":"进阶","priority":false,"summary":"介绍 Sanhok 可破坏建筑、地形、材质差异与区域修改。适合思考掩体、视线和安全路线在对局中变化时怎样设计。","focus":"精读 World: Sanhok 和开发者注释；不必通读活动与平衡部分。","exercise":"同一个房区画“完好 / 部分破坏”两张视线图，检查是否产生无法反制的长线。","limit":"是功能与改版记录，不是完整方法课；不同模式与平台的规则以对应版本为准。","access":"免费；英文；官方正文可读","links":[["官方 33.1 说明","https://pubg.com/en-asia/news/7988"]]},{"id":"30","title":"三角洲行动：大规模关卡设计的中文一手分享","original":"GDC 2025｜《三角洲行动》中的大规模关卡设计","author":"董海阳 / 天美 J3 关卡主策划；腾讯游戏学堂，GameRes 刊载","date":"2025-03-28","iso":"2025-03-28","era":"近两年","type":"图文讲稿 / 行业演讲整理","topics":["搜打撤","多人竞技"],"level":"入门","priority":true,"summary":"解释半开放 PvP 关卡如何结合开放选择与稳定对战，涵盖辨识、掩体、地图结构和生产迭代。与本次需求最贴近的中文长文之一。","focus":"优先读设计目标、六项设计理念、流程和上线后的进化；图中标注很值得逐页看。","exercise":"选一个大 POI，分别画宏观引导、局部掩体和潜在交战方向，找出一处不可信的掩体。","limit":"开发者署名讲稿经媒体刊载，并非内部完整设计文档；需结合本项目机制迁移。","access":"免费；中文；作者、日期与正文可读","links":[["中文图文讲稿","https://www.gameres.com/911622.html"]]},{"id":"31","title":"ARC Raiders：用热力图调整风险、奖励和撤离","original":"Refining Risk and Reward","author":"The ARC Raiders Dev Team / Embark","date":"2025-07-29","iso":"2025-07-29","era":"近两年","type":"文章 / 官方测试复盘","topics":["搜打撤","TPS"],"level":"进阶","priority":true,"summary":"公开测试中发现的热点、战利品与 AI 风险错配，以及安静撤离口使用超出预期的问题。把出生、战斗、搜刮和撤离放入同一个数据闭环。","focus":"比较设计者预期热点与玩家实际热点；看撤离便利性怎样削弱紧张感。","exercise":"给自己的地图定义五张数据图：移动、死亡、搜刮、撤离尝试和撤离成功。","limit":"属于上线前 TT2 测试复盘，规则和数据反映当时版本；不是当前数值表。","access":"免费；英文；官方正文与热力图说明可读","links":[["官方开发复盘","https://arcraiders.com/news/risk-and-reward-blog"]]},{"id":"32","title":"ARC Raiders Riven Tides：从侦察叙述读空间","original":"Riven Tides: Scout Report","author":"Embark / ARC Raiders","date":"2026-04-18","iso":"2026-04-18","era":"近两年","type":"图文 / 官方叙事式地图预览","topics":["搜打撤","TPS"],"level":"进阶","priority":false,"summary":"以侦察报告介绍度假酒店、暴露海岸和港区的高差、掩体与空间气质。适合练习把叙事地标转换成可讨论的关卡需求。","focus":"读海滩的暴露与港区的垂直空间如何形成不同风险。","exercise":"为酒店—海岸—港区画一条路线，用实线标观察到的空间，用虚线标自己的推断。","limit":"这是官方宣传和场景叙事素材，没有解释设计过程；不是开发方法课。","access":"免费；英文；官方图文可读","links":[["官方侦察报告","https://arcraiders.com/news/riven-tides-map-scout-report"]]},{"id":"33","title":"Hunt DeSalle 回归：据点新增路径的案例","original":"DeSalle and More in the Judgement of the Fool","author":"Crytek / Hunt: Showdown 1896 Team","date":"2025-06-03","iso":"2025-06-03","era":"近两年","type":"公告 / 官方地图改版案例","topics":["搜打撤"],"level":"进阶","priority":false,"summary":"说明 DeSalle 重制时对据点路径、战术机会、光照与时段系统的调整。可以作为旧地图更新的案例入口。","focus":"聚焦 Kingsnake Mine、Pearl Plantation、Fort Bolden 等据点改动。","exercise":"选一个据点，比较新旧进攻入口与撤退方式，注明所用版本。","limit":"公告篇幅短、细节有限；要靠实际地图和前后录像补足，不能仅凭此文还原完整改版。","access":"免费；英文；官方正文可读","links":[["官方改版公告","https://www.huntshowdown.com/news/desalle-and-more-in-the-judgement-of-the-fool"]]},{"id":"34","title":"Hunt Devil’s Trail：隐藏撤离与侦察节点","original":"Devil’s Trail — Live Now","author":"Crytek / Hunt: Showdown 1896 Team","date":"2026-03-18","iso":"2026-03-18","era":"近两年","type":"公告 + 视频入口 / 官方规则案例","topics":["搜打撤"],"level":"进阶","priority":false,"summary":"介绍隐藏补给与撤离位置、Scout Towers 和远处可见的烧毁车队烟柱。适合分析信息获取如何成为地图上的主动目标。","focus":"关注信息节点、显眼地标与奖励热点怎样改变玩家路径。","exercise":"设计一个侦察塔：标出靠近、获取信息、撤退三阶段风险，并给出绕过它的选择。","limit":"规则介绍，不能直接证明实际人流或平衡；请和下一条调查复盘配对阅读。","access":"免费；英文；官方正文可读，内嵌视频未验证","links":[["官方规则与预告","https://www.huntshowdown.com/news/devil-s-trail-live-now"]]},{"id":"35","title":"Hunt：隐藏撤离设计上线后的反馈","original":"Developer Insight: Devil’s Trail Survey Results","author":"Crytek / Hunt: Showdown 1896 Team","date":"2026-05-26","iso":"2026-05-26","era":"近两年","type":"文章 / 官方调查复盘","topics":["搜打撤"],"level":"进阶","priority":false,"summary":"包含隐藏撤离、侦察地图和事件体验的问卷反馈。把前一条规则发布与后续反馈串起来，学习如何检验地图信息机制的接受度。","focus":"直接定位 Hidden Extractions and Scouting Maps，再结合其他反馈读设计调整。","exercise":"给自己的撤离机制写五个中性问卷问题，并把主观感受与实际成功率分开统计。","limit":"公开问卷结果不是随机对照实验；不能把认可比例解释成地图设计的普遍规律。","access":"免费；英文；官方正文可读","links":[["官方反馈复盘","https://www.huntshowdown.com/news/developer-insight-devil-s-trail-survey-results"]]},{"id":"36","title":"Hunt 风格港口据点：个人设计文档样本","original":"Harbour — Hunt Showdown Compound Level Design","author":"Paul Barbier","date":"未标明；不计近两年","era":"常备参考","type":"作品集 / 个人设计文档","topics":["搜打撤"],"level":"入门","priority":false,"summary":"展示目标、180°以上接近方向、多距离战斗簇、尺寸测试场和交互原型。适合学习作品集如何说明设计意图，而不只展示截图。","focus":"从 Intentions 到 Metrics & Tools，观察文档怎样支撑白盒搭建。","exercise":"写一个据点 brief，制作尺寸测试场，并给每条接近路径安排一种风险。","limit":"个人仿制练习，非 Crytek 官方；页面仍列有未完成项，不能当成已验证的商业设计。","access":"免费；英文；作者正文可读","links":[["个人项目设计说明","https://paulbarbier.com/projects/harbour/"]]},{"id":"37","title":"Tarkov.dev：用社区地图做搜打撤逆向分析","original":"Tarkov.dev — Maps","author":"tarkov.dev 开源社区","date":"持续更新；不计近两年","era":"常备参考","type":"交互地图 / 社区工具","topics":["搜打撤"],"level":"进阶","priority":false,"summary":"作为逃离塔科夫地图分析的入口，辅助研究出生、任务、奖励与撤离的空间关系。适合从 Customs 等熟悉地图开始做路线记录。","focus":"每次只保留与问题有关的图层，避免把大量标记误当成设计分析。","exercise":"分别画新手任务、低风险搜刮和高价值目标三条路线，标出共同必经区。","limit":"社区工具，非 Battlestate 内部文档；点位可能随版本变化。本次只读取到站点说明，地图需浏览器加载。","access":"免费；英文；站点可达，需 JavaScript；未逐项验证图层","links":[["社区地图入口","https://tarkov.dev/maps"]]},{"id":"38","title":"UE Lyra：带玩法的射击白盒练习项目","original":"Lyra Sample Game","author":"Epic Games","date":"2022 起持续更新；不计近两年","era":"常备参考","type":"官方文档 + 可下载示例工程","topics":["通用基础","多人竞技","TPS"],"level":"实践工具","priority":false,"summary":"提供射击、机器人和多种模式，可查看 Control 的 Convolution 白盒与 Shooter Gym。适合在已有玩法框架上练习空间，而不从零制作射击系统。","focus":"先运行示例、确认规则，再替换一小块地图测试。","exercise":"修改一个据点周边的高差或连接，让两名玩家比较改动前后的推进方式。","limit":"Lyra 默认体验与 COD、搜打撤不同；不应把示例移动和相机参数当目标游戏标准。","access":"文档免费；英文；下载工程需 Epic/Fab 账户与兼容引擎；未下载验证","links":[["官方项目文档与下载说明","https://dev.epicgames.com/documentation/unreal-engine/lyra-sample-game-in-unreal-engine?lang=en-US"],["2022 官方发布说明","https://forums.unrealengine.com/t/new-sample-projects-lyra-starter-game-and-city-sample/512877"]]},{"id":"39","title":"CS2 Workshop Tools：在真实游戏中验证地图","original":"Counter-Strike 2 Workshop Tools / Level Design","author":"Valve Developer Community","date":"持续更新；不计近两年","era":"常备参考","type":"工具文档 / 编辑器教程","topics":["多人竞技","通用基础"],"level":"实践工具","priority":false,"summary":"Source 2 / Hammer 关卡工具入口，可用于带既定规则的地图练习。与 CS 竞技地图设计讲座搭配，能更快进入实测迭代。","focus":"先完成最小可运行地图，再处理出生、目标和基础通行。","exercise":"做一个可开局的小型爆破白盒，测双方到同一交战点的时间。","limit":"Valve 官方域名上的社区维护文档；本次直接读取返回 403，未验证最新版具体操作。","access":"文档入口经索引确认，抓取受限；工具可用条件以 Steam 当前说明为准","links":[["Valve 文档入口（抓取受限）","https://developer.valvesoftware.com/wiki/Counter-Strike_2_Workshop_Tools/Level_Design"]]},{"id":"40","title":"PUBG UGC Alpha：规则、逻辑与空间一起做原型","original":"PUBG UGC Alpha","author":"PUBG: BATTLEGROUNDS Team / KRAFTON","date":"2025-07-07","iso":"2025-07-07","era":"近两年","type":"官方工具说明 / 历史测试公告","topics":["大逃杀","多人竞技","TPS"],"level":"实践工具","priority":false,"summary":"介绍 Rulesets、Devices 和 Objects 三类创作元素，并展示夺点、死斗与跑酷示例。可用来理解空间设计与模式规则的组合。","focus":"把它看作玩法原型工具的案例，而非现成完整的大逃杀地图编辑教程。","exercise":"为同一个小场地写死斗和夺点两套规则，预测交战热点的差异。","limit":"文中是 2025 年 7—9 月 Alpha 计划，存在平台和账户权限限制；未确认 2026 年当前开放状态。","access":"公告免费；英文；正文可读；不保证目前可直接创建 UGC 房间","links":[["官方 Alpha 说明","https://pubg.com/en/news/8865?category=notice"]]}]</script>
+<script>
+(()=>{'use strict';document.body.classList.add('js');const records=JSON.parse(document.getElementById('resource-data').textContent);const nodes=[...document.querySelectorAll('.resource')];const fields=['search','era','topic','format','level','priority','unread'];const el=Object.fromEntries(fields.map(k=>[k,document.getElementById(k)]));const key='fps-ld-reading-v1';let state={};try{state=JSON.parse(localStorage.getItem(key)||'{}')||{}}catch{}
+function update(){const q=el.search.value.trim().toLocaleLowerCase();let n=0;records.forEach((r,i)=>{const text=[r.title,r.original,r.author,r.summary,r.focus,r.exercise,r.type,...r.topics].join(' ').toLocaleLowerCase();const show=(!q||q.split(/\s+/).every(w=>text.includes(w)))&&(!el.era.value||r.era===el.era.value)&&(!el.topic.value||r.topics.includes(el.topic.value))&&(!el.format.value||r.type.includes(el.format.value))&&(!el.level.value||r.level===el.level.value)&&(!el.priority.checked||r.priority)&&(!el.unread.checked||!state[r.id]);nodes[i].classList.toggle('hidden',!show);if(show)n++});document.getElementById('count').textContent='显示 '+n+' / 40 项 · 已读 '+records.filter(r=>state[r.id]).length+' 项';document.getElementById('empty').style.display=n?'none':'block'}
+function reset(){fields.forEach(k=>{if(el[k].type==='checkbox')el[k].checked=false;else el[k].value=''});update()}
+fields.forEach(k=>el[k].addEventListener(k==='search'?'input':'change',update));document.getElementById('reset').addEventListener('click',reset);document.getElementById('print').addEventListener('click',()=>window.print());document.querySelectorAll('[data-read]').forEach(box=>{box.checked=!!state[box.dataset.read];box.closest('.resource').classList.toggle('completed',box.checked);box.addEventListener('change',()=>{state[box.dataset.read]=box.checked;try{localStorage.setItem(key,JSON.stringify(state))}catch{}box.closest('.resource').classList.toggle('completed',box.checked);update()})});
+document.querySelectorAll('a.jump').forEach(a=>a.addEventListener('click',()=>{const id=a.getAttribute('href').slice(1);const target=document.getElementById(id);if(target&&target.classList.contains('hidden'))reset()}));
+document.getElementById('copy').addEventListener('click',async()=>{const box=document.getElementById('brief');const status=document.getElementById('copy-status');try{if(!navigator.clipboard)throw new Error('unavailable');await navigator.clipboard.writeText(box.value);status.textContent='已复制'}catch{box.focus();box.select();status.textContent='模板已选中，请按 Ctrl+C（Mac：⌘C）复制'}});update();
+})();
+</script></body></html>

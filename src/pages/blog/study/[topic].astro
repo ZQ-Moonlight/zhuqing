@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { withBase } from "../../../lib/paths";
+import { studyTopics } from "../../../data/study-topics";
+import vault from "../../../data/study-vault.json";
+
+export function getStaticPaths() {
+    return studyTopics.map((topic) => ({ params: { topic: topic.slug }, props: { topic } }));
+}
+const { topic } = Astro.props;
+---
+
+<BaseLayout title={`${topic.title} | 学习资料 | 祝庆 Zhu Qing`} description={topic.description} activePath="/blog" backgroundVariant="article" noindex={topic.protected}>
+    <main class="page-shell study-reader" data-study-reader data-topic={topic.slug} data-protected={String(topic.protected)} data-config={JSON.stringify(vault)} data-base={withBase("/")}>
+        <header class="reader-heading">
+            <a href={withBase("/blog/study/")}>← 学习资料</a>
+            <div><span class="eyebrow">{topic.category}</span><h1>{topic.title}</h1></div>
+            <p>{topic.description}</p>
+        </header>
+
+        {topic.protected && (
+            <section class="unlock-panel" data-unlock-panel aria-labelledby="unlock-title">
+                <div class="unlock-symbol" aria-hidden="true"><svg width="28" height="32" viewBox="0 0 28 32" fill="none"><rect x="3" y="13" width="22" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 13V8a6 6 0 0 1 12 0v5" stroke="currentColor" stroke-width="1.5"/><path d="M14 19v4" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                <h2 id="unlock-title">输入密码，继续阅读</h2>
+                <p>解锁本专题的文稿、案例与媒体资料。</p>
+                <form data-unlock-form>
+                    <label for="study-password">资料密码</label>
+                    <div class="password-row"><input id="study-password" name="password" type="password" autocomplete="current-password" required /><button type="submit">打开资料</button></div>
+                </form>
+                <p class="unlock-status" data-unlock-status role="status" aria-live="polite"></p>
+            </section>
+        )}
+
+        <section class="reading-workspace" data-workspace hidden={topic.protected} aria-label="资料阅读器">
+            <div class="reader-toolbar">
+                {topic.protected && <label class="document-select">当前文档<select data-document-select aria-label="选择文档"></select></label>}
+                {!topic.protected && <span class="public-reader-label">40 项参考资料与实践路线</span>}
+                <div class="reader-actions">
+                    {topic.protected && <a data-download href="#">下载原稿</a>}
+                    <button type="button" data-focus-toggle aria-pressed="false">专注阅读</button>
+                    {topic.protected && <button type="button" data-lock>锁定</button>}
+                </div>
+            </div>
+            <p class="reader-status" data-reader-status role="status"></p>
+            <iframe data-study-frame title={topic.title} src={topic.protected ? undefined : withBase("/blog/study/fps-tps-source.html")} referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </section>
+        <noscript><p>请启用浏览器的 JavaScript，以使用资料阅读器。</p></noscript>
+    </main>
+</BaseLayout>
+
+<script>
+    import "../../../scripts/study-reader.js";
+</script>
+
+<style>
+    .study-reader { max-width: 1500px; padding-bottom: 38px; }
+    .reader-heading { max-width: 960px; margin-bottom: 30px; }
+    .reader-heading > a { display: inline-block; margin-bottom: 26px; color: var(--text-muted); font-size: .85rem; text-decoration: none; }
+    .reader-heading h1 { margin: 8px 0 12px; font: 500 clamp(1.7rem, 3.2vw, 2.7rem)/1.5 var(--font-display); }
+    .reader-heading p { margin: 0; color: var(--text-muted); font-size: .94rem; line-height: 1.9; }
+    .unlock-panel { max-width: 590px; margin: 55px auto 90px; padding: 46px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-panel); }
+    .unlock-symbol { color: var(--accent); margin-bottom: 22px; }
+    .unlock-panel h2 { font: 500 1.5rem/1.5 var(--font-display); margin: 0 0 12px; }
+    .unlock-panel > p { font-size: .9rem; color: var(--text-muted); line-height: 1.8; }
+    .unlock-panel label { display: block; margin: 28px 0 9px; font-size: .8rem; color: var(--text-muted); }
+    .password-row { display: flex; gap: 10px; }
+    .password-row input { width: 0; flex: 1; min-height: 48px; border: 1px solid var(--border); border-radius: 4px; padding: 10px 14px; background: var(--bg-base); color: var(--text-main); font: inherit; }
+    .password-row button { min-height: 48px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: #fff; padding: 10px 20px; font: inherit; cursor: pointer; }
+    .password-row button:disabled { opacity: .6; cursor: wait; }
+    .unlock-panel .unlock-status { min-height: 1.8em; margin: 14px 0 0; font-size: .8rem; color: var(--accent); }
+    .reading-workspace { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg-panel); }
+    .reader-toolbar { min-height: 66px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+    .document-select { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; color: var(--text-dim); font-size: .75rem; }
+    .document-select select { flex: 1; min-width: 0; max-width: 660px; background: var(--bg-base); color: var(--text-main); border: 1px solid var(--border); border-radius: 4px; font: inherit; font-size: .85rem; padding: 9px; }
+    .reader-actions { display: flex; align-items: center; gap: 18px; }
+    .reader-actions button, .reader-actions a { padding: 5px 0; border: 0; background: none; color: var(--text-muted); font: inherit; font-size: .78rem; text-decoration: none; cursor: pointer; white-space: nowrap; }
+    .reader-actions button:hover, .reader-actions a:hover { color: var(--accent); }
+    .public-reader-label { color: var(--text-muted); font-size: .8rem; }
+    .reader-status { margin: 0; padding: 0 20px; color: var(--text-dim); font-size: .8rem; }
+    .reader-status:not(:empty) { padding-top: 10px; padding-bottom: 10px; }
+    iframe { display: block; width: 100%; height: 78dvh; min-height: 540px; border: 0; background: var(--bg-base); }
+    .reading-workspace[hidden], .unlock-panel[hidden] { display: none; }
+    .study-reader.is-focused { z-index: 200; }
+    .study-reader.is-focused .reading-workspace { position: fixed; inset: 0; z-index: 150; border: 0; border-radius: 0; background: var(--bg-base); display: flex; flex-direction: column; }
+    .study-reader.is-focused iframe { height: 0; min-height: 0; flex: 1; }
+    .study-reader.is-focused .reader-toolbar { flex-shrink: 0; }
+    @media (max-width: 700px) {
+        .unlock-panel { padding: 28px 22px; margin: 36px auto; }
+        .password-row { flex-direction: column; }
+        .password-row input { width: 100%; flex: auto; }
+        .reader-toolbar { padding: 12px; }
+        .document-select { flex-basis: 100%; flex-wrap: wrap; gap: 6px; }
+        .document-select select { width: 100%; flex-basis: 100%; }
+        .reader-actions { margin-left: auto; }
+        iframe { height: 78dvh; min-height: 450px; }
+        .reader-heading > a { margin-bottom: 20px; }
+    }
+</style>
