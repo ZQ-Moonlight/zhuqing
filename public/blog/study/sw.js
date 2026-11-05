@@ -178,7 +178,7 @@ async function serveContent(request) {
     }
     let bytes = await readBytes(state, entry, range.start, range.end);
     if (isHtml) {
-        const assets = `<link rel="stylesheet" href="${scopePath}frame.css"><script defer src="${scopePath}frame.js"></script>`;
+        const assets = `<link rel="stylesheet" href="${scopePath}frame.css"><script defer src="${scopePath}frame.js?v=20261105-2"></script>`;
         let html = decoder.decode(bytes);
         html = /<\/head>/i.test(html) ? html.replace(/<\/head>/i, assets + "</head>") : html.replace(/<!doctype html>/i, "<!doctype html>" + assets);
         html = html.replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy"');
