@@ -6,6 +6,19 @@ import { readFileSync } from 'node:fs';
 import { createApp } from './worker.mjs';
 const json=async p=>(await p).json();
 
+test('explicitly configured www origin and Turnstile hostname work without permitting other subdomains', async () => {
+ const f=await fixture();
+ f.env.ALLOWED_ORIGINS='https://zhuqing.tech,https://www.zhuqing.tech';
+ f.env.TURNSTILE_HOSTNAMES='zhuqing.tech,www.zhuqing.tech';
+ f.scenario.host='www.zhuqing.tech';
+ const response=await f.request('/api/public/comment',f.payload(),{headers:{Origin:'https://www.zhuqing.tech'}});
+ assert.equal(response.status,202);
+ assert.equal(response.headers.get('Access-Control-Allow-Origin'),'https://www.zhuqing.tech');
+ assert.equal((await f.request('/api/public/comment',f.payload(),{headers:{Origin:'https://other.zhuqing.tech'}})).status,403);
+ f.scenario.host='other.zhuqing.tech';
+ assert.equal((await f.request('/api/public/comment',f.payload(),{headers:{Origin:'https://www.zhuqing.tech'}})).status,400);
+});
+
 test('nickname is required and only the author browser can erase its comment while preserving other replies', async () => {
  const f=await fixture();
  assert.equal((await f.request('/api/public/comment',f.payload('comment',{nickname:'   '}))).status,400);

@@ -16,8 +16,8 @@
     }
   ],
   "vars": {
-    "ALLOWED_ORIGINS": "https://zhuqing.tech",
-    "TURNSTILE_HOSTNAMES": "zhuqing.tech",
+    "ALLOWED_ORIGINS": "https://zhuqing.tech,https://www.zhuqing.tech",
+    "TURNSTILE_HOSTNAMES": "zhuqing.tech,www.zhuqing.tech",
     "ACCESS_TEAM_DOMAIN": "muddy-thunder-5f00.cloudflareaccess.com",
     "ACCESS_AUD": "5f846e8a9329666eacd2309f66b21651e2375f9a9ccdd78fe98bccaaa29547a7",
     "ADMIN_EMAILS": "zq_eugene@qq.com",
