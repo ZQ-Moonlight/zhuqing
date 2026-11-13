@@ -176,15 +176,7 @@ async function serveContent(request) {
         headers.set("Content-Length", String(range.end - range.start + 1));
         return new Response(request.method === "HEAD" ? null : rangeStream(state, entry, range.start, range.end), { status: range.partial ? 206 : 200, headers });
     }
-    let bytes = await readBytes(state, entry, range.start, range.end);
-    if (isHtml) {
-        const assets = `<link rel="stylesheet" href="${scopePath}frame.css"><script defer src="${scopePath}frame.js?v=20261105-2"></script>`;
-        let html = decoder.decode(bytes);
-        html = /<\/head>/i.test(html) ? html.replace(/<\/head>/i, assets + "</head>") : html.replace(/<!doctype html>/i, "<!doctype html>" + assets);
-        html = html.replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy"');
-        html = html.replace(/(<video\b[^>]*\bpreload=)["']metadata["']/gi, '$1"none"');
-        bytes = new TextEncoder().encode(html);
-    }
+    const bytes = await readBytes(state, entry, range.start, range.end);
     headers.set("Content-Length", String(bytes.byteLength));
     return new Response(request.method === "HEAD" ? null : bytes, { status: range.partial ? 206 : 200, headers });
 }

@@ -6,7 +6,6 @@ function initializeReader(root) {
     const workspace = root.querySelector("[data-workspace]");
     const focusButton = root.querySelector("[data-focus-toggle]");
     const readerStatus = root.querySelector("[data-reader-status]");
-    const isProtected = root.dataset.protected === "true";
     const config = JSON.parse(root.dataset.config);
     const base = new URL(root.dataset.base, location.origin);
     const scope = new URL("blog/study/", base);
@@ -27,15 +26,39 @@ function initializeReader(root) {
         if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
         if (event.data?.type === "study-loaded") readerStatus.textContent = "";
     });
-    if (!isProtected) return;
-
     const unlockPanel = root.querySelector("[data-unlock-panel]");
     const form = root.querySelector("[data-unlock-form]");
     const input = form.querySelector("input");
     const button = form.querySelector("button");
     const status = root.querySelector("[data-unlock-status]");
-    const select = root.querySelector("[data-document-select]");
     const download = root.querySelector("[data-download]");
+    let preparingDownload = false;
+
+    download.addEventListener("click", async (event) => {
+        event.preventDefault();
+        if (preparingDownload || !session) return;
+        preparingDownload = true;
+        download.setAttribute("aria-busy", "true");
+        readerStatus.textContent = "正在准备下载…";
+        try {
+            const response = await fetch(download.href, { cache: "no-store" });
+            if (!response.ok) throw new Error("download");
+            const url = URL.createObjectURL(await response.blob());
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = download.getAttribute("download");
+            document.body.append(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+            readerStatus.textContent = "";
+        } catch {
+            readerStatus.textContent = "下载失败，请重新解锁后重试。";
+        } finally {
+            preparingDownload = false;
+            download.removeAttribute("aria-busy");
+        }
+    });
 
     navigator.serviceWorker?.addEventListener("message", (event) => {
         if (event.data?.type !== "study-restore") return;
@@ -84,14 +107,14 @@ function initializeReader(root) {
         return new URL("_content/" + session.id + "/" + name.split("/").map(encodeURIComponent).join("/"), scope);
     }
 
-    function showDocument() {
-        const url = fileUrl(select.value);
+    function showDocument(name) {
+        const url = fileUrl(name);
         readerStatus.textContent = "正在打开文档…";
         frame.src = url.href;
         const original = new URL(url);
         original.searchParams.set("download", "1");
         download.href = original.href;
-        download.setAttribute("download", select.value.split("/").pop());
+        download.setAttribute("download", name.split("/").pop());
     }
 
     async function unlock(saved) {
@@ -101,22 +124,14 @@ function initializeReader(root) {
         const topic = result.topics[root.dataset.topic];
         if (!topic) throw new Error("load");
         session = saved;
-        select.replaceChildren();
-        for (const doc of topic.documents) {
-            const option = document.createElement("option");
-            option.value = doc.path;
-            option.textContent = (doc.folder ? doc.folder + " / " : "") + doc.title;
-            select.append(option);
-        }
-        select.value = topic.first;
         try { sessionStorage.setItem(storageKey, JSON.stringify(saved)); } catch {}
         unlockPanel.hidden = true;
         workspace.hidden = false;
+        root.classList.add("is-unlocked");
         input.value = "";
-        showDocument();
+        showDocument(topic.first);
     }
 
-    select.addEventListener("change", showDocument);
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
         button.disabled = true;
@@ -141,14 +156,15 @@ function initializeReader(root) {
         frame.src = "about:blank";
         workspace.hidden = true;
         unlockPanel.hidden = false;
-        root.classList.remove("is-focused");
+        root.classList.remove("is-focused", "is-unlocked");
         focusButton.textContent = "专注阅读";
         focusButton.setAttribute("aria-pressed", "false");
         try { sessionStorage.removeItem(storageKey); } catch {}
         const lockedSession = session;
         session = null;
         if (lockedSession && worker) await send({ type: "lock", session: lockedSession.id }).catch(() => {});
-        select.replaceChildren();
+        download.href = "#";
+        download.removeAttribute("download");
         status.textContent = "资料已锁定。";
         input.focus();
     });
