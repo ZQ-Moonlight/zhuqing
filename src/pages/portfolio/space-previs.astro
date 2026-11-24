@@ -1,4 +1,5 @@
 ---
+import SpaceReveal from "../../components/SpaceReveal.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { withBase } from "../../lib/paths";
 
@@ -23,10 +24,10 @@ const boardDescriptions = [
 const twoDigits = (n: number) => String(n).padStart(2, "0");
 // Source shot numbers include text-only rows. Shot 30 reprises the image from shot 02.
 const shotSources: (number | [string, string])[] = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ["座舱警报", "Cockpit alarm"],
-    13, 14, 15, 16, 17, 18, 19, ["舱内正反打", "Cockpit reverse angles"], ["闪避激光", "Evasive turn"],
-    20, 21, 22, 23, 24, 25, ["舱内外交叉剪辑", "Intercut cockpit and exterior"], 2,
-    26, 27, 28, 29, 30, 31, ["黑场", "Cut to black"], ["战舰阴影掠过", "The warship’s shadow"],
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ["警报声挤满驾驶舱。", "The cockpit fills with alarms."],
+    13, 14, 15, 16, 17, 18, 19, ["目光切过去，\n又切回来。", "One glance.\nA reverse angle."], ["机身一偏。\n激光擦过。", "The ship banks.\nA laser skims past."],
+    20, 21, 22, 23, 24, 25, ["一瞬，舱内。\n一瞬，舱外。", "A beat inside.\nA beat outside."], 2,
+    26, 27, 28, 29, 30, 31, ["黑场。", "Black."], ["余火未熄。\n影子爬到她脚边。\n她抬起头。", "Embers burn.\nA shadow reaches her feet.\nShe looks up."],
 ];
 const shots = shotSources.map((source, index) => {
     const [cn, en] = typeof source === "number" ? boardDescriptions[source - 1] : source;
@@ -78,13 +79,7 @@ const structuredData = {
 
 <BaseLayout title={title + " | 祝庆"} description={description} activePath="/portfolio" backgroundVariant="article" image={cover} structuredData={structuredData} showInteractions={false}>
     <main class="space-project" data-space-project>
-        <header class="project-hero">
-            <img src={cover} alt="" width="1920" height="804" fetchpriority="high" />
-            <div class="hero-copy">
-                <p data-i18n-cn="科幻短片试制 · 2025" data-i18n-en="Sci-Fi Short Study · 2025">科幻短片试制 · 2025</p>
-                <h1 data-i18n-cn={title} data-i18n-en={titleEn}>{title}</h1>
-            </div>
-        </header>
+        <SpaceReveal />
 
         <div class="project-content">
             <section class="sequence" aria-labelledby="storyboard">
@@ -110,9 +105,9 @@ const structuredData = {
                                             sizes={`(max-width: 640px) 92vw, min(${Math.ceil(82 / row.length)}vw, ${Math.ceil(1140 / row.length)}px)`}
                                             width="1912" height="800" loading="lazy" decoding="async" alt="" />
                                         <span class="shot-number" aria-hidden="true">{shot.number}</span>
-                                    </a> : <div class="shot-note" data-shot={shot.number}>
+                                    </a> : <button type="button" class="shot-note" data-cue={shot.number} data-shot={shot.number} data-still aria-label={shotCn} data-aria-cn={shotCn} data-aria-en={shotEn}>
                                         <span class="note-number">{shot.number}</span><span data-i18n-cn={shot.cn} data-i18n-en={shot.en}>{shot.cn}</span>
-                                    </div>;
+                                    </button>;
                                 })}
                             </div>)}
                         </div>
@@ -181,6 +176,7 @@ const structuredData = {
                 image!.src = frame.href;
                 image!.alt = frame.getAttribute("aria-label") ?? "";
             } else {
+                caption.dataset.cue = frame.dataset.shot;
                 caption.textContent = frame.lastElementChild?.textContent ?? "";
             }
             counter.value = frame.dataset.shot + " / " + frames.length;
@@ -194,12 +190,12 @@ const structuredData = {
             event.preventDefault();
             showFrame(current + (event.key === "ArrowLeft" ? -1 : 1));
         });
-        project.querySelectorAll<HTMLAnchorElement>("[data-still]").forEach((link) => {
+        project.querySelectorAll<HTMLAnchorElement | HTMLButtonElement>("[data-still]").forEach((link) => {
             link.addEventListener("click", (event) => {
                 if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || typeof viewer.showModal !== "function") return;
                 event.preventDefault();
                 controls.hidden = !link.hasAttribute("data-shot");
-                if (controls.hidden) {
+                if (controls.hidden && link instanceof HTMLAnchorElement) {
                     image.hidden = false;
                     caption.hidden = true;
                     image.src = link.href;
@@ -226,59 +222,11 @@ const structuredData = {
         color: var(--film-white);
     }
 
-    .project-hero {
-        position: relative;
-        isolation: isolate;
-        display: grid;
-        align-items: end;
-        aspect-ratio: 2.39;
-    }
-
-    .project-hero > img,
-    .project-hero::after {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .project-hero > img {
-        z-index: -2;
-        object-fit: cover;
-        object-position: center 42%;
-    }
-
-    .project-hero::after {
-        content: "";
-        z-index: -1;
-        background: linear-gradient(0deg, var(--film-black), #080b11aa 23%, #080b1100 57%);
-    }
-
-    .hero-copy,
     .project-content {
         width: min(86rem, calc(100% - clamp(2rem, 8vw, 8rem)));
         margin-inline: auto;
     }
-
-    .hero-copy { padding-block: 4rem 2.5rem; }
-
-    .hero-copy p {
-        margin: 0 0 0.75rem;
-        color: var(--film-accent);
-        font-size: 0.875rem;
-        letter-spacing: 0.16em;
-    }
-
-    h1 {
-        margin: 0;
-        color: var(--film-white);
-        font-size: clamp(3.6rem, 10vw, 9rem);
-        font-weight: 650;
-        letter-spacing: -0.04em;
-        line-height: 0.98;
-        text-wrap: balance;
-    }
-
+    #storyboard { scroll-margin-top: 7rem; }
     .project-content { padding-block: clamp(1.5rem, 5vw, 5rem) clamp(4rem, 9vw, 8rem); }
 
     .sequence + .sequence { margin-top: clamp(3.5rem, 9vw, 8rem); }
@@ -355,8 +303,28 @@ const structuredData = {
     .shot-card img { display: block; width: 100%; height: auto; aspect-ratio: 2.39; }
     .shot-number { position: absolute; bottom: .55rem; left: .65rem; background: #080b11d9; color: #fff; padding: .16rem .4rem; }
     .shot-card:hover .shot-number { color: #080b11; background: #e5e7e7; }
-    .shot-note { display: flex; align-items: center; gap: .8rem; min-height: 2.8rem; padding-inline: .7rem; border-left: 1px solid #56616f; color: #c4ccd3; font-size: .88rem; }
-    .note-number { color: #a4b5c6; }
+    .shot-note, .viewer-note {
+        isolation: isolate; position: relative; overflow: hidden; display: grid; place-items: center;
+        aspect-ratio: 2.39; width: 100%; margin: 0; border: 0; padding: 5% 8%;
+        background: #10141a; color: #ede9e3; white-space: pre-line; text-align: center;
+        font: 500 clamp(1.05rem, 2.5vw, 2.5rem)/1.6 "Songti SC", SimSun, Georgia, serif;
+        letter-spacing: .12em;
+    }
+    .shot-note { cursor: zoom-in; }
+    .note-number { position: absolute; bottom: .65rem; left: .8rem; color: #c3bec0; }
+    [data-cue="13"] { background: repeating-linear-gradient(0deg, transparent 0 5px, #ff9e8a08 5px 6px), radial-gradient(ellipse at 0% 70%, #682926, #281819 48%, #100f13 85%); color: #ffcfbc; }
+    [data-cue="21"] { background: linear-gradient(112deg, #111a24 48.8%, #293643 49%, #121820 50%, #080c11 92%); }
+    [data-cue="22"] { background: linear-gradient(163deg, #101017 30%, #683231 42%, #e5af92 42.3%, #5a2b29 42.7%, #0f1016 45%); text-shadow: 0 2px 14px #000; }
+    [data-cue="29"] { background: linear-gradient(90deg, #10222d, #283e4b 37%, #131c24 37.1%, #0e1219 67%, #1a2f3b 67.1%, #0d141c); }
+    [data-cue="37"] { background: #020304; color: #b1aba8; letter-spacing: .45em; font-size: clamp(.95rem, 1.5vw, 1.4rem); }
+    [data-cue="38"] { background: linear-gradient(149deg, transparent 32%, #131114 67%), radial-gradient(ellipse at bottom left, #653e31, #262023 56%, #111116); text-align: left; }
+    .still-viewer form button { z-index: 2; }
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .shot-row { animation: enter-frame linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+            @keyframes enter-frame { from { opacity: .65; translate: 0 .55rem; } to { opacity: 1; translate: 0 0; } }
+        }
+    }
 
     a:focus-visible,
     video:focus-visible,
@@ -403,15 +371,11 @@ const structuredData = {
     .still-viewer [hidden] { display: none; }
     .still-viewer:has(.viewer-controls:not([hidden])) { width: min(92vw, 164vh, 96rem); }
     .still-viewer img { margin-inline: auto; }
-    .viewer-note { display: grid; place-items: center; aspect-ratio: 2.39; margin: 0; color: #d0d5da; font-size: clamp(1rem, 3vw, 2rem); }
     .viewer-controls { display: flex; justify-content: center; align-items: center; gap: 1.5rem; background: #10151a; }
     .viewer-controls button { width: 3.2rem; height: 2.9rem; border: 0; background: transparent; color: #fff; cursor: pointer; font-size: 1.4rem; }
     .viewer-controls button:disabled { opacity: .25; cursor: default; }
 
     @media (max-width: 40rem) {
-        .project-hero { margin-top: 4.5rem; }
-        .hero-copy { padding-block: 0.75rem; }
-        h1 { font-size: clamp(2rem, 9vw, 3.6rem); }
         .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .board-chapter { grid-template-columns: 1fr; gap: .9rem; }
         .chapter-title { position: static; display: flex; align-items: baseline; gap: .85rem; }
