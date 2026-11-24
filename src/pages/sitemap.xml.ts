@@ -20,6 +20,7 @@ export const GET: APIRoute = async ({ site }) => {
         { path: "", priority: "1.0" },
         { path: "portfolio/", priority: "0.9" },
         { path: "portfolio/detroit/", priority: "0.8" },
+        { path: "portfolio/space-previs/", priority: "0.8" },
         { path: "blog/", priority: "0.8" },
     ];
 

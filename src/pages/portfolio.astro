@@ -84,6 +84,7 @@ const collectionStructuredData = {
         "@type": "ItemList",
         itemListElement: [
             { "@type": "CreativeWork", name: "《扑光：今夜回家》", url: new URL(withBase("/portfolio/puguang/"), Astro.site ?? Astro.url.origin).toString() },
+            { "@type": "CreativeWork", name: "《星际险境》", url: new URL(withBase("/portfolio/space-previs/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "UE5 剧情动画与交互扫描流程", url: new URL(withBase("/portfolio/ue-cinematics-pipeline/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "《底特律：化身为人》场景与交互复刻", url: new URL(withBase("/portfolio/detroit/"), Astro.site ?? Astro.url.origin).toString() },
             { "@type": "CreativeWork", name: "MetaHuman 与数字人光场流程", url: new URL(withBase("/portfolio/metahuman/"), Astro.site ?? Astro.url.origin).toString() },
@@ -126,6 +127,18 @@ const collectionStructuredData = {
                         <span class="category" data-i18n-cn="独立游戏 / 玩法与关卡设计" data-i18n-en="Independent Game / Gameplay & Level Design">独立游戏 / 玩法与关卡设计</span>
                         <h3 data-i18n-cn="《扑光：今夜回家》" data-i18n-en="Puguang: Home Tonight">《扑光：今夜回家》</h3>
                         <p data-i18n-cn="《扑光：今夜回家》是一款温暖的光影引导解谜游戏。你将与守候花园的小叶一起，走过二十段夜色中的小路，用灯光和道具引导迷路的绒蝶，寻找回家的方向。" data-i18n-en="A warm, light-guided puzzle game. Join Xiaoye, the garden's keeper, along twenty paths through the night, guiding lost moths home with lights and tools.">《扑光：今夜回家》是一款温暖的光影引导解谜游戏。你将与守候花园的小叶一起，走过二十段夜色中的小路，用灯光和道具引导迷路的绒蝶，寻找回家的方向。</p>
+                    </div>
+                </a>
+
+                <a href={withBase("/portfolio/space-previs/")} class="project-card" data-reveal>
+                    <div class="card-image">
+                        <img src={withBase("/media/portfolio/space-previs/black-hole-poster.webp")} alt="行星弧面后方的黑洞与玫红色吸积盘" width="1920" height="804" loading="lazy" decoding="async" />
+                        <span class="card-hover" data-i18n-cn="查看分镜与视频" data-i18n-en="View Storyboard and Videos">查看分镜与视频</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="category" data-i18n-cn="分镜设计 / 镜头试制" data-i18n-en="Storyboarding / Shot Tests">分镜设计 / 镜头试制</span>
+                        <h3 data-i18n-cn="《星际险境》" data-i18n-en="Peril in Space">《星际险境》</h3>
+                        <p data-i18n-cn="一部停案科幻短片的前期档案。从 38 镜方案里选录分镜，并保留飞船掠过地球与黑洞显露的两段试制。" data-i18n-en="Preproduction for a shelved sci-fi short, with notes from its 38-shot plan and two sequence tests: an Earth flyby and a black hole reveal.">一部停案科幻短片的前期档案。从 38 镜方案里选录分镜，并保留飞船掠过地球与黑洞显露的两段试制。</p>
                     </div>
                 </a>
 
