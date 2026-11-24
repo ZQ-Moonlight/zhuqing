@@ -2,45 +2,36 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { withBase } from "../../lib/paths";
 
-const asset = (name: string) => withBase(`/media/portfolio/space-previs/${name}`);
+const asset = (name: string) => withBase("/media/portfolio/space-previs/" + name);
 const title = "星际险境";
 const titleEn = "Peril in Space";
-const description = "科幻短片《星际险境》的前期档案，收录原始分镜方案选段、两段镜头试制和六张关键帧。";
+const description = "科幻短片《星际险境》的分镜与镜头试制。";
 const cover = asset("black-hole-poster.webp");
-const storyboard = [
-    { no: "01", titleCn: "飞船与地球", titleEn: "Ship and Earth", noteCn: "以大远景建立飞船和地球的尺度关系。", noteEn: "An extreme wide shot establishes the scale of the ship against Earth." },
-    { no: "03", titleCn: "驾驶舱内交代任务", titleEn: "Cockpit Briefing", noteCn: "计划用手持实拍呈现驾驶舱，由机载 AI 介绍任务。", noteEn: "The plan calls for handheld live action as the onboard AI briefs the pilot." },
-    { no: "15", titleCn: "战舰遮住恒星", titleEn: "Warship Eclipses the Star", noteCn: "战舰挡住恒星光源，用光线变化提示它的出现。", noteEn: "The warship blocks the starlight, using a lighting change to announce its arrival." },
-    { no: "25", titleCn: "护目镜反光", titleEn: "Visor Reflection", noteCn: "驾驶舱断电后，只从护目镜的反光交代外部环境。", noteEn: "After the cockpit goes dark, the visor reflection is the only view outside." },
-    { no: "26", titleCn: "恒星坍缩", titleEn: "Stellar Collapse", noteCn: "先让恒星把画面闪白，再揭示坍缩后的黑洞。", noteEn: "The frame flashes white before revealing the black hole left by the collapsing star." },
-    { no: "38", titleCn: "灾后结尾", titleEn: "After the Crash", noteCn: "镜头推进并上摇，战舰阴影爬上主角的脚，最后落在她望向天空的反应。原案考虑用 XR 完成。", noteEn: "A push-in and tilt up follow the warship’s shadow to the pilot’s reaction as she looks skyward. XR was considered for this shot." },
-];
-const shots = [
+const sequences = [
     {
         id: "earth-orbit",
-        titleCn: "飞船掠过地球",
-        titleEn: "Earth Orbit Flyby",
-        noteCn: "从地球夜面的远景进入，让飞船掠过近处，再拉开距离，交代飞船和地球的尺度关系。",
-        noteEn: "The shot opens wide on Earth’s night side. The spacecraft sweeps close to camera before a wider view puts it back in scale against the planet.",
-        frames: [
-            { file: "earth-orbit-night.webp", time: "00:02", width: 1280, height: 536, cn: "地球夜面建立空间", en: "Earth’s night side establishes the scene" },
-            { file: "earth-orbit-pass.webp", time: "00:06", width: 1280, height: 536, cn: "飞船从近处掠过", en: "The spacecraft sweeps past" },
-            { file: "earth-orbit-poster.webp", time: "00:13", width: 1920, height: 804, cn: "飞船和地球同框", en: "The spacecraft and Earth share the frame" },
+        cn: "地球掠影",
+        en: "Earth Flyby",
+        stills: [
+            { file: "earth-orbit-night", cn: "地球夜面", en: "Earth’s night side" },
+            { file: "earth-orbit-pass", cn: "飞船掠过镜头", en: "Spacecraft passing the camera" },
+            { file: "earth-orbit-wide", cn: "地球弧面与远处飞船", en: "Earth’s horizon and the distant spacecraft" },
+            { file: "earth-orbit-poster", cn: "飞船与地球同框", en: "Spacecraft against the Earth" },
         ],
     },
     {
         id: "black-hole",
-        titleCn: "黑洞显露",
-        titleEn: "Black Hole Reveal",
-        noteCn: "让近处的碎石先遮住视野，等行星弧面出现，再把视线引向远处的黑洞。",
-        noteEn: "Foreground rocks hold back the view. The planet’s curved horizon appears next, drawing the eye toward the distant black hole.",
-        frames: [
-            { file: "black-hole-occlusion.webp", time: "00:03", width: 1280, height: 536, cn: "碎石挡住视野", en: "Rocks obscure the view" },
-            { file: "black-hole-reveal.webp", time: "00:07", width: 1280, height: 536, cn: "行星弧面浮现", en: "The planet’s horizon emerges" },
-            { file: "black-hole-poster.webp", time: "00:11", width: 1920, height: 804, cn: "黑洞成为视觉焦点", en: "The black hole becomes the focal point" },
+        cn: "黑洞显露",
+        en: "Black Hole Reveal",
+        stills: [
+            { file: "black-hole-occlusion", cn: "碎石遮住视野", en: "Rocks obscure the view" },
+            { file: "black-hole-crossing", cn: "背光勾出碎石轮廓", en: "Backlight outlines the rocks" },
+            { file: "black-hole-reveal", cn: "行星弧面与碎石", en: "The planet’s horizon and drifting rocks" },
+            { file: "black-hole-poster", cn: "黑洞与吸积盘", en: "The black hole and its accretion disk" },
         ],
     },
 ];
+
 const site = Astro.site ?? Astro.url.origin;
 const structuredData = {
     "@context": "https://schema.org",
@@ -53,89 +44,83 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={`${title} | 祝庆`} description={description} activePath="/portfolio" backgroundVariant="article" image={cover} structuredData={structuredData}>
-    <main class="space-project">
+<BaseLayout title={title + " | 祝庆"} description={description} activePath="/portfolio" backgroundVariant="article" image={cover} structuredData={structuredData} showInteractions={false}>
+    <main class="space-project" data-space-project>
         <header class="project-hero">
             <img src={cover} alt="" width="1920" height="804" fetchpriority="high" />
             <div class="hero-copy">
-                <a class="back-link" href={withBase("/portfolio/")} data-i18n-cn="返回作品集" data-i18n-en="Back to Works">返回作品集</a>
-                <p class="project-status" data-i18n-cn="科幻短片前期 · 停案存档 · 2025" data-i18n-en="Sci-Fi Short · Shelved in Preproduction · 2025">科幻短片前期 · 停案存档 · 2025</p>
+                <p data-i18n-cn="科幻短片试制 · 2025" data-i18n-en="Sci-Fi Short Study · 2025">科幻短片试制 · 2025</p>
                 <h1 data-i18n-cn={title} data-i18n-en={titleEn}>{title}</h1>
-                <p class="hero-description" data-i18n-cn="从飞船离开地球到遭遇引力危机，原案规划了 38 个镜头。这里保留分镜选录和两段镜头试制。" data-i18n-en="The plan follows a spacecraft from Earth into a gravitational crisis across 38 shots. This archive brings together selected storyboard notes and two sequence tests.">从飞船离开地球到遭遇引力危机，原案规划了 38 个镜头。这里保留分镜选录和两段镜头试制。</p>
             </div>
         </header>
 
         <div class="project-content">
-            <nav class="shot-nav" aria-label="项目章节" data-aria-cn="项目章节" data-aria-en="Project sections">
-                {shots.map((shot) => <a href={`#${shot.id}`} data-i18n-cn={shot.titleCn} data-i18n-en={shot.titleEn}>{shot.titleCn}</a>)}
-                <a href="#storyboard" data-i18n-cn="原始分镜选录" data-i18n-en="Storyboard Notes">原始分镜选录</a>
-            </nav>
-
-            {shots.map((shot) => (
-                <section id={shot.id} class="shot-section" aria-labelledby={`${shot.id}-title`}>
-                    <div class="shot-heading">
-                        <h2 id={`${shot.id}-title`} data-i18n-cn={shot.titleCn} data-i18n-en={shot.titleEn}>{shot.titleCn}</h2>
-                        <p data-i18n-cn={shot.noteCn} data-i18n-en={shot.noteEn}>{shot.noteCn}</p>
-                    </div>
-                    <h3 class="frames-heading" data-i18n-cn="镜头关键帧" data-i18n-en="Sequence Stills">镜头关键帧</h3>
-                    <ol class="frame-strip">
-                        {shot.frames.map((frame, index) => (
+            {sequences.map((sequence) => (
+                <section class="sequence" aria-labelledby={sequence.id}>
+                    <h2 id={sequence.id} data-i18n-cn={sequence.cn} data-i18n-en={sequence.en}>{sequence.cn}</h2>
+                    <video controls playsinline preload="none" width="1920" height="804" poster={asset(sequence.id + "-poster.webp")} aria-labelledby={sequence.id}>
+                        <source src={asset(sequence.id + ".mp4")} type="video/mp4" />
+                        <a href={asset(sequence.id + ".mp4")} data-i18n-cn="打开视频" data-i18n-en="Open video">打开视频</a>
+                    </video>
+                    <ul class="filmstrip" role="list">
+                        {sequence.stills.map((still) => (
                             <li>
-                                <figure>
-                                    <a href={asset(frame.file)} target="_blank" rel="noopener" aria-labelledby={`${shot.id}-frame-${index}`}>
-                                        <img src={asset(frame.file)} width={frame.width} height={frame.height} alt="" loading="lazy" decoding="async" />
-                                    </a>
-                                    <figcaption><span class="timecode">{frame.time}</span><span id={`${shot.id}-frame-${index}`} data-i18n-cn={frame.cn} data-i18n-en={frame.en}>{frame.cn}</span></figcaption>
-                                </figure>
+                                <a href={asset(still.file + ".webp")} target="_blank" rel="noopener" data-still aria-label={still.cn} data-aria-cn={still.cn} data-aria-en={still.en}>
+                                    <img src={asset(still.file + ".webp")} alt="" loading="lazy" decoding="async" />
+                                </a>
                             </li>
                         ))}
-                    </ol>
-
-                    <h3 class="video-heading" id={`${shot.id}-video`} data-i18n-cn="镜头测试视频" data-i18n-en="Shot Test Video">镜头测试视频</h3>
-                    <video controls playsinline preload="none" width="1920" height="804" poster={asset(`${shot.id}-poster.webp`)} aria-labelledby={`${shot.id}-title ${shot.id}-video`}>
-                        <source src={asset(`${shot.id}.mp4`)} type="video/mp4" />
-                        <a href={asset(`${shot.id}.mp4`)} data-i18n-cn="打开 MP4 视频" data-i18n-en="Open the MP4 video">打开 MP4 视频</a>
-                    </video>
+                    </ul>
                 </section>
             ))}
-
-            <section id="storyboard" class="shot-section" aria-labelledby="storyboard-title">
-                <div class="shot-heading">
-                    <h2 id="storyboard-title" data-i18n-cn="原始分镜选录" data-i18n-en="Storyboard Notes">原始分镜选录</h2>
-                    <p data-i18n-cn="保留原镜号，节选自闪电分镜里的 38 镜方案。" data-i18n-en="Selected notes from the 38-shot MediaStory plan, with their original shot numbers.">保留原镜号，节选自闪电分镜里的 38 镜方案。</p>
-                </div>
-                <ol class="storyboard-grid">
-                    {storyboard.map((shot) => (
-                        <li>
-                            <span class="timecode" data-i18n-cn={`镜号 ${shot.no}`} data-i18n-en={`Shot ${shot.no}`}>镜号 {shot.no}</span>
-                            <h3 data-i18n-cn={shot.titleCn} data-i18n-en={shot.titleEn}>{shot.titleCn}</h3>
-                            <p data-i18n-cn={shot.noteCn} data-i18n-en={shot.noteEn}>{shot.noteCn}</p>
-                        </li>
-                    ))}
-                </ol>
-            </section>
         </div>
+
+        <dialog class="still-viewer" data-still-viewer aria-label="大图预览" data-aria-cn="大图预览" data-aria-en="Image preview">
+            <form method="dialog">
+                <button type="submit" aria-label="关闭预览" data-aria-cn="关闭预览" data-aria-en="Close preview">×</button>
+            </form>
+            <img alt="" />
+        </dialog>
     </main>
 </BaseLayout>
 
+<script>
+    const project = document.querySelector<HTMLElement>("[data-space-project]");
+    const viewer = project?.querySelector<HTMLDialogElement>("[data-still-viewer]");
+    const image = viewer?.querySelector<HTMLImageElement>("img");
+
+    if (project && viewer && image) {
+        project.querySelectorAll<HTMLAnchorElement>("[data-still]").forEach((link) => {
+            link.addEventListener("click", (event) => {
+                if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || typeof viewer.showModal !== "function") return;
+                event.preventDefault();
+                image.src = link.href;
+                image.alt = link.getAttribute("aria-label") ?? "";
+                viewer.showModal();
+            });
+        });
+        viewer.addEventListener("click", (event) => {
+            if (event.target === viewer) viewer.close();
+        });
+    }
+</script>
+
 <style>
     .space-project {
-        --project-background: #0c1017;
-        --project-text: #eff1f6;
-        --project-muted: #b8c1cf;
-        --project-accent: #f5bbca;
-        --project-line: #303846;
-        background: var(--project-background);
-        color: var(--project-text);
+        --film-black: #080b11;
+        --film-white: #f4f2f0;
+        --film-line: #ffffff26;
+        --film-accent: #f0b7cd;
+        background: var(--film-black);
+        color: var(--film-white);
     }
 
     .project-hero {
         position: relative;
+        isolation: isolate;
         display: grid;
         align-items: end;
-        min-height: clamp(28rem, 55vw, 42rem);
-        isolation: isolate;
-        overflow: hidden;
+        min-height: clamp(28rem, 79svh, 53rem);
     }
 
     .project-hero > img,
@@ -149,148 +134,138 @@ const structuredData = {
     .project-hero > img {
         z-index: -2;
         object-fit: cover;
-        object-position: center 43%;
+        object-position: center 42%;
     }
 
     .project-hero::after {
         content: "";
         z-index: -1;
-        background: linear-gradient(0deg, var(--project-background), #0c10179e 25%, #0c101700 65%);
+        background: linear-gradient(0deg, var(--film-black), #080b11aa 23%, #080b1100 57%);
     }
 
     .hero-copy,
     .project-content {
-        width: min(76rem, calc(100% - clamp(2rem, 8vw, 8rem)));
+        width: min(86rem, calc(100% - clamp(2rem, 8vw, 8rem)));
         margin-inline: auto;
     }
 
-    .hero-copy { padding-block: 6rem 2.5rem; }
+    .hero-copy { padding-block: 4rem 2.5rem; }
 
-    .back-link,
-    .shot-nav a {
-        display: inline-block;
-        border: 1px solid var(--project-line);
-        border-radius: 999px;
-        padding: 0.56rem 0.95rem;
-        background: #0c1017d9;
-        color: var(--project-text);
+    .hero-copy p {
+        margin: 0 0 0.75rem;
+        color: var(--film-accent);
         font-size: 0.875rem;
-        text-decoration: none;
-    }
-
-    .back-link:hover,
-    .shot-nav a:hover { border-color: var(--project-accent); }
-
-    .project-status {
-        margin: 1.6rem 0 0.65rem;
-        color: var(--project-accent);
-        font-size: 0.875rem;
-        font-weight: 600;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.16em;
     }
 
     h1 {
         margin: 0;
-        font-size: clamp(2.2rem, 6vw, 4.8rem);
-        line-height: 1.1;
+        color: var(--film-white);
+        font-size: clamp(3.6rem, 10vw, 9rem);
+        font-weight: 650;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
         text-wrap: balance;
     }
 
-    .hero-description,
-    .shot-heading p {
-        max-width: 62ch;
-        color: var(--project-muted);
-        line-height: 1.75;
+    .project-content { padding-block: clamp(1.5rem, 5vw, 5rem) clamp(4rem, 9vw, 8rem); }
+
+    .sequence + .sequence { margin-top: clamp(3.5rem, 9vw, 8rem); }
+
+    h2 {
+        margin: 0 0 1.15rem;
+        color: var(--film-white);
+        font-size: clamp(1.4rem, 3.2vw, 2.5rem);
+        font-weight: 550;
+        letter-spacing: 0.02em;
     }
 
-    .hero-description { margin: 1rem 0 0; }
-    .project-content { padding-bottom: clamp(4rem, 9vw, 8rem); }
-
-    .shot-nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        padding-bottom: 1.65rem;
-        border-bottom: 1px solid var(--project-line);
-    }
-
-    .shot-section {
-        padding-top: clamp(2.75rem, 6vw, 5.5rem);
-        scroll-margin-top: 5.5rem;
-    }
-
-    .shot-section + .shot-section {
-        margin-top: clamp(3.5rem, 7vw, 6rem);
-        border-top: 1px solid var(--project-line);
-    }
-
-    h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 3rem); }
-    .shot-heading p { margin: 0.65rem 0 0; }
-
-    .frames-heading,
-    .video-heading {
-        margin: 2rem 0 0.75rem;
-        font-size: 1rem;
-    }
-
-    .frame-strip,
-    .storyboard-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: clamp(0.9rem, 2vw, 1.5rem);
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    figure { margin: 0; }
-    figure a { display: block; border-radius: 0.5rem; }
-
-    figure img,
     video {
         display: block;
         width: 100%;
         height: auto;
-        border: 1px solid var(--project-line);
-        border-radius: 0.5rem;
-        background: #06080c;
+        aspect-ratio: 1920 / 804;
+        border: 1px solid var(--film-line);
+        border-radius: 0.45rem;
+        background: #030508;
     }
 
-    video { aspect-ratio: 1920 / 804; }
-
-    figcaption {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.25rem 0.7rem;
-        margin-top: 0.55rem;
-        color: var(--project-muted);
-        font-size: 0.875rem;
-        line-height: 1.45;
+    .filmstrip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(0.45rem, 1.1vw, 1rem);
+        margin: clamp(0.5rem, 1.4vw, 1.2rem) 0 0;
+        padding: 0;
+        list-style: none;
     }
 
-    .timecode {
-        color: var(--project-accent);
-        font-variant-numeric: tabular-nums;
+    .filmstrip a {
+        display: block;
+        overflow: hidden;
+        border: 1px solid var(--film-line);
+        border-radius: 0.3rem;
+        background: #030508;
     }
 
-    .storyboard-grid { margin-top: 1.5rem; }
-    .storyboard-grid li { padding: 1rem 0 0; border-top: 1px solid var(--project-line); }
-    .storyboard-grid .timecode { font-size: 0.875rem; }
-    .storyboard-grid h3 { margin: 0.45rem 0 0; font-size: 1.125rem; }
-    .storyboard-grid p { margin: 0.35rem 0 0; color: var(--project-muted); line-height: 1.65; }
+    .filmstrip img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1920 / 804;
+        object-fit: cover;
+        transition: transform 220ms ease;
+    }
+
+    .filmstrip a:hover img { transform: scale(1.04); }
 
     a:focus-visible,
-    video:focus-visible {
-        outline: 2px solid var(--project-accent);
-        outline-offset: 4px;
+    video:focus-visible,
+    button:focus-visible {
+        outline: 2px solid var(--film-accent);
+        outline-offset: 3px;
     }
 
-    @media (max-width: 38rem) {
-        .project-hero { min-height: 28rem; }
-        .project-hero::after {
-            background: linear-gradient(0deg, var(--project-background), #0c1017b8 38%, #0c101700 86%);
-        }
-        .frame-strip,
-        .storyboard-grid { grid-template-columns: 1fr; }
+    .still-viewer {
+        max-width: min(94vw, 100rem);
+        max-height: 94vh;
+        padding: 0;
+        overflow: visible;
+        border: 0;
+        background: #030508;
+        color: var(--film-white);
+    }
+
+    .still-viewer::backdrop { background: #030508ee; }
+
+    .still-viewer img {
+        display: block;
+        max-width: 100%;
+        max-height: 82vh;
+        object-fit: contain;
+    }
+
+    .still-viewer button {
+        position: absolute;
+        top: 0.55rem;
+        right: 0.55rem;
+        display: grid;
+        place-items: center;
+        width: 2.75rem;
+        aspect-ratio: 1;
+        border: 1px solid var(--film-line);
+        border-radius: 50%;
+        background: #080b11e6;
+        color: var(--film-white);
+        font-size: 1.55rem;
+        cursor: pointer;
+    }
+
+    @media (max-width: 40rem) {
+        .project-hero { min-height: clamp(25rem, 60svh, 35rem); }
+        .hero-copy { padding-bottom: 1.5rem; }
+        .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .filmstrip img { transition: none; }
     }
 </style>
