@@ -7,11 +7,27 @@ const title = "星际险境";
 const titleEn = "Peril in Space";
 const description = "科幻短片《星际险境》的分镜与镜头试制。";
 const cover = asset("black-hole-poster.webp");
+const boardDescriptions = [
+    ["地球夜面", "Earth at night"], ["深空飞船", "Spacecraft in deep space"], ["驾驶舱背影", "Pilot seen from behind"],
+    ["舱内侧视", "Side view inside the cockpit"], ["护目镜特写", "Visor close-up"], ["舱体与操纵杆", "Cockpit controls"],
+    ["行星与卫星", "Planet and moon"], ["沙尘中的地表", "Dusty landscape"], ["驾驶舱内的人物", "Pilot inside the cockpit"],
+    ["透过舷窗看地表", "Landscape through the canopy"], ["荒原", "Rocky plain"], ["举起设备的主角", "Pilot lifting a device"],
+    ["恒星与行星", "Star and planet"], ["战舰入画", "Warship entering the frame"], ["荒原上的人物", "Figure on the plain"],
+    ["人物与身后飞船", "Pilot with a ship in the distance"], ["迎面的驾驶员", "Front view of the pilot"], ["驾驶舱仪表", "Cockpit instruments"],
+    ["两艘飞船", "Two spacecraft"], ["舱内看向恒星", "Star seen from the cockpit"], ["吸积盘与飞船", "Accretion disk and spacecraft"],
+    ["仰视驾驶员", "Low angle on the pilot"], ["强光下的舱体", "Cockpit in bright light"], ["蓝色吸积盘与碎片", "Debris above a blue accretion disk"],
+    ["飞越吸积盘", "Flight over the accretion disk"], ["云层上的飞船", "Ship above the clouds"], ["驾驶舱内低头的主角", "Pilot leaning forward"],
+    ["起火的飞船", "Spacecraft on fire"], ["暗处的仪表", "Illuminated instruments"], ["贴地飞行", "Low flight over the ground"],
+    ["坠落时的舱内视角", "Cockpit view during descent"],
+];
+const boards = boardDescriptions.map(([cn, en], index) => ({ file: "boards/frame-" + String(index + 1).padStart(2, "0"), cn, en }));
+const highlights = [1, 3, 5, 8, 10, 16, 21, 25, 28].map((n) => boards[n - 1]);
+const boardGroups = [highlights, boards.filter((board) => !highlights.includes(board))];
 const sequences = [
     {
         id: "earth-orbit",
-        cn: "地球掠影",
-        en: "Earth Flyby",
+        cn: "成品制作测试 · 第一镜",
+        en: "Production Test · Opening Shot",
         stills: [
             { file: "earth-orbit-night", cn: "地球夜面", en: "Earth’s night side" },
             { file: "earth-orbit-pass", cn: "飞船掠过镜头", en: "Spacecraft passing the camera" },
@@ -21,8 +37,8 @@ const sequences = [
     },
     {
         id: "black-hole",
-        cn: "黑洞显露",
-        en: "Black Hole Reveal",
+        cn: "先导概念片 · 资产与素材",
+        en: "Concept Teaser · Asset Study",
         stills: [
             { file: "black-hole-occlusion", cn: "碎石遮住视野", en: "Rocks obscure the view" },
             { file: "black-hole-crossing", cn: "背光勾出碎石轮廓", en: "Backlight outlines the rocks" },
@@ -55,6 +71,22 @@ const structuredData = {
         </header>
 
         <div class="project-content">
+            <section class="sequence" aria-labelledby="storyboard">
+                <h2 id="storyboard" data-i18n-cn="分镜" data-i18n-en="Storyboard">分镜</h2>
+                {boardGroups.map((group, index) => {
+                    const Group = index === 0 ? "div" : "details";
+                    return <Group class="board-group">
+                        {index > 0 && <summary data-i18n-cn="更多分镜" data-i18n-en="More frames">更多分镜</summary>}
+                        <ul class="filmstrip boards" role="list">
+                            {group.map((board) => <li>
+                                <a href={asset(board.file + ".webp")} target="_blank" rel="noopener" data-still aria-label={board.cn} data-aria-cn={board.cn} data-aria-en={board.en}>
+                                    <img src={asset(board.file + "-thumb.webp")} width="717" height="300" alt="" loading="lazy" decoding="async" />
+                                </a>
+                            </li>)}
+                        </ul>
+                    </Group>;
+                })}
+            </section>
             {sequences.map((sequence) => (
                 <section class="sequence" aria-labelledby={sequence.id}>
                     <h2 id={sequence.id} data-i18n-cn={sequence.cn} data-i18n-en={sequence.en}>{sequence.cn}</h2>
@@ -66,7 +98,10 @@ const structuredData = {
                         {sequence.stills.map((still) => (
                             <li>
                                 <a href={asset(still.file + ".webp")} target="_blank" rel="noopener" data-still aria-label={still.cn} data-aria-cn={still.cn} data-aria-en={still.en}>
-                                    <img src={asset(still.file + ".webp")} alt="" loading="lazy" decoding="async" />
+                                    <picture>
+                                        <source media="(prefers-reduced-motion: no-preference)" srcset={asset(still.file + "-loop.webp")} />
+                                        <img src={asset(still.file + ".webp")} width="956" height="400" alt="" loading="lazy" decoding="async" />
+                                    </picture>
                                 </a>
                             </li>
                         ))}
@@ -120,7 +155,7 @@ const structuredData = {
         isolation: isolate;
         display: grid;
         align-items: end;
-        min-height: clamp(28rem, 79svh, 53rem);
+        aspect-ratio: 2.39;
     }
 
     .project-hero > img,
@@ -184,7 +219,7 @@ const structuredData = {
         display: block;
         width: 100%;
         height: auto;
-        aspect-ratio: 1920 / 804;
+        aspect-ratio: 2.39;
         border: 1px solid var(--film-line);
         border-radius: 0.45rem;
         background: #030508;
@@ -210,12 +245,15 @@ const structuredData = {
     .filmstrip img {
         display: block;
         width: 100%;
-        aspect-ratio: 1920 / 804;
+        height: auto;
+        aspect-ratio: 2.39;
         object-fit: cover;
         transition: transform 220ms ease;
     }
 
     .filmstrip a:hover img { transform: scale(1.04); }
+    .boards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .board-group summary { width: fit-content; margin-block: 1.1rem; cursor: pointer; color: var(--film-accent); }
 
     a:focus-visible,
     video:focus-visible,
@@ -225,6 +263,7 @@ const structuredData = {
     }
 
     .still-viewer {
+        margin: auto;
         max-width: min(94vw, 100rem);
         max-height: 94vh;
         padding: 0;
@@ -260,8 +299,9 @@ const structuredData = {
     }
 
     @media (max-width: 40rem) {
-        .project-hero { min-height: clamp(25rem, 60svh, 35rem); }
-        .hero-copy { padding-bottom: 1.5rem; }
+        .project-hero { margin-top: 4.5rem; }
+        .hero-copy { padding-block: 0.75rem; }
+        h1 { font-size: clamp(2rem, 9vw, 3.6rem); }
         .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
