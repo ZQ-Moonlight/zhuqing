@@ -45,23 +45,11 @@ const sequences = [
         id: "earth-orbit",
         cn: "成品制作测试 · 第一镜",
         en: "Production Test · Opening Shot",
-        stills: [
-            { file: "earth-orbit-night", cn: "地球夜面", en: "Earth’s night side" },
-            { file: "earth-orbit-pass", cn: "飞船掠过镜头", en: "Spacecraft passing the camera" },
-            { file: "earth-orbit-wide", cn: "地球弧面与远处飞船", en: "Earth’s horizon and the distant spacecraft" },
-            { file: "earth-orbit-poster", cn: "飞船与地球同框", en: "Spacecraft against the Earth" },
-        ],
     },
     {
         id: "black-hole",
         cn: "先导概念片 · 资产与素材",
         en: "Concept Teaser · Asset Study",
-        stills: [
-            { file: "black-hole-occlusion", cn: "碎石遮住视野", en: "Rocks obscure the view" },
-            { file: "black-hole-crossing", cn: "背光勾出碎石轮廓", en: "Backlight outlines the rocks" },
-            { file: "black-hole-reveal", cn: "行星弧面与碎石", en: "The planet’s horizon and drifting rocks" },
-            { file: "black-hole-poster", cn: "黑洞与吸积盘", en: "The black hole and its accretion disk" },
-        ],
     },
 ];
 
@@ -99,13 +87,13 @@ const structuredData = {
                                     const shot = shots[n - 1];
                                     const shotCn = "第 " + shot.number + " 镜 · " + shot.cn;
                                     const shotEn = "Shot " + shot.number + " · " + shot.en;
-                                    return shot.file ? <a class="shot-card" data-shot={shot.number} data-still href={asset(shot.file + ".webp")} target="_blank" rel="noopener"
+                                    return shot.file ? <a class="shot-card" data-shot={shot.number} href={asset(shot.file + ".webp")} target="_blank" rel="noopener"
                                         aria-label={shotCn} data-aria-cn={shotCn} data-aria-en={shotEn}>
                                         <img src={asset(shot.file + "-thumb.webp")} srcset={asset(shot.file + "-thumb.webp") + " 717w, " + asset(shot.file + ".webp") + " 1912w"}
                                             sizes={`(max-width: 640px) 92vw, min(${Math.ceil(82 / row.length)}vw, ${Math.ceil(1140 / row.length)}px)`}
                                             width="1912" height="800" loading="lazy" decoding="async" alt="" />
                                         <span class="shot-number" aria-hidden="true">{shot.number}</span>
-                                    </a> : <button type="button" class="shot-note" data-cue={shot.number} data-shot={shot.number} data-still aria-label={shotCn} data-aria-cn={shotCn} data-aria-en={shotEn}>
+                                    </a> : <button type="button" class="shot-note" data-cue={shot.number} data-shot={shot.number} aria-label={shotCn} data-aria-cn={shotCn} data-aria-en={shotEn}>
                                         <span class="note-number">{shot.number}</span><span data-i18n-cn={shot.cn} data-i18n-en={shot.en}>{shot.cn}</span>
                                     </button>;
                                 })}
@@ -121,32 +109,22 @@ const structuredData = {
                         <source src={asset(sequence.id + ".mp4")} type="video/mp4" />
                         <a href={asset(sequence.id + ".mp4")} data-i18n-cn="打开视频" data-i18n-en="Open video">打开视频</a>
                     </video>
-                    <ul class="filmstrip" role="list">
-                        {sequence.stills.map((still) => (
-                            <li>
-                                <a href={asset(still.file + ".webp")} target="_blank" rel="noopener" data-still aria-label={still.cn} data-aria-cn={still.cn} data-aria-en={still.en}>
-                                    <picture>
-                                        <source media="(prefers-reduced-motion: no-preference)" srcset={asset(still.file + "-loop.webp")} />
-                                        <img src={asset(still.file + ".webp")} width="956" height="400" alt="" loading="lazy" decoding="async" />
-                                    </picture>
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
                 </section>
             ))}
         </div>
 
         <dialog class="still-viewer" data-still-viewer aria-label="大图预览" data-aria-cn="大图预览" data-aria-en="Image preview">
-            <form method="dialog">
-                <button type="submit" aria-label="关闭预览" data-aria-cn="关闭预览" data-aria-en="Close preview">×</button>
-            </form>
-            <img alt="" />
-            <p class="viewer-note" hidden></p>
-            <div class="viewer-controls" hidden>
-                <button type="button" data-prev aria-label="上一镜" data-aria-cn="上一镜" data-aria-en="Previous shot">←</button>
-                <output aria-live="polite"></output>
-                <button type="button" data-next aria-label="下一镜" data-aria-cn="下一镜" data-aria-en="Next shot">→</button>
+            <div class="viewer-panel">
+                <form method="dialog">
+                    <button type="submit" aria-label="关闭预览" data-aria-cn="关闭预览" data-aria-en="Close preview">×</button>
+                </form>
+                <img alt="" />
+                <p class="viewer-note" hidden></p>
+                <div class="viewer-controls">
+                    <button type="button" data-prev aria-label="上一镜" data-aria-cn="上一镜" data-aria-en="Previous shot">←</button>
+                    <output aria-live="polite"></output>
+                    <button type="button" data-next aria-label="下一镜" data-aria-cn="下一镜" data-aria-en="Next shot">→</button>
+                </div>
             </div>
         </dialog>
     </main>
@@ -186,25 +164,30 @@ const structuredData = {
         previous.addEventListener("click", () => showFrame(current - 1));
         next.addEventListener("click", () => showFrame(current + 1));
         viewer.addEventListener("keydown", (event) => {
-            if (controls.hidden || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
+            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
             event.preventDefault();
             showFrame(current + (event.key === "ArrowLeft" ? -1 : 1));
         });
-        project.querySelectorAll<HTMLAnchorElement | HTMLButtonElement>("[data-still]").forEach((link) => {
-            link.addEventListener("click", (event) => {
-                if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || typeof viewer.showModal !== "function") return;
+        const content = project.querySelector<HTMLElement>(".project-content")!;
+        let opener: HTMLElement | undefined;
+        frames.forEach((frame, index) => {
+            frame.addEventListener("click", (event) => {
+                if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || typeof viewer.show !== "function") return;
                 event.preventDefault();
-                controls.hidden = !link.hasAttribute("data-shot");
-                if (controls.hidden && link instanceof HTMLAnchorElement) {
-                    image.hidden = false;
-                    caption.hidden = true;
-                    image.src = link.href;
-                    image.alt = link.getAttribute("aria-label") ?? "";
-                } else {
-                    showFrame(frames.indexOf(link));
-                }
-                viewer.showModal();
+                showFrame(index);
+                opener = frame;
+                viewer.show();
+                content.inert = true;
+                viewer.querySelector("button")?.focus({ preventScroll: true });
             });
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && viewer.open) viewer.close();
+        });
+        viewer.addEventListener("close", () => {
+            if (viewer.open) return;
+            content.inert = false;
+            opener?.focus({ preventScroll: true });
         });
         viewer.addEventListener("click", (event) => {
             if (event.target === viewer) viewer.close();
@@ -214,6 +197,8 @@ const structuredData = {
 
 <style>
     .space-project {
+        position: relative;
+        z-index: 1;
         --film-black: #080b11;
         --film-white: #f4f2f0;
         --film-line: #ffffff26;
@@ -249,33 +234,6 @@ const structuredData = {
         background: #030508;
     }
 
-    .filmstrip {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: clamp(0.45rem, 1.1vw, 1rem);
-        margin: clamp(0.5rem, 1.4vw, 1.2rem) 0 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .filmstrip a {
-        display: block;
-        overflow: hidden;
-        border: 1px solid var(--film-line);
-        border-radius: 0.3rem;
-        background: #030508;
-    }
-
-    .filmstrip img {
-        display: block;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 2.39;
-        object-fit: cover;
-        transition: transform 220ms ease;
-    }
-
-    .filmstrip a:hover img { transform: scale(1.04); }
     .chapter-index { display: flex; gap: clamp(1rem, 4vw, 3rem); flex-wrap: wrap; }
     .chapter-index a { color: #c1cad3; padding-block: .65rem; font-size: .9rem; text-decoration: none; }
     .chapter-index a:hover { color: white; text-decoration: underline; }
@@ -333,19 +291,15 @@ const structuredData = {
         outline-offset: 3px;
     }
 
+    :global(body:has([data-still-viewer][open])) { overflow: hidden; }
     .still-viewer {
-        margin: auto;
-        max-width: min(94vw, 100rem);
-        max-height: 94vh;
-        padding: 0;
-        overflow: visible;
-        border: 0;
-        background: #030508;
-        color: var(--film-white);
+        position: fixed; inset: 0; z-index: 5; margin: 0;
+        width: 100%; max-width: none; height: 100dvh; max-height: none;
+        border: 0; padding: var(--header-height) 3vw 0;
+        background: #030508ee; color: var(--film-white);
     }
-
-    .still-viewer::backdrop { background: #030508ee; }
-
+    .still-viewer[open] { display: grid; place-items: center; }
+    .viewer-panel { position: relative; width: min(92vw, calc((100dvh - var(--header-height) - 4rem) * 2.39), 96rem); background: #030508; }
     .still-viewer img {
         display: block;
         max-width: 100%;
@@ -369,14 +323,12 @@ const structuredData = {
         cursor: pointer;
     }
     .still-viewer [hidden] { display: none; }
-    .still-viewer:has(.viewer-controls:not([hidden])) { width: min(92vw, 164vh, 96rem); }
     .still-viewer img { margin-inline: auto; }
     .viewer-controls { display: flex; justify-content: center; align-items: center; gap: 1.5rem; background: #10151a; }
     .viewer-controls button { width: 3.2rem; height: 2.9rem; border: 0; background: transparent; color: #fff; cursor: pointer; font-size: 1.4rem; }
     .viewer-controls button:disabled { opacity: .25; cursor: default; }
 
     @media (max-width: 40rem) {
-        .filmstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .board-chapter { grid-template-columns: 1fr; gap: .9rem; }
         .chapter-title { position: static; display: flex; align-items: baseline; gap: .85rem; }
         .chapter-title h3 { margin: 0; }
@@ -384,7 +336,4 @@ const structuredData = {
         .chapter-frames, .shot-row { gap: .6rem; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        .filmstrip img { transition: none; }
-    }
 </style>

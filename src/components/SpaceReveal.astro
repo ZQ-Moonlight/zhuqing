@@ -30,9 +30,6 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         let mediaUrl: string | undefined;
         const fps = 24;
         const filmEnd = 0.78;
-        new IntersectionObserver(([entry]) => {
-            reel!.toggleAttribute("data-on-screen", entry.isIntersecting);
-        }).observe(reel);
         function updateTitle() {
             const end = Math.round(video.duration * fps) - 1;
             const finished = end > 0 && targetFrame === end && !video.seeking
@@ -50,6 +47,11 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
             const bounds = reel.getBoundingClientRect();
             const distance = bounds.height - screen.offsetHeight;
             const progress = Math.min(1, Math.max(0, -bounds.top / Math.max(1, distance)));
+            // Blend the lower edge before it meets the gallery, then dissolve the remaining image.
+            const edge = Math.min(1, Math.max(0, (progress - 0.86) / 0.14));
+            const exit = Math.min(1, Math.max(0, 1 - bounds.bottom / screen.offsetHeight));
+            screen.style.setProperty("--edge", String(edge * edge * (3 - 2 * edge)));
+            screen.style.setProperty("--exposure", String(1 - exit * exit * (3 - 2 * exit)));
             if (Number.isFinite(video.duration)) {
                 targetFrame = Math.round(Math.min(1, progress / filmEnd) * (Math.round(video.duration * fps) - 1));
                 seek();
@@ -63,6 +65,8 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
             download?.abort();
             reel!.removeAttribute("data-active");
             reel!.removeAttribute("data-finished");
+            screen.style.removeProperty("--edge");
+            screen.style.removeProperty("--exposure");
             window.removeEventListener("scroll", schedule);
             window.removeEventListener("resize", schedule);
             if (video.hasAttribute("src")) {
@@ -112,27 +116,30 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
 </script>
 
 <style>
-    .reel { position: relative; z-index: 125; background: #030405; color: #fff; }
-    .screen { position: relative; background: #030405; }
+    .reel { position: relative; background: var(--film-black); color: #fff; }
+    .screen { position: relative; opacity: var(--exposure, 1); }
     .aperture { height: 100vh; height: 100dvh; position: relative; overflow: hidden; }
     .aperture img, .aperture video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .aperture video { display: none; }
+    .aperture::after {
+        content: ""; position: absolute; inset: 0; pointer-events: none;
+        background: linear-gradient(to bottom, transparent 34%, rgb(8 11 17 / .09) 50%, rgb(8 11 17 / .42) 72%, var(--film-black) 100%);
+        opacity: var(--edge, 1);
+    }
+    [data-active] .aperture::after { opacity: var(--edge, 0); }
     .end-title {
         margin: 0; padding: 9vh 4vw; text-align: center; color: #f9f6f3;
-        font: 500 clamp(2.7rem, 7.5vw, 8rem)/1.12 "Songti SC", SimSun, Georgia, serif;
-        letter-spacing: .21em; text-indent: .21em;
+        font: 700 clamp(2.8rem, 7.3vw, 7.8rem)/1.08 var(--font-sans);
+        letter-spacing: .045em; text-indent: .045em;
     }
     .reel[data-active]::after { content: ""; display: block; height: clamp(1100px, 200svh, 2100px); }
     [data-active] .screen { position: sticky; top: 0; }
     [data-active] .aperture video { display: block; }
     [data-active] .end-title {
         position: absolute; inset: auto 0 0; padding: 1.2em 4vw max(8dvh, env(safe-area-inset-bottom));
-        background: linear-gradient(transparent, #03050980);
         opacity: 0; pointer-events: none; text-shadow: 0 .04em .35em #0009;
     }
     [data-active][data-finished] .end-title { opacity: 1; transition: opacity 600ms ease-out; }
-    :global(body:has([data-reveal-reel][data-on-screen]) [data-site-header]),
-    :global(body:has([data-reveal-reel][data-on-screen]) [data-read-progress]) { visibility: hidden; }
     @media (max-width: 700px) {
         .reel[data-active]::after { height: 145svh; }
     }
