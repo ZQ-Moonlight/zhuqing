@@ -10,10 +10,14 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
                 <source media="(prefers-reduced-motion: no-preference)" srcset={media("reveal-first.webp")} />
                 <img src={media("black-hole-poster.webp")} alt="" width="1912" height="800" fetchpriority="high" />
             </picture>
+            <canvas width="560" height="546" aria-hidden="true" data-sheets={media("reveal-frames/")}></canvas>
             <video muted playsinline preload="none" aria-hidden="true" disablepictureinpicture
-                data-desktop={media("reveal.mp4")} data-mobile={media("reveal-small.mp4")} data-portrait={media("reveal-portrait.mp4")}></video>
+                data-desktop={media("reveal.mp4")} data-mobile={media("reveal-small.mp4")}></video>
         </div>
-        <h1 class="end-title" data-i18n-cn="星际险境" data-i18n-en="Peril in Space">星际险境</h1>
+        <div class="end-credit">
+            <time datetime="2025-11" data-i18n-cn="2025 年 11 月" data-i18n-en="November 2025">2025 年 11 月</time>
+            <h1 data-i18n-cn="星际险境" data-i18n-en="Peril in Space">星际险境</h1>
+        </div>
     </div>
 </header>
 
@@ -22,14 +26,47 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
     if (reel) {
         const screen = reel.querySelector<HTMLElement>(".screen")!;
         const video = reel.querySelector("video")!;
+        const canvas = reel.querySelector("canvas")!;
+        const context = canvas.getContext("2d", { alpha: false });
         const motion = matchMedia("(prefers-reduced-motion: reduce)");
+        const portrait = matchMedia("(max-width: 700px) and (orientation: portrait)");
+        const sheets = new Map<number, HTMLImageElement>();
+        const framesPerSheet = 12;
+        const sheetCount = 10;
+        const lastStill = framesPerSheet * sheetCount - 1;
         let requested = 0;
         let targetFrame = 0;
         let lastFrame = 0;
+        let drawnStill = -1;
         let download: AbortController | undefined;
         let mediaUrl: string | undefined;
         const fps = 24;
         const filmEnd = 0.78;
+        function loadSheet(index: number) {
+            if (index < 0 || index >= sheetCount || sheets.has(index)) return;
+            const image = new Image();
+            sheets.set(index, image);
+            image.onload = schedule;
+            image.onerror = () => {
+                if (sheets.get(index) === image) reset();
+            };
+            image.src = canvas.dataset.sheets + "sheet-" + String(index).padStart(2, "0") + ".webp";
+        }
+        function drawStill(progress: number) {
+            const frame = Math.round(progress * lastStill);
+            const sheet = Math.floor(frame / framesPerSheet);
+            for (const index of [sheet, sheet + 1, sheet - 1]) loadSheet(index);
+            for (const index of sheets.keys()) {
+                if (Math.abs(index - sheet) > 1) sheets.delete(index);
+            }
+            const image = sheets.get(sheet);
+            if (frame === drawnStill || !image?.complete || !image.naturalWidth) return;
+            const cell = frame % framesPerSheet;
+            const { width, height } = canvas;
+            context!.drawImage(image, cell % 4 * width, Math.floor(cell / 4) * height, width, height, 0, 0, width, height);
+            drawnStill = frame;
+            canvas.setAttribute("data-ready", "");
+        }
         function updateTitle() {
             const end = Math.round(video.duration * fps) - 1;
             const finished = end > 0 && targetFrame === end && !video.seeking
@@ -52,8 +89,12 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
             const exit = Math.min(1, Math.max(0, 1 - bounds.bottom / screen.offsetHeight));
             screen.style.setProperty("--edge", String(edge * edge * (3 - 2 * edge)));
             screen.style.setProperty("--exposure", String(1 - exit * exit * (3 - 2 * exit)));
-            if (Number.isFinite(video.duration)) {
-                targetFrame = Math.round(Math.min(1, progress / filmEnd) * (Math.round(video.duration * fps) - 1));
+            const clipProgress = Math.min(1, progress / filmEnd);
+            if (reel.hasAttribute("data-frames")) {
+                drawStill(clipProgress);
+                reel.toggleAttribute("data-finished", drawnStill === lastStill && clipProgress === 1);
+            } else if (Number.isFinite(video.duration)) {
+                targetFrame = Math.round(clipProgress * (Math.round(video.duration * fps) - 1));
                 seek();
                 updateTitle();
             }
@@ -64,7 +105,11 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         function reset() {
             download?.abort();
             reel!.removeAttribute("data-active");
+            reel!.removeAttribute("data-frames");
             reel!.removeAttribute("data-finished");
+            canvas.removeAttribute("data-ready");
+            sheets.clear();
+            drawnStill = -1;
             screen.style.removeProperty("--edge");
             screen.style.removeProperty("--exposure");
             window.removeEventListener("scroll", schedule);
@@ -79,17 +124,19 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         }
         async function configure() {
             reset();
-            if (motion.matches || !video.canPlayType("video/mp4")) return;
-            const compact = matchMedia("(max-width: 700px)").matches;
-            const portrait = compact && matchMedia("(orientation: portrait)").matches;
-            video.poster = Array.from(reel!.querySelectorAll("picture source")).find(source => matchMedia(source.media).matches)!.srcset;
-            video.muted = true;
+            if (motion.matches) return;
+            const useStillFrames = portrait.matches && !!context;
+            if (!useStillFrames && !video.canPlayType("video/mp4")) return;
+            reel!.toggleAttribute("data-frames", useStillFrames);
             reel!.setAttribute("data-active", "");
-            video.preload = "auto";
             window.addEventListener("scroll", schedule, { passive: true });
             window.addEventListener("resize", schedule);
             schedule();
-            const url = (portrait ? video.dataset.portrait : compact ? video.dataset.mobile : video.dataset.desktop)!;
+            if (useStillFrames) return;
+            video.poster = reel!.querySelector("picture source:last-of-type")!.getAttribute("srcset")!;
+            video.muted = true;
+            video.preload = "auto";
+            const url = (matchMedia("(max-width: 700px)").matches ? video.dataset.mobile : video.dataset.desktop)!;
             const controller = new AbortController();
             download = controller;
             try {
@@ -111,6 +158,7 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         });
         video.addEventListener("error", reset);
         motion.addEventListener("change", configure);
+        portrait.addEventListener("change", configure);
         configure();
     }
 </script>
@@ -119,28 +167,39 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
     .reel { position: relative; background: var(--film-black); color: #fff; }
     .screen { position: relative; opacity: var(--exposure, 1); }
     .aperture { height: 100vh; height: 100dvh; position: relative; overflow: hidden; }
-    .aperture img, .aperture video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .aperture video { display: none; }
+    .aperture img, .aperture video, .aperture canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .aperture video, .aperture canvas { display: none; }
     .aperture::after {
         content: ""; position: absolute; inset: 0; pointer-events: none;
         background: linear-gradient(to bottom, transparent 34%, rgb(8 11 17 / .09) 50%, rgb(8 11 17 / .42) 72%, var(--film-black) 100%);
         opacity: var(--edge, 1);
     }
     [data-active] .aperture::after { opacity: var(--edge, 0); }
-    .end-title {
-        margin: 0; padding: 9vh 4vw; text-align: center; color: #f9f6f3;
-        font: 700 clamp(2.8rem, 7.3vw, 7.8rem)/1.08 var(--font-sans);
-        letter-spacing: .045em; text-indent: .045em;
+    .end-credit {
+        width: var(--film-content-width); margin-inline: auto; padding-block: 3rem;
+        color: #f9f6f3; text-shadow: 0 .04em .35em #0009;
+    }
+    .end-credit time {
+        display: block; margin-bottom: .8rem; color: #f3bccf;
+        font-size: clamp(.72rem, 1vw, .92rem); letter-spacing: .17em;
+    }
+    .end-credit h1 {
+        margin: 0; font: 700 clamp(3rem, min(9vw, 19svh), 9rem)/1.02 var(--font-sans);
+        letter-spacing: -.045em;
     }
     .reel[data-active]::after { content: ""; display: block; height: clamp(1100px, 200svh, 2100px); }
     [data-active] .screen { position: sticky; top: 0; }
-    [data-active] .aperture video { display: block; }
-    [data-active] .end-title {
-        position: absolute; inset: auto 0 0; padding: 1.2em 4vw max(8dvh, env(safe-area-inset-bottom));
-        opacity: 0; pointer-events: none; text-shadow: 0 .04em .35em #0009;
+    [data-active]:not([data-frames]) .aperture video,
+    [data-frames] canvas[data-ready] { display: block; }
+    [data-active] .end-credit {
+        position: absolute; inset: auto 0 0; padding-block: 0 max(5svh, env(safe-area-inset-bottom));
+        opacity: 0; pointer-events: none;
     }
-    [data-active][data-finished] .end-title { opacity: 1; transition: opacity 600ms ease-out; }
+    [data-active][data-finished] .end-credit { opacity: 1; transition: opacity 600ms ease-out; }
     @media (max-width: 700px) {
-        .reel[data-active]::after { height: 145svh; }
+        .reel[data-active]::after { height: 115svh; }
+        .aperture { height: 100lvh; }
+        [data-active] .end-credit { bottom: calc(100lvh - 100dvh); }
+        .end-credit h1 { font-size: clamp(2.75rem, 12vw, 5rem); }
     }
 </style>

@@ -72,6 +72,10 @@ const structuredData = {
         <div class="project-content">
             <section class="sequence" aria-labelledby="storyboard">
                 <h2 id="storyboard" data-i18n-cn="分镜" data-i18n-en="Storyboard">分镜</h2>
+                <p class="project-note">
+                    <span data-i18n-cn="这是为一部结合虚拟拍摄与 CG 的科幻短片写的剧本。当时 AI 图像和视频生成技术还不成熟。项目后来搁置，留下了这组分镜与试制片段。"
+                        data-i18n-en="I wrote the script for a sci-fi short combining virtual production and CG, when AI image and video generation was still in its early stages. The project was shelved, leaving these storyboards and test clips.">这是为一部结合虚拟拍摄与 CG 的科幻短片写的剧本。当时 AI 图像和视频生成技术还不成熟。项目后来搁置，留下了这组分镜与试制片段。</span>
+                </p>
                 <nav class="chapter-index" aria-labelledby="storyboard">
                     {chapters.map(({cn, en, rows}) => <a href={"#shot-" + twoDigits(rows[0][0])} data-i18n-cn={cn} data-i18n-en={en}>{cn}</a>)}
                 </nav>
@@ -200,6 +204,7 @@ const structuredData = {
         position: relative;
         z-index: 1;
         --film-black: #080b11;
+        --film-content-width: min(86rem, calc(100% - clamp(2rem, 8vw, 8rem)));
         --film-white: #f4f2f0;
         --film-line: #ffffff26;
         --film-accent: #f0b7cd;
@@ -208,10 +213,13 @@ const structuredData = {
     }
 
     .project-content {
-        width: min(86rem, calc(100% - clamp(2rem, 8vw, 8rem)));
+        width: var(--film-content-width);
         margin-inline: auto;
     }
     #storyboard { scroll-margin-top: 7rem; }
+    .project-note {
+        max-width: 58rem; margin: -.45rem 0 1rem; color: #aebbc7; font-size: .88rem; line-height: 1.65;
+    }
     .project-content { padding-block: clamp(1.5rem, 5vw, 5rem) clamp(4rem, 9vw, 8rem); }
 
     .sequence + .sequence { margin-top: clamp(3.5rem, 9vw, 8rem); }
@@ -291,6 +299,7 @@ const structuredData = {
         outline-offset: 3px;
     }
 
+    :global(body:has([data-space-project])) { overflow-x: clip; }
     :global(body:has([data-still-viewer][open])) { overflow: hidden; }
     .still-viewer {
         position: fixed; inset: 0; z-index: 5; margin: 0;
