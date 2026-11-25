@@ -4,19 +4,20 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
 ---
 <header class="reel" data-reveal-reel>
     <div class="screen">
-        <div class="aperture">
-            <picture>
-                <source media="(max-width: 700px) and (orientation: portrait) and (prefers-reduced-motion: no-preference)" srcset={media("reveal-portrait-first.webp")} />
-                <source media="(prefers-reduced-motion: no-preference)" srcset={media("reveal-first.webp")} />
-                <img src={media("black-hole-poster.webp")} alt="" width="1912" height="800" fetchpriority="high" />
-            </picture>
-            <canvas width="560" height="546" aria-hidden="true" data-sheets={media("reveal-frames/")}></canvas>
-            <video muted playsinline preload="none" aria-hidden="true" disablepictureinpicture
-                data-desktop={media("reveal.mp4")} data-mobile={media("reveal-small.mp4")}></video>
-        </div>
-        <div class="end-credit">
-            <time datetime="2025-11" data-i18n-cn="2025 年 11 月" data-i18n-en="November 2025">2025 年 11 月</time>
-            <h1 data-i18n-cn="星际险境" data-i18n-en="Peril in Space">星际险境</h1>
+        <div class="projection">
+            <div class="aperture">
+                <picture>
+                    <source media="(prefers-reduced-motion: no-preference)" srcset={media("reveal-first.webp")} />
+                    <img src={media("reveal-last.webp")} alt="" width="1912" height="800" fetchpriority="high" />
+                </picture>
+                <canvas width="956" height="400" aria-hidden="true" data-sheets={media("reveal-scope/")}></canvas>
+                <video muted playsinline preload="none" aria-hidden="true" disablepictureinpicture
+                    data-desktop={media("reveal.mp4")} data-mobile={media("reveal-small.mp4")}></video>
+            </div>
+            <div class="end-credit">
+                <time datetime="2025-11" data-i18n-cn="2025 年 11 月" data-i18n-en="November 2025">2025 年 11 月</time>
+                <h1 data-i18n-cn="星际险境" data-i18n-en="Peril in Space">星际险境</h1>
+            </div>
         </div>
     </div>
 </header>
@@ -29,7 +30,7 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         const canvas = reel.querySelector("canvas")!;
         const context = canvas.getContext("2d", { alpha: false });
         const motion = matchMedia("(prefers-reduced-motion: reduce)");
-        const portrait = matchMedia("(max-width: 700px) and (orientation: portrait)");
+        const mobile = matchMedia("(max-width: 760px), (max-width: 1100px) and (pointer: coarse)");
         const sheets = new Map<number, HTMLImageElement>();
         const framesPerSheet = 12;
         const sheetCount = 10;
@@ -125,7 +126,7 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         async function configure() {
             reset();
             if (motion.matches) return;
-            const useStillFrames = portrait.matches && !!context;
+            const useStillFrames = mobile.matches && !!context;
             if (!useStillFrames && !video.canPlayType("video/mp4")) return;
             reel!.toggleAttribute("data-frames", useStillFrames);
             reel!.setAttribute("data-active", "");
@@ -136,7 +137,7 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
             video.poster = reel!.querySelector("picture source:last-of-type")!.getAttribute("srcset")!;
             video.muted = true;
             video.preload = "auto";
-            const url = (matchMedia("(max-width: 700px)").matches ? video.dataset.mobile : video.dataset.desktop)!;
+            const url = (mobile.matches ? video.dataset.mobile : video.dataset.desktop)!;
             const controller = new AbortController();
             download = controller;
             try {
@@ -158,16 +159,22 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         });
         video.addEventListener("error", reset);
         motion.addEventListener("change", configure);
-        portrait.addEventListener("change", configure);
+        mobile.addEventListener("change", configure);
         configure();
     }
 </script>
 
 <style>
     .reel { position: relative; background: var(--film-black); color: #fff; }
-    .screen { position: relative; opacity: var(--exposure, 1); }
-    .aperture { height: 100vh; height: 100dvh; position: relative; overflow: hidden; }
-    .aperture img, .aperture video, .aperture canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .screen {
+        --screen-height: 100vh;
+        height: var(--screen-height); padding-block-start: var(--header-height);
+        display: grid; place-items: center; position: relative; opacity: var(--exposure, 1);
+    }
+    @supports (height: 100svh) { .screen { --screen-height: 100svh; } }
+    .projection { width: min(100%, calc((var(--screen-height) - var(--header-height)) * 2.39)); position: relative; }
+    .aperture { aspect-ratio: 239 / 100; position: relative; overflow: hidden; }
+    .aperture img, .aperture video, .aperture canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
     .aperture video, .aperture canvas { display: none; }
     .aperture::after {
         content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -176,7 +183,8 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
     }
     [data-active] .aperture::after { opacity: var(--edge, 0); }
     .end-credit {
-        width: var(--film-content-width); margin-inline: auto; padding-block: 3rem;
+        position: absolute; inset: auto 0 0; width: var(--film-content-width);
+        margin-inline: auto; padding-block-end: clamp(1rem, 5svh, 3.5rem);
         color: #f9f6f3; text-shadow: 0 .04em .35em #0009;
     }
     .end-credit time {
@@ -184,7 +192,7 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
         font-size: clamp(.72rem, 1vw, .92rem); letter-spacing: .17em;
     }
     .end-credit h1 {
-        margin: 0; font: 700 clamp(3rem, min(9vw, 19svh), 9rem)/1.02 var(--font-sans);
+        margin: 0; font: 700 clamp(2rem, min(8.4vw, 16svh), 9rem)/1.02 var(--font-sans);
         letter-spacing: -.045em;
     }
     .reel[data-active]::after { content: ""; display: block; height: clamp(1100px, 200svh, 2100px); }
@@ -192,14 +200,15 @@ const media = (name: string) => withBase("/media/portfolio/space-previs/" + name
     [data-active]:not([data-frames]) .aperture video,
     [data-frames] canvas[data-ready] { display: block; }
     [data-active] .end-credit {
-        position: absolute; inset: auto 0 0; padding-block: 0 max(5svh, env(safe-area-inset-bottom));
         opacity: 0; pointer-events: none;
     }
     [data-active][data-finished] .end-credit { opacity: 1; transition: opacity 600ms ease-out; }
-    @media (max-width: 700px) {
+    @media (max-width: 760px), (max-width: 1100px) and (pointer: coarse) {
         .reel[data-active]::after { height: 115svh; }
-        .aperture { height: 100lvh; }
-        [data-active] .end-credit { bottom: calc(100lvh - 100dvh); }
-        .end-credit h1 { font-size: clamp(2.75rem, 12vw, 5rem); }
+    }
+    @media (max-width: 760px) and (orientation: portrait), (max-width: 1100px) and (orientation: portrait) and (pointer: coarse) {
+        .projection { translate: 0 -4svh; }
+        .end-credit { inset: 100% 0 auto; padding-block: clamp(1.3rem, 4svh, 2.5rem) 0; }
+        .end-credit h1 { font-size: clamp(2.4rem, 10vw, 5rem); }
     }
 </style>
